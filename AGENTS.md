@@ -58,3 +58,30 @@ agents. Read it before changing either app.
 - Plan for admin pages under `/admin`.
 - Replace the current get-started route with `/signup` when auth work begins.
 - Keep public content readable without requiring signup.
+
+## Current Design Direction
+
+- The visual reference is `https://apex-weave-lab.lovable.app`.
+- Keep the dark premium media-hub style: restrained cards, cyan/violet accents,
+  soft borders, and smooth hover states.
+- Home `/` is the product hub page. `/articles` is the article/library page.
+- Article detail pages live under `/article/[slug]`.
+- Article cards should hover like the Lovable reference: border brightens, image
+  subtly zooms, title shifts to primary blue, with no heavy lift.
+- The home hero `Browse tools` action should be dark glass by default and violet
+  on hover.
+- The home feature cards use icons, not text badges:
+  - Gaming: gamepad
+  - AI: brain
+  - Dev: code
+- The article detail sidebar uses a `96rem` page container with a `280px`
+  desktop sidebar so its right edge aligns with the header actions.
+
+## Agent Efficiency
+
+- Be terse. Do not repeat file contents or paste long code unless asked.
+- Read only the files needed for the current task. Skip `node_modules`, `.next`,
+  `dist`, build output, lockfiles, and generated token-save databases.
+- Prefer precise file paths, short diffs, and verification results over long
+  summaries.
+- Claude should use `.tokensave/config.json` for codebase indexing/token saving.

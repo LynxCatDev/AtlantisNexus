@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "root_dir": "F:\\Github Repository Projects\\AtlantisNexus",
+  "exclude": [
+    ".git/**",
+    ".next/**",
+    ".tokensave/**",
+    "client/.next/**",
+    "client/node_modules/**",
+    "client/package-lock.json",
+    "client/tsconfig.tsbuildinfo",
+    "server/dist/**",
+    "server/node_modules/**",
+    "server/package-lock.json",
+    "server/coverage/**",
+    "node_modules/**",
+    "target/**",
+    "vendor/**",
+    "bin/**",
+    "build/**",
+    "out/**",
+    ".gradle/**",
+    "**/*.min.*",
+    "**/*.tsbuildinfo",
+    "package-lock.json",
+    "yarn.lock"
+  ],
+  "max_file_size": 1048576,
+  "extract_docstrings": true,
+  "track_call_sites": true,
+  "enable_embeddings": false,
+  "git_ignore": true
+}

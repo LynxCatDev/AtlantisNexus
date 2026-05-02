@@ -1,12 +1,41 @@
 export type ArticleCategory = "Gaming" | "AI" | "Dev";
 
 export type Article = {
+  slug: string;
   title: string;
   excerpt: string;
   category: ArticleCategory;
   author: string;
+  publishedAt: string;
   minutes: string;
   image: string;
+};
+
+export type ArticleSection = {
+  id: string;
+  title: string;
+  paragraphs?: string[];
+  bullets?: string[];
+  quote?: string;
+};
+
+export type ArticleComment = {
+  author: string;
+  initials: string;
+  postedAt: string;
+  body: string;
+};
+
+export type ArticleDetail = {
+  article: Article;
+  tags: string[];
+  reactions: {
+    likes: string;
+    comments: string;
+  };
+  sections: ArticleSection[];
+  comments: ArticleComment[];
+  related: Article[];
 };
 
 export type Metric = {

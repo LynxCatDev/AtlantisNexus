@@ -58,4 +58,5 @@ Frontend routes:
 
 - `/` -> Nexus Hub home page
 - `/articles` -> articles/blog library page
+- `/article/[slug]` -> article detail page
 - `/signup` -> account creation page

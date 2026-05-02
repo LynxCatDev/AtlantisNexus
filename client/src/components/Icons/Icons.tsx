@@ -91,3 +91,48 @@ export function LockIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function GamepadIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M6.5 11h4M8.5 9v4M15.5 12h.01M18 10h.01M6.7 6h10.6a4 4 0 0 1 3.98 3.6c.08.66.72 5.92.72 7.4a3 3 0 0 1-3 3c-1 0-1.5-.5-2-1l-1.42-1.42A2 2 0 0 0 14.17 17H9.83a2 2 0 0 0-1.41.58L7 19c-.5.5-1 1-2 1a3 3 0 0 1-3-3c0-1.48.64-6.74.72-7.4A4 4 0 0 1 6.7 6Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function BrainIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M12 18V5M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4M17.6 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.6 1.5M18 18a4 4 0 0 0 2-7.46M6 18a4 4 0 0 1-2-7.46M19.97 17.48A4 4 0 1 1 12 18a4 4 0 1 1-7.97-.52"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function CodeIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}

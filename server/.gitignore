@@ -1,0 +1,9 @@
+.env
+node_modules/
+dist/
+coverage/
+.tmp/
+.ruff_cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

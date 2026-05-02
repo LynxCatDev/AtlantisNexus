@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Atlantis Nexus",
+  description: "A premium media hub for gaming, AI, development, and tools.",
+};
 
 export default function RootLayout({
   children,
@@ -6,9 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-    >
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

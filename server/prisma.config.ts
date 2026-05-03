@@ -1,8 +1,8 @@
+/// <reference types="node" />
 import "dotenv/config";
 
 import path from "node:path";
 
-import { PrismaPg } from "@prisma/adapter-pg";
 import { defineConfig } from "prisma/config";
 
 const connectionString = process.env.DATABASE_URL;
@@ -16,5 +16,7 @@ export default defineConfig({
   migrations: {
     path: path.join("prisma", "migrations"),
   },
-  adapter: () => new PrismaPg({ connectionString }),
+  datasource: {
+    url: connectionString,
+  },
 });

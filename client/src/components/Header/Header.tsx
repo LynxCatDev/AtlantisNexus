@@ -27,11 +27,11 @@ export function Header({ activeLabel }: HeaderProps) {
             </Link>
           ))}
         </div>
-        <label className="search-box">
+        <Link className="search-box" href="/search">
           <SearchIcon />
-          <input type="search" placeholder="Search articles, tools..." />
+          <span>Search articles, tools...</span>
           <kbd>{"\u2318K"}</kbd>
-        </label>
+        </Link>
         <LanguageSwitcher />
         <UserMenu />
       </nav>

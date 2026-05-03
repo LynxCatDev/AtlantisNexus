@@ -24,12 +24,13 @@ export function SignupPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await register({
+      const user = await register({
         email: email.trim(),
         nickname: nickname.trim(),
         password,
       });
-      router.push("/");
+      const isStaff = user.role === "ADMIN" || user.role === "SUPERADMIN";
+      router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed.");
@@ -138,7 +139,7 @@ export function SignupPage() {
           </h2>
           <ul>
             <li>Bookmark articles across devices</li>
-            <li>Comment and follow your favorite writers</li>
+            <li>Comment &amp; follow your favorite writers</li>
             <li>Save your tool history</li>
             <li>Early access to new features</li>
           </ul>

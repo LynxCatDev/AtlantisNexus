@@ -23,8 +23,9 @@ export function SigninPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await login({ email: email.trim(), password });
-      router.push("/");
+      const user = await login({ email: email.trim(), password });
+      const isStaff = user.role === "ADMIN" || user.role === "SUPERADMIN";
+      router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed.");
@@ -44,7 +45,7 @@ export function SigninPage() {
             Welcome back to the <span>hub</span>.
           </h2>
           <p>
-            Pick up where you left off — your bookmarks, comments and saved tools are all
+            Pick up where you left off &mdash; your bookmarks, comments and saved tools are all
             in sync.
           </p>
         </div>

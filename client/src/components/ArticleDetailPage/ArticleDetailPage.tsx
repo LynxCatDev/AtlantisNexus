@@ -75,7 +75,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
 
             <div className="article-tags" aria-label="Article tags">
               {detail.tags.map((tag) => (
-                <Link href="/articles" key={tag}>
+                <Link href={`/tag/${tag}`} key={tag}>
                   #{tag}
                 </Link>
               ))}

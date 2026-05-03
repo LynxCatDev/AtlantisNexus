@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
-import { ArticlesPage } from "@/components/ArticlesPage/ArticlesPage";
-import { articleCategorySlugs, getArticleCategoryBySlug } from "@/constants/articles";
+import { CategoryPage } from "@/components/CategoryPage/CategoryPage";
+import { articleCategorySlugs, articles, getArticleCategoryBySlug } from "@/constants/articles";
 
 type CategoryRouteProps = {
   params: Promise<{
@@ -21,5 +21,10 @@ export default async function CategoryRoute({ params }: CategoryRouteProps) {
     notFound();
   }
 
-  return <ArticlesPage activeCategory={category} />;
+  return (
+    <CategoryPage
+      articles={articles.filter((article) => article.category === category)}
+      category={category}
+    />
+  );
 }

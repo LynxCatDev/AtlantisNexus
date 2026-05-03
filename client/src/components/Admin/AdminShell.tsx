@@ -26,11 +26,11 @@ type NavItem = {
 
 const NAV: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: DashboardIcon, exact: true },
-  { href: "/admin/articles", label: "Articles", icon: FileTextIcon, soon: true },
+  { href: "/admin/articles", label: "Articles", icon: FileTextIcon },
   { href: "/admin/comments", label: "Comments", icon: MessageIcon, soon: true },
-  { href: "/admin/taxonomy", label: "Categories & Tags", icon: TagsIcon, soon: true },
+  { href: "/admin/taxonomy", label: "Categories & Tags", icon: TagsIcon },
   { href: "/admin/media", label: "Media library", icon: MediaIcon, soon: true },
-  { href: "/admin/profile", label: "Profile", icon: ProfileIcon, soon: true },
+  { href: "/admin/profile", label: "Profile", icon: ProfileIcon },
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

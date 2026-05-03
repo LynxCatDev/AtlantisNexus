@@ -18,12 +18,13 @@ import { useAuth } from "@/components/Auth/AuthProvider";
 type AdminArticle = {
   id: string;
   slug: string;
+  title: string;
   image: string;
   minutes: string;
-  category: { slug: string; label: string };
-  createdAt: string;
-  translations: { locale: string; title: string }[];
-  _count?: { comments: number; reactions: number };
+  category: { slug: string; label: string; isMain: boolean };
+  author: string;
+  publishedAt: string;
+  counts?: { comments: number; reactions: number };
 };
 
 type Tone = "primary" | "cyan" | "violet" | "gold";
@@ -103,7 +104,7 @@ export function AdminDashboard() {
         <StatCard
           label="Comments"
           value={String(
-            articles.reduce((sum, a) => sum + (a._count?.comments ?? 0), 0),
+            articles.reduce((sum, a) => sum + (a.counts?.comments ?? 0), 0),
           )}
           change="Across all articles"
           tone="violet"
@@ -112,7 +113,7 @@ export function AdminDashboard() {
         <StatCard
           label="Reactions"
           value={String(
-            articles.reduce((sum, a) => sum + (a._count?.reactions ?? 0), 0),
+            articles.reduce((sum, a) => sum + (a.counts?.reactions ?? 0), 0),
           )}
           change="Likes & emotions"
           tone="gold"
@@ -146,30 +147,30 @@ export function AdminDashboard() {
 
           <div className="recent-list">
             {recentArticles.map((article) => {
-              const enTitle =
-                article.translations.find((t) => t.locale === "en")?.title ??
-                article.translations[0]?.title ??
-                article.slug;
+              const title = article.title || article.slug;
               return (
                 <article key={article.id} className="recent-row">
                   {article.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img className="recent-thumb" src={article.image} alt="" />
+                    <span
+                      aria-hidden="true"
+                      className="recent-thumb"
+                      style={{ backgroundImage: `url(${article.image})` }}
+                    />
                   ) : (
                     <span className="recent-thumb recent-thumb-placeholder" aria-hidden="true" />
                   )}
                   <div className="recent-row-body">
-                    <p className="recent-title">{enTitle}</p>
+                    <p className="recent-title">{title}</p>
                     <p className="recent-meta">
                       {article.category.label} ·{" "}
-                      {new Date(article.createdAt).toLocaleDateString()}
+                      {new Date(article.publishedAt).toLocaleDateString()}
                     </p>
                   </div>
                   <span className="status-pill status-published">Published</span>
                   <Link
                     className="recent-action"
                     href={`/article/${article.slug}`}
-                    aria-label={`Open ${enTitle}`}
+                    aria-label={`Open ${title}`}
                   >
                     <PencilIcon />
                   </Link>

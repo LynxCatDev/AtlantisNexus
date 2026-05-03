@@ -6,7 +6,7 @@ export const mainNavigation: NavItem[] = [
   { label: "AI", href: "/category/ai" },
   { label: "Dev", href: "/category/dev" },
   { label: "Tools", href: "/tools" },
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
 ];
 
 export const footerLinkGroups: FooterLinkGroup[] = [
@@ -31,10 +31,10 @@ export const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Company",
     links: [
-      { label: "About", href: "/#about" },
-      { label: "Newsletter", href: "/#about" },
-      { label: "Contact", href: "/#about" },
-      { label: "Careers", href: "/#about" },
+      { label: "About", href: "/about" },
+      { label: "Newsletter", href: "/about" },
+      { label: "Contact", href: "/about" },
+      { label: "Careers", href: "/about" },
     ],
   },
 ];

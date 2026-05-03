@@ -58,7 +58,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [apply]);
 
   useEffect(() => {
-    void refresh();
+    const id = window.setTimeout(() => {
+      void refresh();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(id);
+    };
   }, [refresh]);
 
   const login = useCallback(

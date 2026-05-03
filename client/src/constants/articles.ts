@@ -31,6 +31,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 24, 2026",
     minutes: "9m",
     image: "/images/cover-gaming.jpg",
+    tags: ["elden", "fromsoftware", "reviews", "gaming"],
   },
   {
     slug: "shipping-ai-agents-to-production",
@@ -42,6 +43,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 22, 2026",
     minutes: "12m",
     image: "/images/cover-ai.jpg",
+    tags: ["ai", "agents", "production", "tools"],
   },
   {
     slug: "react-19-server-actions-patterns",
@@ -53,6 +55,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 20, 2026",
     minutes: "8m",
     image: "/images/cover-dev.jpg",
+    tags: ["react", "server-actions", "architecture", "dev"],
   },
   {
     slug: "rpgs-defining-2026",
@@ -64,6 +67,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 18, 2026",
     minutes: "7m",
     image: "/images/cover-gaming.jpg",
+    tags: ["rpg", "gaming", "2026", "indie"],
   },
   {
     slug: "rag-is-dead-long-live-rag",
@@ -74,6 +78,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 16, 2026",
     minutes: "10m",
     image: "/images/cover-ai.jpg",
+    tags: ["rag", "ai", "retrieval", "llm"],
   },
   {
     slug: "edge-runtime-tradeoffs-2026",
@@ -84,6 +89,7 @@ export const articles: Article[] = [
     publishedAt: "Apr 14, 2026",
     minutes: "11m",
     image: "/images/cover-dev.jpg",
+    tags: ["edge-runtimes", "dev", "performance", "react"],
   },
 ];
 
@@ -115,7 +121,7 @@ function buildArticleDetail(article: Article): ArticleDetail {
   if (article.slug === "elden-ring-nightreign-co-op-souls-era") {
     return {
       article,
-      tags: ["Reviews", "FromSoftware"],
+      tags: article.tags,
       reactions: {
         likes: "1.2K",
         comments: "84",
@@ -174,7 +180,7 @@ function buildArticleDetail(article: Article): ArticleDetail {
 
   return {
     article,
-    tags: ["Reviews", "FromSoftware"],
+    tags: article.tags,
     reactions: {
       likes: "840",
       comments: "31",

@@ -9,6 +9,7 @@ export type Article = {
   publishedAt: string;
   minutes: string;
   image: string;
+  tags: string[];
 };
 
 export type ArticleSection = {

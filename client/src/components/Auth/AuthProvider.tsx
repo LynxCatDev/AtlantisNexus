@@ -28,6 +28,7 @@ type AuthContextValue = AuthState & {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+const SESSION_MARKER = "atlantis-nexus-session";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({
@@ -39,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const apply = useCallback((res: AuthResponse | null) => {
     tokenRef.current = res?.accessToken ?? null;
+    setSessionMarker(Boolean(res));
     setState({
       user: res?.user ?? null,
       accessToken: res?.accessToken ?? null,
@@ -59,13 +61,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const id = window.setTimeout(() => {
-      void refresh();
+      if (hasSessionMarker()) {
+        void refresh();
+        return;
+      }
+
+      apply(null);
     }, 0);
 
     return () => {
       window.clearTimeout(id);
     };
-  }, [refresh]);
+  }, [apply, refresh]);
 
   const login = useCallback(
     async (input: LoginInput) => {
@@ -142,4 +149,25 @@ export function useAuth(): AuthContextValue {
     throw new Error("useAuth must be used within AuthProvider");
   }
   return ctx;
+}
+
+function hasSessionMarker(): boolean {
+  try {
+    return window.localStorage.getItem(SESSION_MARKER) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function setSessionMarker(active: boolean) {
+  try {
+    if (active) {
+      window.localStorage.setItem(SESSION_MARKER, "1");
+      return;
+    }
+
+    window.localStorage.removeItem(SESSION_MARKER);
+  } catch {
+    return;
+  }
 }

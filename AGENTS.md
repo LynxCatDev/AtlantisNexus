@@ -62,6 +62,8 @@ agents. Read it before changing either app.
 - Plan for admin pages under `/admin`.
 - Replace the current get-started route with `/signup` when auth work begins.
 - Keep public content readable without requiring signup.
+- Use `px` for every CSS length, spacing, radius, typography, and breakpoint
+  value. Do not use root-relative or font-relative length units.
 
 ## Current Design Direction
 
@@ -78,7 +80,7 @@ agents. Read it before changing either app.
   - Gaming: gamepad
   - AI: brain
   - Dev: code
-- The article detail sidebar uses a `96rem` page container with a `280px`
+- The article detail sidebar uses a `1536px` page container with a `280px`
   desktop sidebar so its right edge aligns with the header actions.
 
 ## Agent Efficiency

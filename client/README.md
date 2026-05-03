@@ -21,6 +21,7 @@ Current routes:
 - `/articles` -> articles/blog library page
 - `/article/[slug]` -> article detail page
 - `/signup` -> account creation page
+- `/signin` -> sign-in page
 - `/get-started` -> redirects to `/signup`
 
 ## Run

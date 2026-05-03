@@ -35,24 +35,28 @@ export const builderArticles = [articles[1], articles[2], articles[4]];
 
 export const freeTools: ToolCard[] = [
   {
+    slug: "image-compressor",
     title: "Image Compressor",
     description: "Shrink JPG, PNG and WEBP without visible quality loss.",
     type: "Media",
     metric: "280K uses",
   },
   {
+    slug: "color-converter",
     title: "Color Converter",
     description: "Convert between HEX, RGB, HSL, OKLCH instantly.",
     type: "Developer",
     metric: "295K uses",
   },
   {
+    slug: "percentage-calculator",
     title: "Percentage Calculator",
     description: "Quick percentage, increase, decrease and ratio math.",
     type: "Calculators",
     metric: "426K uses",
   },
   {
+    slug: "json-formatter",
     title: "JSON Formatter",
     description: "Beautify, validate and minify JSON in one click.",
     type: "Developer",

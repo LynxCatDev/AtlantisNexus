@@ -47,6 +47,31 @@ export function CheckIcon({ className }: IconProps) {
   );
 }
 
+export function ArrowRightIcon({ className }: IconProps) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2.2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+export function SparkleIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2l1.6 4.8L18.4 8l-4.8 1.6L12 14.4l-1.6-4.8L5.6 8l4.8-1.2L12 2zm6.5 11l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6zM5 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7L5 14z" />
+    </svg>
+  );
+}
+
 export function UserIcon({ className }: IconProps) {
   return (
     <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
@@ -127,6 +152,141 @@ export function CodeIcon({ className }: IconProps) {
     <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
       <path
         d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function ArrowUpRightIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M7 17 17 7M9 7h8v8"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function ImageIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M5 5h14v14H5zM8.5 9.5h.01M19 15l-4-4-7 7"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function PaletteIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M12 3a9 9 0 0 0 0 18h1.2a1.8 1.8 0 0 0 1.27-3.07 1.8 1.8 0 0 1 1.27-3.07H17a4 4 0 0 0 0-8 8.95 8.95 0 0 0-5-3.86ZM7.5 11h.01M9.5 7.5h.01M14 7.5h.01"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function CalculatorIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h6M9 11h.01M12 11h.01M15 11h.01M9 15h.01M12 15h.01M15 15h.01"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function BracesIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M8 4H7a3 3 0 0 0-3 3v2a3 3 0 0 1-2 3 3 3 0 0 1 2 3v2a3 3 0 0 0 3 3h1M16 4h1a3 3 0 0 1 3 3v2a3 3 0 0 0 2 3 3 3 0 0 0-2 3v2a3 3 0 0 1-3 3h-1"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function HashIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M5 9h14M4 15h14M10 4 8 20M16 4l-2 16"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function FileTextIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function ConvertIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M7 7h7M11 3l4 4-4 4M17 17h-7M13 13l-4 4 4 4M5 5h.01M19 5h.01M5 19h.01M19 19h.01"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export function RegexIcon({ className }: IconProps) {
+  return (
+    <svg aria-hidden="true" className={className} viewBox="0 0 24 24">
+      <path
+        d="M7 8v8M4 12h6M14 9l6 6M20 9l-6 6"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"

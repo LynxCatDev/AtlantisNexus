@@ -29,10 +29,10 @@ export function Header({ activeLabel }: HeaderProps) {
         <label className="search-box">
           <SearchIcon />
           <input type="search" placeholder="Search articles, tools..." />
-          <kbd>Ctrl K</kbd>
+          <kbd>⌘K</kbd>
         </label>
         <LanguageSwitcher />
-        <Link className="signin-link" href="/signup">
+        <Link className="signin-link" href="/signin">
           Sign in
         </Link>
         <Link className="button button-small" href="/signup">

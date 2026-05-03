@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum Locale {
+  en
+  ru
+  ro
+  es
+  de
+  fr
+}
+
+enum ReactionType {
+  applause
+  funny
+  heart
+  fire
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  nickname     String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  avatar       String?
+  dateOfBirth  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  refreshTokens RefreshToken[]
+  articles      Article[]      @relation("ArticleAuthor")
+  comments      Comment[]
+  reactions     Reaction[]
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  label     String
+  isMain    Boolean  @default(false)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  articles Article[]
+
+  @@index([isMain, position])
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  authorId    String
+  author      User     @relation("ArticleAuthor", fields: [authorId], references: [id])
+  publishedAt DateTime @default(now())
+  minutes     String
+  image       String
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  translations ArticleTranslation[]
+  comments     Comment[]
+  reactions    Reaction[]
+
+  @@index([categoryId])
+  @@index([authorId])
+}
+
+model ArticleTranslation {
+  id        String   @id @default(uuid())
+  articleId String
+  locale    Locale
+  title     String
+  excerpt   String
+  sections  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, locale])
+  @@index([locale])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  articleId String
+  userId    String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@index([userId])
+}
+
+model Reaction {
+  id        String       @id @default(uuid())
+  articleId String
+  userId    String
+  type      ReactionType
+  createdAt DateTime     @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, userId, type])
+  @@index([articleId])
+  @@index([userId])
+}

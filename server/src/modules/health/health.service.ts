@@ -1,14 +1,14 @@
 import { Injectable, ServiceUnavailableException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { DataSource } from "typeorm";
 
 import type { HealthResponse } from "../../common/types/health-response.type";
+import { PrismaService } from "../../database/prisma.service";
 
 @Injectable()
 export class HealthService {
   constructor(
     private readonly config: ConfigService,
-    private readonly dataSource: DataSource,
+    private readonly prisma: PrismaService,
   ) {}
 
   getHealth(): HealthResponse {
@@ -17,7 +17,7 @@ export class HealthService {
 
   async getDatabaseHealth(): Promise<HealthResponse> {
     try {
-      await this.dataSource.query("SELECT 1");
+      await this.prisma.$queryRaw`SELECT 1`;
       return this.buildHealthResponse();
     } catch {
       throw new ServiceUnavailableException("Database is not reachable");

@@ -77,11 +77,29 @@ svg {
   width: 1em;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .app-frame {
   min-height: 100vh;
   background:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
     radial-gradient(circle at 15% 5%, rgba(32, 230, 255, 0.08), transparent 28rem),
     linear-gradient(180deg, #070d19 0%, #060a14 60%, #050914 100%);
+  background-size:
+    36px 36px,
+    36px 36px,
+    auto,
+    auto;
 }
 
 .site-header {
@@ -366,18 +384,29 @@ svg {
 }
 
 .release-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0 0 1.05rem;
   border: 1px solid rgba(32, 230, 255, 0.25);
   border-radius: 999px;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.85rem;
   background: rgba(15, 27, 46, 0.82);
   color: #b9c8e9;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.release-pill svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--cyan);
 }
 
 .landing-hero h1 {
-  max-width: 780px;
+  max-width: 720px;
   margin: 0;
   color: white;
   font-size: clamp(2.7rem, 7vw, 5.4rem);
@@ -385,7 +414,10 @@ svg {
 }
 
 .landing-hero h1 span {
-  color: #8a7dff;
+  background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .landing-hero > p:not(.release-pill) {
@@ -405,10 +437,16 @@ svg {
 }
 
 .hero-primary {
+  gap: 0.55rem;
   min-height: 3rem;
   padding: 0 1.5rem;
   color: white;
   font-size: 0.9rem;
+}
+
+.hero-primary svg {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .hero-primary:hover {
@@ -726,6 +764,118 @@ svg {
   gap: 1rem;
 }
 
+.tools-filter-row {
+  margin-top: 0;
+}
+
+.tools-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.75rem;
+}
+
+.catalog-tool-card {
+  position: relative;
+  display: flex;
+  min-height: 12.1rem;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(89, 143, 255, 0.12), transparent 12rem),
+    var(--surface);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.catalog-tool-card:hover {
+  border-color: rgba(89, 143, 255, 0.48);
+  background:
+    radial-gradient(circle at 92% 0%, rgba(89, 143, 255, 0.18), transparent 13rem),
+    #111a2b;
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.26);
+  transform: translateY(-2px);
+}
+
+.catalog-tool-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.catalog-tool-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.66rem;
+  background: linear-gradient(135deg, #5a89ff 0%, var(--violet) 100%);
+  color: white;
+  box-shadow: 0 0 28px rgba(138, 109, 255, 0.22);
+  transition: transform 180ms ease;
+}
+
+.catalog-tool-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.catalog-tool-arrow {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: #8190ad;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.catalog-tool-card:hover .catalog-tool-arrow {
+  color: var(--cyan);
+  transform: translate(2px, -2px);
+}
+
+.catalog-tool-card h3 {
+  margin: 1.15rem 0 0.45rem;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.catalog-tool-card:hover h3 {
+  color: var(--primary);
+}
+
+.catalog-tool-card p {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.catalog-tool-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding-top: 1.35rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.catalog-tool-meta strong {
+  color: var(--cyan);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .tool-card {
   min-height: 11rem;
   padding: 1.15rem;
@@ -834,6 +984,108 @@ svg {
   min-height: 72vh;
   margin: 0 auto;
   padding: 6.25rem 1.7rem 12rem;
+}
+
+.tools-main {
+  width: min(100%, 1510px);
+  min-height: 72vh;
+  margin: 0 auto;
+  padding: 5.8rem 1.7rem 8rem;
+}
+
+.tools-hero {
+  max-width: 610px;
+  padding: 1.8rem 0 6.15rem;
+}
+
+.tools-hero h1 {
+  margin: 0;
+  color: white;
+  font-size: clamp(2.7rem, 6vw, 4.9rem);
+  line-height: 1;
+}
+
+.tools-hero h1 span {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tools-hero > p:not(.eyebrow) {
+  margin: 1.05rem 0 0;
+  color: var(--muted-strong);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.tool-detail-main {
+  width: min(100%, 960px);
+  min-height: 72vh;
+  margin: 0 auto;
+  padding: 6rem 1.7rem 8rem;
+}
+
+.tool-back-link {
+  display: inline-flex;
+  margin-bottom: 1.2rem;
+  color: var(--muted-strong);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.tool-back-link:hover {
+  color: var(--cyan);
+}
+
+.tool-detail-panel {
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  padding: clamp(1.5rem, 4vw, 2.7rem);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(89, 143, 255, 0.16), transparent 18rem),
+    var(--surface);
+}
+
+.tool-detail-panel h1 {
+  margin: 0;
+  color: white;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.tool-detail-panel > p:not(.eyebrow) {
+  max-width: 680px;
+  margin: 1rem 0 0;
+  color: var(--muted-strong);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.tool-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.tool-detail-actions button {
+  gap: 0.55rem;
+  min-height: 2.7rem;
+  padding: 0 1.2rem;
+  color: white;
+}
+
+.tool-detail-actions button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tool-detail-actions span {
+  color: var(--cyan);
+  font-size: 0.86rem;
+  font-weight: 900;
 }
 
 .library-hero {
@@ -1709,6 +1961,7 @@ svg {
   .article-card:hover,
   .button:hover,
   .brand:hover .brand-mark,
+  .catalog-tool-card:hover,
   .editor-card:hover,
   .feature-card:hover,
   .hero-secondary:hover,
@@ -1766,6 +2019,10 @@ svg {
   }
 
   .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tools-catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1830,6 +2087,8 @@ svg {
   .nav-shell,
   .landing-main,
   .home-main,
+  .tools-main,
+  .tool-detail-main,
   .footer-grid,
   .footer-bottom {
     padding-right: 1rem;
@@ -1908,6 +2167,24 @@ svg {
   }
 
   .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-main {
+    padding-top: 3.5rem;
+    padding-bottom: 6rem;
+  }
+
+  .tool-detail-main {
+    padding-top: 3.5rem;
+    padding-bottom: 6rem;
+  }
+
+  .tools-hero {
+    padding-bottom: 3.5rem;
+  }
+
+  .tools-catalog-grid {
     grid-template-columns: 1fr;
   }
 

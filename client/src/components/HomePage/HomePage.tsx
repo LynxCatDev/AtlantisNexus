@@ -4,7 +4,13 @@ import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { BrainIcon, CodeIcon, GamepadIcon } from "@/components/Icons/Icons";
+import {
+  ArrowRightIcon,
+  BrainIcon,
+  CodeIcon,
+  GamepadIcon,
+  SparkleIcon,
+} from "@/components/Icons/Icons";
 import {
   arenaArticles,
   builderArticles,
@@ -55,7 +61,10 @@ export function HomePage() {
       <Header />
       <main className="landing-main">
         <section className="landing-hero" aria-labelledby="home-title">
-          <p className="release-pill">2026 era notes - v1.0</p>
+          <p className="release-pill">
+            <SparkleIcon />
+            <span>2026 era notes &middot; v1.0</span>
+          </p>
           <h1 id="home-title">
             The hub for <span>gamers, builders</span> and the curious.
           </h1>
@@ -66,8 +75,9 @@ export function HomePage() {
           <div className="hero-actions">
             <Link className="button hero-primary" href="/articles">
               Explore articles
+              <ArrowRightIcon />
             </Link>
-            <Link className="hero-secondary" href="#tools">
+            <Link className="hero-secondary" href="/tools">
               Browse tools
             </Link>
           </div>
@@ -172,7 +182,7 @@ export function HomePage() {
           <SectionHeading eyebrow="Free tools" id="tools-title" title="Useful, fast, no signup" />
           <div className="tool-grid">
             {freeTools.map((tool) => (
-              <article className="tool-card" key={tool.title}>
+              <Link className="tool-card" href={`/tools/${tool.slug}`} key={tool.slug}>
                 <span className="tool-icon">{tool.title.slice(0, 2)}</span>
                 <h3>{tool.title}</h3>
                 <p>{tool.description}</p>
@@ -180,7 +190,7 @@ export function HomePage() {
                   <span>{tool.type}</span>
                   <strong>{tool.metric}</strong>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </section>

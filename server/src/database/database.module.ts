@@ -1,15 +1,10 @@
-import { Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { Global, Module } from "@nestjs/common";
 
-import { createTypeOrmOptions } from "./typeorm-options.factory";
+import { PrismaService } from "./prisma.service";
 
+@Global()
 @Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: createTypeOrmOptions,
-    }),
-  ],
+  providers: [PrismaService],
+  exports: [PrismaService],
 })
 export class DatabaseModule {}

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { LockIcon, MailIcon, UserIcon } from "@/components/Icons/Icons";
 
-export function GetStartedPage() {
+export function SignupPage() {
   return (
     <main className="auth-screen">
       <section className="auth-panel" aria-labelledby="create-account-title">
@@ -29,7 +29,7 @@ export function GetStartedPage() {
               <span>Display name</span>
               <span className="input-wrap">
                 <UserIcon />
-                <input name="name" placeholder="Mira Voss" type="text" />
+                <input name="nickname" placeholder="Mira Voss" type="text" />
               </span>
             </label>
 
@@ -60,7 +60,7 @@ export function GetStartedPage() {
           </form>
 
           <p className="auth-switch">
-            Already have an account? <a href="#">Sign in</a>
+            Already have an account? <Link href="/signin">Sign in</Link>
           </p>
         </div>
       </section>

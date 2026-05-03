@@ -5,7 +5,7 @@ export const mainNavigation: NavItem[] = [
   { label: "Gaming", href: "/articles#gaming" },
   { label: "AI", href: "/articles#ai" },
   { label: "Dev", href: "/articles#dev" },
-  { label: "Tools", href: "/#tools" },
+  { label: "Tools", href: "/tools" },
   { label: "About", href: "/#about" },
 ];
 
@@ -13,7 +13,7 @@ export const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Content",
     links: [
-      { label: "Articles", href: "#articles" },
+      { label: "Articles", href: "/articles" },
       { label: "Gaming", href: "/articles#gaming" },
       { label: "AI", href: "/articles#ai" },
       { label: "Dev", href: "/articles#dev" },
@@ -22,19 +22,19 @@ export const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Tools",
     links: [
-      { label: "All Tools", href: "/#tools" },
-      { label: "Calculators", href: "/#tools" },
-      { label: "Developer", href: "/articles#dev" },
-      { label: "Media", href: "/articles" },
+      { label: "All Tools", href: "/tools" },
+      { label: "Calculators", href: "/tools#percentage-calculator" },
+      { label: "Developer", href: "/tools#json-formatter" },
+      { label: "Media", href: "/tools#image-compressor" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Newsletter", href: "#newsletter" },
-      { label: "Contact", href: "#contact" },
-      { label: "Careers", href: "#careers" },
+      { label: "About", href: "/#about" },
+      { label: "Newsletter", href: "/#about" },
+      { label: "Contact", href: "/#about" },
+      { label: "Careers", href: "/#about" },
     ],
   },
 ];

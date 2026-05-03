@@ -55,10 +55,32 @@ export type FeatureCard = {
 };
 
 export type ToolCard = {
+  slug: string;
   title: string;
   description: string;
   type: string;
   metric: string;
+};
+
+export type ToolCategory = "Calculators" | "Media" | "Developer" | "AI";
+
+export type ToolIconName =
+  | "braces"
+  | "calculator"
+  | "convert"
+  | "file"
+  | "hash"
+  | "image"
+  | "palette"
+  | "regex";
+
+export type ToolCatalogItem = {
+  slug: string;
+  title: string;
+  description: string;
+  category: ToolCategory;
+  metric: string;
+  icon: ToolIconName;
 };
 
 export type LanguageOption = {

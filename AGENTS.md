@@ -6,7 +6,7 @@ agents. Read it before changing either app.
 ## Project Shape
 
 - `client/` is the Next.js App Router frontend.
-- `server/` is the NestJS API backend with PostgreSQL.
+- `server/` is the NestJS API backend with PostgreSQL (via Prisma).
 - Frontend runs on `http://localhost:3000`.
 - Backend runs on `http://127.0.0.1:4000`.
 - Keep frontend route files thin. Put UI in `client/src/components`, static data in
@@ -20,18 +20,22 @@ agents. Read it before changing either app.
 1. Admin access starts with only the owner's account. Signed-in admins can access
    `/admin`.
 2. Admins can add articles and delete/remove comments. Articles must be stored in
-   PostgreSQL.
+   PostgreSQL (via Prisma).
 3. Users have profile/settings data:
    - Required: email, nickname.
    - Optional: avatar, date of birth.
-4. All signups must be saved in PostgreSQL.
-5. The first languages are English as the main language, Russian, and Romanian.
+4. All signups must be saved in PostgreSQL (via Prisma).
+5. Supported locales for articles: `en` (default), `ru`, `ro`. Planned: `es`,
+   `de`, `fr`. English is the default and required on every article. The
+   backend stores per-locale title/excerpt/sections in `ArticleTranslation`.
    Use `next-intl` for frontend internationalization.
 6. A superadmin can grant admin permission to other users, for example the
    owner's wife.
-7. Main categories are `Dev`, `Gaming`, and `AI`.
-8. Admins can add extra categories. Extra categories are not main navigation
-   items. If extra categories exist, show them in a separate navigation dropdown.
+7. Main categories are `dev`, `ai`, `gaming` (slugs). They are seeded on boot
+   and cannot be edited or deleted via the API.
+8. SUPERADMIN can add extra categories (`isMain: false`). Extra categories must
+   not collide with main slugs. Extras are not top-level nav items; the
+   frontend renders them in a dropdown placed between `Dev` and `Tools`.
 9. Prefer `/signup` instead of `/get-started`.
 10. Anonymous browsing should stay possible. Signup is required only for account
     features such as profile, reactions, and admin access.
@@ -46,7 +50,7 @@ agents. Read it before changing either app.
 - Use role-based authorization with roles such as `USER`, `ADMIN`, and
   `SUPERADMIN`.
 - Do not hard-code long-term permissions in controllers. Store users, roles,
-  articles, comments, reactions, and categories in PostgreSQL.
+  articles, comments, reactions, and categories in PostgreSQL (via Prisma).
 - Design articles so they can support localization.
 - Design user avatars and article images so they can later use server-side file
   storage or object storage without rewriting the API contract.

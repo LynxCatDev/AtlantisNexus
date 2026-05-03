@@ -1,5 +1,5 @@
-import { GetStartedPage } from "@/components/Auth/GetStartedPage";
+import { SignupPage } from "@/components/Auth/SignupPage";
 
 export default function SignupRoute() {
-  return <GetStartedPage />;
+  return <SignupPage />;
 }

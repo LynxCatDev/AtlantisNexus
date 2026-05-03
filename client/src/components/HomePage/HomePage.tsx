@@ -16,17 +16,40 @@ import {
   PaletteIcon,
   SparkleIcon,
 } from "@/components/Icons/Icons";
-import {
-  arenaArticles,
-  builderArticles,
-  editorPick,
-  freeTools,
-  heroMetrics,
-  homeFeatures,
-  sidePicks,
-  trendingTopics,
-} from "@/constants/home";
+import { articles } from "@/constants/articles";
+import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
 import type { ArticleCategory } from "@/types/content";
+
+const HERO_PILLARS: { tone: ArticleCategory; title: string; description: string }[] = [
+  {
+    tone: "Gaming",
+    title: "Gaming",
+    description: "News, RPG guides and analysis without the clickbait.",
+  },
+  {
+    tone: "AI",
+    title: "AI",
+    description: "Practical AI for builders — tools, agents, systems that ship.",
+  },
+  {
+    tone: "Dev",
+    title: "Dev",
+    description: "React, TypeScript, edge runtimes, architecture that scales.",
+  },
+];
+
+function FeatureIcon({ category }: { category: ArticleCategory }) {
+  if (category === "Gaming") return <GamepadIcon />;
+  if (category === "AI") return <BrainIcon />;
+  return <CodeIcon />;
+}
+
+function HomeToolIcon({ slug }: { slug: string }) {
+  if (slug === "image-compressor") return <ImageIcon />;
+  if (slug === "color-converter") return <PaletteIcon />;
+  if (slug === "percentage-calculator") return <CalculatorIcon />;
+  return <BracesIcon />;
+}
 
 function SectionHeading({
   eyebrow,
@@ -53,35 +76,12 @@ function SectionHeading({
   );
 }
 
-function FeatureIcon({ category }: { category: ArticleCategory }) {
-  if (category === "Gaming") {
-    return <GamepadIcon />;
-  }
-
-  if (category === "AI") {
-    return <BrainIcon />;
-  }
-
-  return <CodeIcon />;
-}
-
-function HomeToolIcon({ slug }: { slug: string }) {
-  if (slug === "image-compressor") {
-    return <ImageIcon />;
-  }
-
-  if (slug === "color-converter") {
-    return <PaletteIcon />;
-  }
-
-  if (slug === "percentage-calculator") {
-    return <CalculatorIcon />;
-  }
-
-  return <BracesIcon />;
-}
-
 export function HomePage() {
+  const featured = articles[0];
+  const sidePicks = articles.slice(1, 4);
+  const gamingArticles = articles.filter((a) => a.category === "Gaming").slice(0, 3);
+  const aiDevArticles = articles.filter((a) => a.category !== "Gaming").slice(0, 3);
+
   return (
     <div className="app-frame">
       <Header />
@@ -118,43 +118,50 @@ export function HomePage() {
         </section>
 
         <section className="feature-strip" aria-label="Main topics">
-          {homeFeatures.map((feature) => (
-            <article className={`feature-card feature-${feature.accent.toLowerCase()}`} key={feature.title}>
+          {HERO_PILLARS.map((pillar) => (
+            <article
+              className={`feature-card feature-${pillar.tone.toLowerCase()}`}
+              key={pillar.title}
+            >
               <span className="feature-icon">
-                <FeatureIcon category={feature.accent} />
+                <FeatureIcon category={pillar.tone} />
               </span>
-              <h2>{feature.title}</h2>
-              <p>{feature.description}</p>
+              <h2>{pillar.title}</h2>
+              <p>{pillar.description}</p>
             </article>
           ))}
         </section>
 
         <section className="home-section" id="articles" aria-labelledby="featured-title">
-          <SectionHeading eyebrow="Featured story" id="featured-title" title="This week's pick" />
+          <SectionHeading
+            eyebrow="Featured story"
+            id="featured-title"
+            title="This week's pick"
+          />
           <div className="editors-layout">
-            <Link className="editor-card" href={`/article/${editorPick.slug}`}>
+            <Link className="editor-card" href={`/article/${featured.slug}`}>
               <article>
                 <div className="editor-image">
                   <Image
-                    alt={editorPick.title}
+                    alt={featured.title}
                     fill
                     priority
-                    sizes="(max-width: 900px) 100vw, 66vw"
-                    src={editorPick.image}
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    src={featured.image}
                   />
-                  <span className={`tag tag-${editorPick.category.toLowerCase()}`}>
-                    {editorPick.category}
+                  <span className={`tag tag-${featured.category.toLowerCase()}`}>
+                    {featured.category}
                   </span>
                 </div>
                 <div className="editor-body">
-                  <h2>{editorPick.title}</h2>
-                  <p>{editorPick.excerpt}</p>
+                  <h2>{featured.title}</h2>
+                  <p>{featured.excerpt}</p>
                   <div className="article-meta">
-                    <strong>{editorPick.author}</strong>
+                    <strong>{featured.author}</strong>
                     <span aria-hidden="true">&middot;</span>
-                    <span>Apr 24, 2026</span>
+                    <span>{featured.publishedAt}</span>
                     <span aria-hidden="true">&middot;</span>
-                    <span>{editorPick.minutes}</span>
+                    <span>{featured.minutes}</span>
                   </div>
                 </div>
               </article>
@@ -168,12 +175,7 @@ export function HomePage() {
                   key={article.slug}
                 >
                   <div className="side-pick-image">
-                    <Image
-                      alt={article.title}
-                      fill
-                      sizes="180px"
-                      src={article.image}
-                    />
+                    <Image alt={article.title} fill sizes="180px" src={article.image} />
                   </div>
                   <div>
                     <span>{article.category}</span>
@@ -187,19 +189,28 @@ export function HomePage() {
         </section>
 
         <section className="home-section" id="gaming" aria-labelledby="arena-title">
-          <SectionHeading eyebrow="Gaming" id="arena-title" title="Latest from the arena" />
-          <div className="compact-article-grid">
-            {arenaArticles.map((article, index) => (
-              <ArticleCard article={article} eager={index === 0} key={article.title} />
+          <SectionHeading
+            eyebrow="Gaming"
+            href="/category/gaming"
+            id="arena-title"
+            title="Latest from the arena"
+          />
+          <div className="article-grid home-article-grid">
+            {gamingArticles.map((article, index) => (
+              <ArticleCard article={article} eager={index === 0} key={article.slug} />
             ))}
           </div>
         </section>
 
         <section className="home-section" id="ai" aria-labelledby="builder-title">
-          <SectionHeading eyebrow="AI & Dev" id="builder-title" title="Build smarter, ship faster" />
+          <SectionHeading
+            eyebrow="AI &amp; Dev"
+            id="builder-title"
+            title="Build smarter, ship faster"
+          />
           <div className="article-grid home-article-grid">
-            {builderArticles.map((article, index) => (
-              <ArticleCard article={article} eager={index === 0} key={article.title} />
+            {aiDevArticles.map((article, index) => (
+              <ArticleCard article={article} eager={index === 0} key={article.slug} />
             ))}
           </div>
         </section>

@@ -1,9 +1,42 @@
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
+
+import { useAuth } from "@/components/Auth/AuthProvider";
+import { GoogleIcon } from "@/components/Auth/GoogleIcon";
+import { PasswordField } from "@/components/Auth/PasswordField";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
-import { LockIcon, MailIcon, UserIcon } from "@/components/Icons/Icons";
+import { MailIcon, UserIcon } from "@/components/Icons/Icons";
 
 export function SignupPage() {
+  const router = useRouter();
+  const { register } = useAuth();
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      await register({
+        email: email.trim(),
+        nickname: nickname.trim(),
+        password,
+      });
+      router.push("/");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign up failed.");
+      setSubmitting(false);
+    }
+  };
+
   return (
     <main className="auth-screen">
       <section className="auth-panel" aria-labelledby="create-account-title">
@@ -15,9 +48,9 @@ export function SignupPage() {
             <p>Free forever. No credit card required.</p>
           </div>
 
-          <form className="auth-form">
-            <button className="google-button" type="button">
-              <span aria-hidden="true">G</span>
+          <form className="auth-form" onSubmit={onSubmit} noValidate>
+            <button className="google-button" type="button" disabled>
+              <GoogleIcon />
               Sign up with Google
             </button>
 
@@ -29,7 +62,17 @@ export function SignupPage() {
               <span>Display name</span>
               <span className="input-wrap">
                 <UserIcon />
-                <input name="nickname" placeholder="Mira Voss" type="text" />
+                <input
+                  name="nickname"
+                  placeholder="Mira Voss"
+                  type="text"
+                  autoComplete="nickname"
+                  required
+                  minLength={2}
+                  maxLength={32}
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                />
               </span>
             </label>
 
@@ -37,20 +80,36 @@ export function SignupPage() {
               <span>Email</span>
               <span className="input-wrap">
                 <MailIcon />
-                <input name="email" placeholder="you@domain.com" type="email" />
+                <input
+                  name="email"
+                  placeholder="you@domain.com"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </span>
             </label>
 
             <label className="field">
               <span>Password</span>
-              <span className="input-wrap">
-                <LockIcon />
-                <input name="password" placeholder="At least 8 characters" type="password" />
-              </span>
+              <PasswordField
+                name="password"
+                placeholder="At least 8 characters"
+                autoComplete="new-password"
+                required
+                minLength={8}
+                maxLength={128}
+                value={password}
+                onChange={setPassword}
+              />
             </label>
 
-            <button className="button auth-submit" type="submit">
-              Create account
+            {error ? <p className="auth-error">{error}</p> : null}
+
+            <button className="button auth-submit" type="submit" disabled={submitting}>
+              {submitting ? "Creating account..." : "Create account"}
             </button>
 
             <p className="legal-copy">
@@ -65,14 +124,17 @@ export function SignupPage() {
         </div>
       </section>
 
-      <section className="community-panel" aria-label="Atlantis Nexus community">
+      <section
+        className="community-panel community-mirror"
+        aria-label="Atlantis Nexus community"
+      >
         <div className="community-copy">
           <Link className="brand mini-brand" href="/" aria-label="Atlantis Nexus home">
             <span className="brand-mark">A</span>
             <span>Atlantis Nexus</span>
           </Link>
           <h2>
-            Join a community of <span>builders.</span>
+            Join a community of <span>builders</span>.
           </h2>
           <ul>
             <li>Bookmark articles across devices</li>

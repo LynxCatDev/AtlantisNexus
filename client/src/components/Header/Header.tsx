@@ -5,6 +5,7 @@ import { mainNavigation } from "@/constants/navigation";
 import { BrandLogo } from "../BrandLogo/BrandLogo";
 import { SearchIcon } from "../Icons/Icons";
 import { LanguageSwitcher } from "../LanguageSwitcher/LanguageSwitcher";
+import { UserMenu } from "./UserMenu";
 
 type HeaderProps = {
   activeLabel?: string;
@@ -32,12 +33,7 @@ export function Header({ activeLabel }: HeaderProps) {
           <kbd>{"\u2318K"}</kbd>
         </label>
         <LanguageSwitcher />
-        <Link className="signin-link" href="/signin">
-          Sign in
-        </Link>
-        <Link className="button button-small" href="/signup">
-          Get started
-        </Link>
+        <UserMenu />
       </nav>
     </header>
   );

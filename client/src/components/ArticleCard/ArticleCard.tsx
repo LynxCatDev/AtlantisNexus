@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ClockIcon } from "@/components/Icons/Icons";
 import type { Article } from "@/types/content";
 
 type ArticleCardProps = {
@@ -26,7 +27,10 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <div className="article-meta">
             <strong>{article.author}</strong>
             <span aria-hidden="true">&middot;</span>
-            <span>{article.minutes}</span>
+            <span className="article-read-time">
+              <ClockIcon />
+              {article.minutes}
+            </span>
           </div>
         </div>
       </article>

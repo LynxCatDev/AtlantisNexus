@@ -2,9 +2,9 @@ import type { FooterLinkGroup, NavItem, SocialLink } from "@/types/content";
 
 export const mainNavigation: NavItem[] = [
   { label: "Articles", href: "/articles" },
-  { label: "Gaming", href: "/articles#gaming" },
-  { label: "AI", href: "/articles#ai" },
-  { label: "Dev", href: "/articles#dev" },
+  { label: "Gaming", href: "/category/gaming" },
+  { label: "AI", href: "/category/ai" },
+  { label: "Dev", href: "/category/dev" },
   { label: "Tools", href: "/tools" },
   { label: "About", href: "/#about" },
 ];
@@ -14,9 +14,9 @@ export const footerLinkGroups: FooterLinkGroup[] = [
     title: "Content",
     links: [
       { label: "Articles", href: "/articles" },
-      { label: "Gaming", href: "/articles#gaming" },
-      { label: "AI", href: "/articles#ai" },
-      { label: "Dev", href: "/articles#dev" },
+      { label: "Gaming", href: "/category/gaming" },
+      { label: "AI", href: "/category/ai" },
+      { label: "Dev", href: "/category/dev" },
     ],
   },
   {

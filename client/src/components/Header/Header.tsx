@@ -29,7 +29,7 @@ export function Header({ activeLabel }: HeaderProps) {
         <label className="search-box">
           <SearchIcon />
           <input type="search" placeholder="Search articles, tools..." />
-          <kbd>⌘K</kbd>
+          <kbd>{"\u2318K"}</kbd>
         </label>
         <LanguageSwitcher />
         <Link className="signin-link" href="/signin">

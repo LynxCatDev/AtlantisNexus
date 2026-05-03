@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
@@ -14,7 +17,9 @@ import {
   RegexIcon,
 } from "@/components/Icons/Icons";
 import { toolCatalog, toolCategories } from "@/constants/tools";
-import type { ToolIconName } from "@/types/content";
+import type { ToolCategory, ToolIconName } from "@/types/content";
+
+type ToolFilter = ToolCategory | "All";
 
 function ToolIcon({ name }: { name: ToolIconName }) {
   if (name === "image") {
@@ -49,6 +54,16 @@ function ToolIcon({ name }: { name: ToolIconName }) {
 }
 
 export function ToolsPage() {
+  const [activeCategory, setActiveCategory] = useState<ToolFilter>("All");
+
+  const filteredTools = useMemo(() => {
+    if (activeCategory === "All") {
+      return toolCatalog;
+    }
+
+    return toolCatalog.filter((tool) => tool.category === activeCategory);
+  }, [activeCategory]);
+
   return (
     <div className="app-frame tools-page">
       <Header activeLabel="Tools" />
@@ -71,8 +86,10 @@ export function ToolsPage() {
           <div className="filter-row tools-filter-row" aria-label="Tool filters">
             {toolCategories.map((category) => (
               <button
-                className={category === "All" ? "filter-pill active" : "filter-pill"}
+                aria-pressed={category === activeCategory}
+                className={category === activeCategory ? "filter-pill active" : "filter-pill"}
                 key={category}
+                onClick={() => setActiveCategory(category)}
                 type="button"
               >
                 {category}
@@ -81,7 +98,7 @@ export function ToolsPage() {
           </div>
 
           <div className="tools-catalog-grid">
-            {toolCatalog.map((tool) => (
+            {filteredTools.map((tool) => (
               <Link
                 aria-label={`Open ${tool.title}`}
                 className="catalog-tool-card"

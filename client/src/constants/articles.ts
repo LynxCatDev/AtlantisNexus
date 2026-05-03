@@ -2,6 +2,24 @@ import type { Article, ArticleCategory, ArticleDetail } from "@/types/content";
 
 export const articleCategories: Array<ArticleCategory | "All"> = ["All", "Gaming", "AI", "Dev"];
 
+export const articleCategorySlugs: Record<ArticleCategory, string> = {
+  Gaming: "gaming",
+  AI: "ai",
+  Dev: "dev",
+};
+
+export function getArticleCategoryBySlug(slug: string): ArticleCategory | undefined {
+  const match = (Object.entries(articleCategorySlugs) as Array<[ArticleCategory, string]>).find(
+    ([, categorySlug]) => categorySlug === slug,
+  );
+
+  return match?.[0];
+}
+
+export function getArticleCategoryHref(category: ArticleCategory | "All"): string {
+  return category === "All" ? "/articles" : `/category/${articleCategorySlugs[category]}`;
+}
+
 export const articles: Article[] = [
   {
     slug: "elden-ring-nightreign-co-op-souls-era",
@@ -12,8 +30,7 @@ export const articles: Article[] = [
     author: "Mira Voss",
     publishedAt: "Apr 24, 2026",
     minutes: "9m",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-gaming.jpg",
   },
   {
     slug: "shipping-ai-agents-to-production",
@@ -24,8 +41,7 @@ export const articles: Article[] = [
     author: "Kenji Park",
     publishedAt: "Apr 22, 2026",
     minutes: "12m",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-ai.jpg",
   },
   {
     slug: "react-19-server-actions-patterns",
@@ -36,8 +52,7 @@ export const articles: Article[] = [
     author: "Lena Cole",
     publishedAt: "Apr 20, 2026",
     minutes: "8m",
-    image:
-      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-dev.jpg",
   },
   {
     slug: "rpgs-defining-2026",
@@ -48,8 +63,7 @@ export const articles: Article[] = [
     author: "Mira Voss",
     publishedAt: "Apr 18, 2026",
     minutes: "7m",
-    image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-gaming.jpg",
   },
   {
     slug: "rag-is-dead-long-live-rag",
@@ -59,8 +73,7 @@ export const articles: Article[] = [
     author: "Kenji Park",
     publishedAt: "Apr 16, 2026",
     minutes: "10m",
-    image:
-      "https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-ai.jpg",
   },
   {
     slug: "edge-runtime-tradeoffs-2026",
@@ -70,8 +83,7 @@ export const articles: Article[] = [
     author: "Lena Cole",
     publishedAt: "Apr 14, 2026",
     minutes: "11m",
-    image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85",
+    image: "/images/cover-dev.jpg",
   },
 ];
 

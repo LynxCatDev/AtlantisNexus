@@ -1,6 +1,31 @@
+import Link from "next/link";
+
+import {
+  GitHubIcon,
+  RssIcon,
+  TwitterIcon,
+  YouTubeIcon,
+} from "@/components/Icons/Icons";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher";
 import { footerLinkGroups, socialLinks } from "@/constants/navigation";
 
 import { BrandLogo } from "../BrandLogo/BrandLogo";
+
+function SocialIcon({ label }: { label: string }) {
+  if (label === "GitHub") {
+    return <GitHubIcon />;
+  }
+
+  if (label === "YouTube") {
+    return <YouTubeIcon />;
+  }
+
+  if (label === "RSS") {
+    return <RssIcon />;
+  }
+
+  return <TwitterIcon />;
+}
 
 export function Footer() {
   return (
@@ -15,18 +40,21 @@ export function Footer() {
           <div className="social-links" aria-label="Social links">
             {socialLinks.map((link) => (
               <a href={link.href} aria-label={link.label} key={link.label}>
-                {link.shortLabel}
+                <SocialIcon label={link.label} />
               </a>
             ))}
+          </div>
+          <div className="footer-language">
+            <LanguageSwitcher />
           </div>
         </div>
         {footerLinkGroups.map((group) => (
           <div key={group.title}>
             <h3>{group.title}</h3>
             {group.links.map((link) => (
-              <a href={link.href} key={link.label}>
+              <Link href={link.href} key={link.label}>
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
         ))}
@@ -36,7 +64,7 @@ export function Footer() {
         <span>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
-          <a href="#">Admin</a>
+          <Link href="/admin">Admin</Link>
         </span>
       </div>
     </footer>

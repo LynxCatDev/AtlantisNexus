@@ -6,9 +6,14 @@ import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import {
   ArrowRightIcon,
+  ArrowUpRightIcon,
   BrainIcon,
+  BracesIcon,
+  CalculatorIcon,
   CodeIcon,
   GamepadIcon,
+  ImageIcon,
+  PaletteIcon,
   SparkleIcon,
 } from "@/components/Icons/Icons";
 import {
@@ -25,10 +30,12 @@ import type { ArticleCategory } from "@/types/content";
 
 function SectionHeading({
   eyebrow,
+  href = "/articles",
   id,
   title,
 }: {
   eyebrow: string;
+  href?: string;
   id: string;
   title: string;
 }) {
@@ -38,7 +45,10 @@ function SectionHeading({
         <p className="eyebrow">{eyebrow}</p>
         <h2 id={id}>{title}</h2>
       </div>
-      <Link href="/articles">View all</Link>
+      <Link href={href}>
+        View all
+        <ArrowRightIcon />
+      </Link>
     </div>
   );
 }
@@ -53,6 +63,22 @@ function FeatureIcon({ category }: { category: ArticleCategory }) {
   }
 
   return <CodeIcon />;
+}
+
+function HomeToolIcon({ slug }: { slug: string }) {
+  if (slug === "image-compressor") {
+    return <ImageIcon />;
+  }
+
+  if (slug === "color-converter") {
+    return <PaletteIcon />;
+  }
+
+  if (slug === "percentage-calculator") {
+    return <CalculatorIcon />;
+  }
+
+  return <BracesIcon />;
 }
 
 export function HomePage() {
@@ -179,17 +205,28 @@ export function HomePage() {
         </section>
 
         <section className="home-section" id="tools" aria-labelledby="tools-title">
-          <SectionHeading eyebrow="Free tools" id="tools-title" title="Useful, fast, no signup" />
+          <SectionHeading
+            eyebrow="Free tools"
+            href="/tools"
+            id="tools-title"
+            title="Useful, fast, no signup"
+          />
           <div className="tool-grid">
             {freeTools.map((tool) => (
               <Link className="tool-card" href={`/tools/${tool.slug}`} key={tool.slug}>
-                <span className="tool-icon">{tool.title.slice(0, 2)}</span>
+                <span className="tool-glow" aria-hidden="true" />
+                <span className="tool-card-top">
+                  <span className="tool-icon">
+                    <HomeToolIcon slug={tool.slug} />
+                  </span>
+                  <ArrowUpRightIcon className="tool-card-arrow" />
+                </span>
                 <h3>{tool.title}</h3>
                 <p>{tool.description}</p>
-                <div>
+                <span className="tool-card-meta">
                   <span>{tool.type}</span>
                   <strong>{tool.metric}</strong>
-                </div>
+                </span>
               </Link>
             ))}
           </div>
@@ -219,6 +256,7 @@ export function HomePage() {
               Subscribe
             </button>
           </form>
+          <p className="newsletter-note">No spam. Unsubscribe anytime.</p>
         </section>
       </main>
       <Footer />

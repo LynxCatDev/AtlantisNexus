@@ -43,8 +43,8 @@ export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
         </section>
 
         <section className="article-grid" id="articles" aria-label="Latest articles">
-          {filteredArticles.map((article) => (
-            <ArticleCard article={article} key={article.title} />
+          {filteredArticles.map((article, index) => (
+            <ArticleCard article={article} eager={index < 3} key={article.title} />
           ))}
         </section>
       </main>

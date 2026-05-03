@@ -6,9 +6,10 @@ import type { Article } from "@/types/content";
 
 type ArticleCardProps = {
   article: Article;
+  eager?: boolean;
 };
 
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article, eager = false }: ArticleCardProps) {
   return (
     <Link className="article-card" href={`/article/${article.slug}`}>
       <article>
@@ -16,6 +17,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <Image
             alt={article.title}
             fill
+            loading={eager ? "eager" : "lazy"}
             sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
             src={article.image}
           />

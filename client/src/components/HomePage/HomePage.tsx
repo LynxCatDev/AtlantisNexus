@@ -189,8 +189,8 @@ export function HomePage() {
         <section className="home-section" id="gaming" aria-labelledby="arena-title">
           <SectionHeading eyebrow="Gaming" id="arena-title" title="Latest from the arena" />
           <div className="compact-article-grid">
-            {arenaArticles.map((article) => (
-              <ArticleCard article={article} key={article.title} />
+            {arenaArticles.map((article, index) => (
+              <ArticleCard article={article} eager={index === 0} key={article.title} />
             ))}
           </div>
         </section>
@@ -198,8 +198,8 @@ export function HomePage() {
         <section className="home-section" id="ai" aria-labelledby="builder-title">
           <SectionHeading eyebrow="AI & Dev" id="builder-title" title="Build smarter, ship faster" />
           <div className="article-grid home-article-grid">
-            {builderArticles.map((article) => (
-              <ArticleCard article={article} key={article.title} />
+            {builderArticles.map((article, index) => (
+              <ArticleCard article={article} eager={index === 0} key={article.title} />
             ))}
           </div>
         </section>

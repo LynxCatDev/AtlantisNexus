@@ -1,0 +1,173 @@
+@use '../../app/mixins.scss' as *;
+
+// ArticleCard styles. Originally `.article-card`, `.article-image`, `.tag`,
+// `.tag-gaming|ai|dev`, `.article-body`, `.article-meta`, `.article-read-time`.
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid rgba(33, 48, 74, 0.6);
+  border-radius: 12px;
+  background: var(--card);
+  transition: var(--transition-smooth);
+
+  article {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  &:hover {
+    border-color: rgba(89, 143, 255, 0.4);
+    box-shadow: var(--shadow-elegant);
+    transform: translateY(-4px);
+  }
+
+  &__image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(32, 230, 255, 0.22), rgba(228, 81, 255, 0.18)),
+      #101827;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(180deg, rgba(6, 11, 22, 0) 45%, rgba(6, 11, 22, 0.22));
+    }
+  }
+
+  &:hover &__image img {
+    transform: scale(1.05);
+  }
+
+  &__tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1;
+    min-height: 22.72px;
+    border: 1px solid currentColor;
+    border-radius: 4.48px;
+    padding: 3.84px 8px;
+    font-size: 9.92px;
+    font-weight: 900;
+    letter-spacing: 1.28px;
+    text-transform: uppercase;
+
+    &--gaming {
+      border-color: rgba(154, 87, 255, 0.3);
+      background: rgba(154, 87, 255, 0.15);
+      color: var(--accent);
+    }
+
+    &--ai {
+      border-color: rgba(32, 230, 255, 0.3);
+      background: rgba(32, 230, 255, 0.15);
+      color: var(--cyan);
+    }
+
+    &--dev {
+      border-color: rgba(89, 143, 255, 0.3);
+      background: rgba(89, 143, 255, 0.15);
+      color: var(--primary);
+    }
+  }
+
+  &:hover &__tag {
+    filter: brightness(1.08);
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+
+    h2 {
+      display: -webkit-box;
+      min-height: 0;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      margin: 0;
+      color: white;
+      font-size: 17.92px;
+      font-weight: 800;
+      line-height: 1.35;
+      transition: var(--transition-smooth);
+    }
+
+    p {
+      display: -webkit-box;
+      min-height: 0;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.4px;
+      line-height: 1.5;
+    }
+  }
+
+  &:hover &__body h2 {
+    color: var(--primary);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 12px;
+    color: #8fa1c0;
+    font-size: 12.8px;
+
+    strong {
+      color: white;
+    }
+  }
+
+  &__read-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4.8px;
+
+    svg {
+      width: 13.6px;
+      height: 13.6px;
+    }
+  }
+}
+
+@include respond-to('mobile') {
+  .article-card__body h2,
+  .article-card__body p {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-card:hover {
+    transform: none;
+  }
+
+  .article-card:hover .article-card__image img {
+    transform: none;
+  }
+}

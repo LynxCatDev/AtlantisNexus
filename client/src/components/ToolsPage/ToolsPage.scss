@@ -1,0 +1,174 @@
+@use '../../app/mixins.scss' as *;
+
+// ToolsPage styles. Originally `.tools-main`, `.tools-hero`,
+// `.tools-catalog-grid`, `.catalog-tool-*`, `.tools-filter-row`.
+
+.tools-page {
+  &__main {
+    max-width: 1536px;
+    min-height: 72vh;
+    margin: 0 auto;
+    padding: 92.8px 16px 128px;
+  }
+
+  &__hero {
+    max-width: 610px;
+    padding: 28.8px 0 98.4px;
+
+    h1 {
+      margin: 0;
+      color: white;
+      font-size: clamp(43.2px, 6vw, 78.4px);
+      line-height: 1;
+
+      span {
+        background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+
+    > p:not(.eyebrow) {
+      margin: 16.8px 0 0;
+      color: var(--muted-strong);
+      font-size: 16.8px;
+      line-height: 1.55;
+    }
+  }
+
+  &__filter-row {
+    margin-top: 0;
+  }
+
+  &__catalog {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 19.2px;
+    margin-top: 28px;
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    min-height: 193.6px;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(33, 48, 74, 0.6);
+    border-radius: 12px;
+    padding: 20px;
+    background: var(--gradient-card);
+    transition: var(--transition-smooth);
+
+    &:hover {
+      border-color: rgba(89, 143, 255, 0.4);
+      box-shadow: var(--shadow-glow);
+      transform: none;
+    }
+
+    h3 {
+      margin: 18.4px 0 7.2px;
+      color: white;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    &:hover h3 {
+      color: white;
+    }
+
+    p {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      margin: 0;
+      color: var(--muted-strong);
+      font-size: 14.4px;
+      line-height: 1.45;
+    }
+  }
+
+  &__card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__card-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10.56px;
+    background: var(--gradient-primary);
+    color: var(--primary-foreground);
+    box-shadow: 0 0 28px rgba(138, 109, 255, 0.26);
+    transition: var(--transition-smooth);
+
+    svg {
+      width: 19.2px;
+      height: 19.2px;
+    }
+  }
+
+  &__card-arrow {
+    width: 14.4px;
+    height: 14.4px;
+    color: #8190ad;
+    transition: var(--transition-smooth);
+  }
+
+  &__card:hover &__card-arrow {
+    color: white;
+    transform: translate(2px, -2px);
+  }
+
+  &__card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 11.2px;
+    margin-top: auto;
+    padding-top: 21.6px;
+    color: var(--muted);
+    font-size: 12.16px;
+
+    strong {
+      color: var(--cyan);
+      font-family: var(--font-app);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+  }
+}
+
+@include respond-to('laptop') {
+  .tools-page__catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include respond-to('mobile') {
+  .tools-page__main {
+    padding-top: 56px;
+    padding-bottom: 96px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .tools-page__hero {
+    padding-bottom: 56px;
+  }
+
+  .tools-page__catalog {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-page__card:hover {
+    transform: none;
+  }
+}

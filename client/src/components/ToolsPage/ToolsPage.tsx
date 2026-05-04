@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
+import { FilterPill, FilterRow } from "@/components/FilterRow/FilterRow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import {
@@ -18,6 +20,8 @@ import {
 } from "@/components/Icons/Icons";
 import { toolCatalog, toolCategories } from "@/constants/tools";
 import type { ToolCategory, ToolIconName } from "@/types/content";
+
+import "./ToolsPage.scss";
 
 type ToolFilter = ToolCategory | "All";
 
@@ -67,9 +71,9 @@ export function ToolsPage() {
   return (
     <div className="app-frame tools-page">
       <Header activeLabel="Tools" />
-      <main className="tools-main">
-        <section className="tools-hero" aria-labelledby="tools-title">
-          <p className="eyebrow">Tools</p>
+      <main className="tools-page__main">
+        <section className="tools-page__hero" aria-labelledby="tools-title">
+          <Eyebrow>Tools</Eyebrow>
           <h1 id="tools-title">
             Free, fast, <span>no signup</span>.
           </h1>
@@ -83,38 +87,37 @@ export function ToolsPage() {
           <h2 className="sr-only" id="tools-catalog-title">
             Tool catalogue
           </h2>
-          <div className="filter-row tools-filter-row" aria-label="Tool filters">
+          <FilterRow className="tools-page__filter-row" aria-label="Tool filters">
             {toolCategories.map((category) => (
-              <button
+              <FilterPill
+                active={category === activeCategory}
                 aria-pressed={category === activeCategory}
-                className={category === activeCategory ? "filter-pill active" : "filter-pill"}
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                type="button"
               >
                 {category}
-              </button>
+              </FilterPill>
             ))}
-          </div>
+          </FilterRow>
 
-          <div className="tools-catalog-grid">
+          <div className="tools-page__catalog">
             {filteredTools.map((tool) => (
               <Link
                 aria-label={`Open ${tool.title}`}
-                className="catalog-tool-card"
+                className="tools-page__card"
                 href={`/tools/${tool.slug}`}
                 id={tool.slug}
                 key={tool.slug}
               >
-                <div className="catalog-tool-top">
-                  <span className="catalog-tool-icon">
+                <div className="tools-page__card-top">
+                  <span className="tools-page__card-icon">
                     <ToolIcon name={tool.icon} />
                   </span>
-                  <ArrowUpRightIcon className="catalog-tool-arrow" />
+                  <ArrowUpRightIcon className="tools-page__card-arrow" />
                 </div>
                 <h3>{tool.title}</h3>
                 <p>{tool.description}</p>
-                <div className="catalog-tool-meta">
+                <div className="tools-page__card-meta">
                   <span>{tool.category}</span>
                   <strong>{tool.metric}</strong>
                 </div>

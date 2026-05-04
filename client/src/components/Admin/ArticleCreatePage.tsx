@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Button } from "@/components/Button/Button";
 import type { ArticleLocale, Category } from "@/types/auth";
 
 const LOCALE_LABELS: Record<ArticleLocale, string> = {
@@ -321,9 +322,9 @@ export function ArticleCreatePage() {
         {submitError ? <p className="admin-error">{submitError}</p> : null}
 
         <div className="admin-form-actions">
-          <button className="button" type="submit" disabled={submitting}>
+          <Button type="submit" disabled={submitting}>
             {submitting ? "Publishing…" : "Publish article"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

@@ -14,7 +14,10 @@ import {
   ProfileIcon,
   TagsIcon,
 } from "@/components/Admin/adminIcons";
+import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { SearchIcon } from "@/components/Icons/Icons";
+
+import "./Admin.scss";
 
 type NavItem = {
   href: string;
@@ -60,10 +63,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="admin-shell">
       <aside className="admin-sidebar" aria-label="Admin navigation">
         <div className="admin-sidebar-brand">
-          <Link className="brand" href="/" aria-label="Atlantis Nexus home">
-            <span className="brand-mark">A</span>
-            <span>Atlantis Nexus</span>
-          </Link>
+          <BrandLogo />
         </div>
 
         <nav className="admin-sidebar-nav">

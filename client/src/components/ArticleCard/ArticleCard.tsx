@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ClockIcon } from "@/components/Icons/Icons";
 import type { Article } from "@/types/content";
 
+import "./ArticleCard.scss";
+
 type ArticleCardProps = {
   article: Article;
   eager?: boolean;
@@ -13,7 +15,7 @@ export function ArticleCard({ article, eager = false }: ArticleCardProps) {
   return (
     <Link className="article-card" href={`/article/${article.slug}`}>
       <article>
-        <div className="article-image">
+        <div className="article-card__image">
           <Image
             alt={article.title}
             fill
@@ -21,15 +23,19 @@ export function ArticleCard({ article, eager = false }: ArticleCardProps) {
             sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
             src={article.image}
           />
-          <span className={`tag tag-${article.category.toLowerCase()}`}>{article.category}</span>
+          <span
+            className={`article-card__tag article-card__tag--${article.category.toLowerCase()}`}
+          >
+            {article.category}
+          </span>
         </div>
-        <div className="article-body">
+        <div className="article-card__body">
           <h2>{article.title}</h2>
           <p>{article.excerpt}</p>
-          <div className="article-meta">
+          <div className="article-card__meta">
             <strong>{article.author}</strong>
             <span aria-hidden="true">&middot;</span>
-            <span className="article-read-time">
+            <span className="article-card__read-time">
               <ClockIcon />
               {article.minutes}
             </span>

@@ -33,7 +33,7 @@ async function bootstrap() {
   });
 
   const port = parsePort(config.get<string>("app.port"), 4000);
-  await app.listen(port, "127.0.0.1");
+  await app.listen(port);
 }
 
 void bootstrap();

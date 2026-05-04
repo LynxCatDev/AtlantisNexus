@@ -8,7 +8,10 @@ import { useAuth } from "@/components/Auth/AuthProvider";
 import { GoogleIcon } from "@/components/Auth/GoogleIcon";
 import { PasswordField } from "@/components/Auth/PasswordField";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
+import { Button } from "@/components/Button/Button";
 import { MailIcon, UserIcon } from "@/components/Icons/Icons";
+
+import "./Auth.scss";
 
 export function SignupPage() {
   const router = useRouter();
@@ -109,9 +112,9 @@ export function SignupPage() {
 
             {error ? <p className="auth-error">{error}</p> : null}
 
-            <button className="button auth-submit" type="submit" disabled={submitting}>
+            <Button className="auth-submit" type="submit" disabled={submitting}>
               {submitting ? "Creating account..." : "Create account"}
-            </button>
+            </Button>
 
             <p className="legal-copy">
               By continuing, you agree to our <a href="#">Terms</a> and{" "}
@@ -130,8 +133,8 @@ export function SignupPage() {
         aria-label="Atlantis Nexus community"
       >
         <div className="community-copy">
-          <Link className="brand mini-brand" href="/" aria-label="Atlantis Nexus home">
-            <span className="brand-mark">A</span>
+          <Link className="brand-logo brand-logo--mini" href="/" aria-label="Atlantis Nexus home">
+            <span className="brand-logo__mark">A</span>
             <span>Atlantis Nexus</span>
           </Link>
           <h2>

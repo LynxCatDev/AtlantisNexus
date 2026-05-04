@@ -1,0 +1,17 @@
+@use '../../app/mixins.scss' as *;
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28.8px;
+  margin-top: 52px;
+
+  @include respond-to('laptop') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

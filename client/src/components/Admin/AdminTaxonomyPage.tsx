@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 
 import { PlusIcon, TagsIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { articles } from "@/constants/articles";
 import type { Category } from "@/types/auth";
 
@@ -87,7 +88,7 @@ export function AdminTaxonomyPage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <p className="eyebrow eyebrow-cyan">Taxonomy</p>
+          <Eyebrow className="eyebrow-cyan">Taxonomy</Eyebrow>
           <h1>Categories and tags</h1>
           <p>Main categories are protected. Tags are derived from mocked articles for now.</p>
         </div>

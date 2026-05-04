@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 
 import { ProfileIcon, SparkleIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 
 export function AdminProfilePage() {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ export function AdminProfilePage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <p className="eyebrow eyebrow-cyan">Profile</p>
+          <Eyebrow className="eyebrow-cyan">Profile</Eyebrow>
           <h1>Account settings</h1>
           <p>Profile editing is designed here and will connect once the backend endpoints exist.</p>
         </div>

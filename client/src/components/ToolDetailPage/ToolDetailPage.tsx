@@ -1,9 +1,13 @@
 import Link from "next/link";
 
+import { Button } from "@/components/Button/Button";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { ArrowRightIcon } from "@/components/Icons/Icons";
 import type { ToolCatalogItem } from "@/types/content";
+
+import "./ToolDetailPage.scss";
 
 type ToolDetailPageProps = {
   tool: ToolCatalogItem;
@@ -11,21 +15,21 @@ type ToolDetailPageProps = {
 
 export function ToolDetailPage({ tool }: ToolDetailPageProps) {
   return (
-    <div className="app-frame tools-page">
+    <div className="app-frame">
       <Header activeLabel="Tools" />
-      <main className="tool-detail-main">
-        <Link className="tool-back-link" href="/tools">
+      <main className="tool-detail__main">
+        <Link className="tool-detail__back" href="/tools">
           Back to tools
         </Link>
-        <section className="tool-detail-panel" aria-labelledby="tool-title">
-          <p className="eyebrow">{tool.category}</p>
+        <section className="tool-detail__panel" aria-labelledby="tool-title">
+          <Eyebrow>{tool.category}</Eyebrow>
           <h1 id="tool-title">{tool.title}</h1>
           <p>{tool.description}</p>
-          <div className="tool-detail-actions">
-            <button className="button" type="button">
+          <div className="tool-detail__actions">
+            <Button type="button">
               Launch tool
               <ArrowRightIcon />
-            </button>
+            </Button>
             <span>{tool.metric}</span>
           </div>
         </section>

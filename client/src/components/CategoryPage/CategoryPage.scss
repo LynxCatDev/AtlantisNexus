@@ -1,0 +1,58 @@
+@use '../../app/mixins.scss' as *;
+
+// CategoryPage styles. Originally `.category-main`, `.category-hero`,
+// `.category-grid`. (Also used by TagPage.)
+
+.category-page {
+  &__main {
+    max-width: 1536px;
+    min-height: 72vh;
+    margin: 0 auto;
+    padding: 100px 16px 128px;
+  }
+
+  &__hero {
+    max-width: 896px;
+
+    h1 {
+      margin: 0;
+      color: var(--foreground);
+      font-size: clamp(44.8px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.16px;
+      line-height: 1.04;
+
+      span {
+        background: var(--gradient-aurora);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+
+    > p:not(.eyebrow) {
+      max-width: 640px;
+      margin: 16px 0 0;
+      color: var(--muted-strong);
+      font-size: 16.8px;
+      line-height: 1.6;
+    }
+  }
+
+  &__grid {
+    margin-top: 48px;
+  }
+}
+
+@include respond-to('mobile') {
+  .category-page__main {
+    padding-top: 56px;
+    padding-bottom: 96px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .category-page__hero h1 {
+    font-size: clamp(37.6px, 13vw, 52px);
+  }
+}

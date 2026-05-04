@@ -1,0 +1,45 @@
+@use '../../app/mixins.scss' as *;
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9.6px;
+  flex: 0 0 auto;
+  color: var(--foreground);
+  font-size: 15.04px;
+  font-weight: 800;
+  white-space: nowrap;
+
+  &:hover {
+    color: white;
+
+    .brand-logo__mark {
+      transform: translateY(-1px);
+      box-shadow: 0 0 34px rgba(138, 109, 255, 0.55);
+    }
+  }
+
+  &__mark {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8.8px;
+    background: linear-gradient(135deg, #5a89ff, var(--violet) 58%, #b653ff);
+    color: white;
+    font-size: 12.48px;
+    font-weight: 900;
+    box-shadow: 0 0 24px rgba(138, 109, 255, 0.35);
+  }
+
+  &--mini {
+    display: inline-flex;
+    margin-bottom: 0;
+  }
+}
+
+@include respond-to('reduced-motion') {
+  .brand-logo:hover .brand-logo__mark {
+    transform: none;
+  }
+}

@@ -2,9 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
+import { Button } from "@/components/Button/Button";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import type { ArticleDetail } from "@/types/content";
+
+import "./ArticleDetailPage.scss";
 
 type ArticleDetailPageProps = {
   detail: ArticleDetail;
@@ -14,11 +18,11 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
   const { article } = detail;
 
   return (
-    <div className="app-frame article-page">
+    <div className="app-frame article-detail">
       <Header activeLabel="Articles" />
       <main>
-        <section className="article-hero" aria-labelledby="article-title">
-          <div className="article-hero-media">
+        <section className="article-detail__hero" aria-labelledby="article-title">
+          <div className="article-detail__hero-media">
             <Image
               alt={article.title}
               fill
@@ -26,16 +30,16 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               sizes="100vw"
               src={article.image}
             />
-            <div className="article-hero-overlay" />
+            <div className="article-detail__hero-overlay" />
           </div>
-          <div className="article-hero-content">
-            <div className="article-hero-copy">
-              <p className="eyebrow">{article.category}</p>
+          <div className="article-detail__hero-content">
+            <div className="article-detail__hero-copy">
+              <Eyebrow>{article.category}</Eyebrow>
               <h1 id="article-title">{article.title}</h1>
               <p>{article.excerpt}</p>
-              <div className="article-hero-footer">
-                <div className="author-row">
-                  <span className="avatar">{initials(article.author)}</span>
+              <div className="article-detail__hero-footer">
+                <div className="article-detail__author">
+                  <span className="article-detail__avatar">{initials(article.author)}</span>
                   <div>
                     <strong>{article.author}</strong>
                     <span>
@@ -45,7 +49,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                     </span>
                   </div>
                 </div>
-                <div className="article-actions">
+                <div className="article-detail__actions">
                   <button type="button">Save</button>
                   <button type="button">Share</button>
                 </div>
@@ -54,8 +58,8 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
           </div>
         </section>
 
-        <div className="article-layout">
-          <article className="article-content">
+        <div className="article-detail__layout">
+          <article className="article-detail__content">
             {detail.sections.map((section) => (
               <section id={section.id} key={section.id}>
                 <h2>{section.title}</h2>
@@ -73,7 +77,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               </section>
             ))}
 
-            <div className="article-tags" aria-label="Article tags">
+            <div className="article-detail__tags" aria-label="Article tags">
               {detail.tags.map((tag) => (
                 <Link href={`/tag/${tag}`} key={tag}>
                   #{tag}
@@ -81,24 +85,25 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               ))}
             </div>
 
-            <div className="reaction-row" aria-label="Article reactions">
+            <div className="article-detail__reactions" aria-label="Article reactions">
               <button type="button">Heart {detail.reactions.likes}</button>
               <button type="button">{detail.reactions.comments} comments</button>
             </div>
 
-            <section className="comments-section" aria-labelledby="comments-title">
+            <section className="article-detail__comments" aria-labelledby="comments-title">
               <h2 id="comments-title">Comments</h2>
-              <form className="comment-form">
+              <form className="article-detail__comment-form">
                 <textarea aria-label="Comment" placeholder="Share your thoughts..." />
-                <button className="button" type="submit">
-                  Post comment
-                </button>
+                <Button type="submit">Post comment</Button>
               </form>
 
-              <div className="comment-list">
+              <div className="article-detail__comment-list">
                 {detail.comments.map((comment) => (
-                  <article className="comment-card" key={`${comment.author}-${comment.postedAt}`}>
-                    <span className="avatar">{comment.initials}</span>
+                  <article
+                    className="article-detail__comment"
+                    key={`${comment.author}-${comment.postedAt}`}
+                  >
+                    <span className="article-detail__avatar">{comment.initials}</span>
                     <div>
                       <p>
                         <strong>{comment.author}</strong>
@@ -112,9 +117,9 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
             </section>
           </article>
 
-          <aside className="article-sidebar" aria-label="Article sidebar">
-            <section className="article-side-card">
-              <p className="eyebrow">On this page</p>
+          <aside className="article-detail__sidebar" aria-label="Article sidebar">
+            <section className="article-detail__side-card">
+              <Eyebrow>On this page</Eyebrow>
               <nav>
                 {detail.sections.map((section) => (
                   <a href={`#${section.id}`} key={section.id}>
@@ -124,22 +129,20 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               </nav>
             </section>
 
-            <section className="article-side-card">
-              <p className="eyebrow">Newsletter</p>
+            <section className="article-detail__side-card">
+              <Eyebrow>Newsletter</Eyebrow>
               <h2>Get the weekly digest.</h2>
-              <form className="side-newsletter-form">
+              <form className="article-detail__side-newsletter">
                 <input aria-label="Email address" placeholder="Email" type="email" />
-                <button className="button" type="submit">
-                  Subscribe
-                </button>
+                <Button type="submit">Subscribe</Button>
               </form>
             </section>
           </aside>
         </div>
 
-        <section className="keep-reading" aria-labelledby="keep-reading-title">
+        <section className="article-detail__keep-reading" aria-labelledby="keep-reading-title">
           <h2 id="keep-reading-title">Keep reading</h2>
-          <div className="compact-article-grid">
+          <div className="article-detail__compact-grid">
             {detail.related.map((relatedArticle) => (
               <ArticleCard article={relatedArticle} key={relatedArticle.slug} />
             ))}

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { PencilIcon, PlusIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 
 type AdminArticle = {
   id: string;
@@ -85,7 +86,7 @@ export function AdminArticlesPage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <p className="eyebrow eyebrow-cyan">Articles</p>
+          <Eyebrow className="eyebrow-cyan">Articles</Eyebrow>
           <h1>Editorial library</h1>
           <p>Manage published stories while drafts and scheduling are still being added.</p>
         </div>

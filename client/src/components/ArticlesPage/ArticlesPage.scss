@@ -1,0 +1,44 @@
+@use '../../app/mixins.scss' as *;
+
+// ArticlesPage styles. Originally `.home-main` (page wrapper, also used by
+// HomePage), `.library-hero`. Shared utilities (`.eyebrow`, `.filter-row`,
+// `.filter-pill`, `.article-grid`, `.empty-panel`) remain in globals.scss.
+
+.articles-page {
+  &__main {
+    max-width: 1536px;
+    min-height: 72vh;
+    margin: 0 auto;
+    padding: 100px 16px 192px;
+  }
+
+  &__hero {
+    max-width: 760px;
+
+    h1 {
+      margin: 0;
+      color: var(--foreground);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.16px;
+    }
+
+    > p:last-of-type {
+      max-width: 576px;
+      margin: 13.6px 0 0;
+      color: var(--muted);
+      font-size: 15.2px;
+      line-height: 1.55;
+    }
+  }
+}
+
+@include respond-to('mobile') {
+  .articles-page__main {
+    padding-top: 56px;
+    padding-bottom: 96px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}

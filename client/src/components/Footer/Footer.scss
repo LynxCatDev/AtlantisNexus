@@ -1,0 +1,151 @@
+@use '../../app/mixins.scss' as *;
+
+// Footer styles. Originally `.site-footer`, `.footer-grid`, `.footer-brand`,
+// `.social-links`, `.footer-bottom`, `.footer-language`.
+
+.footer {
+  position: relative;
+  margin-top: 96px;
+  border-top: 1px solid rgba(33, 48, 74, 0.6);
+  background: var(--background);
+
+  &::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: var(--gradient-aurora);
+    opacity: 0.5;
+    content: "";
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 2fr) repeat(3, minmax(140px, 1fr));
+    gap: 40px;
+    max-width: 1536px;
+    margin: 0 auto;
+    padding: 56px 16px;
+
+    h3 {
+      margin: 0 0 20px;
+      color: white;
+      font-size: 13.44px;
+    }
+
+    > div:not(.footer__brand) a {
+      display: block;
+      width: fit-content;
+      margin: 11.2px 0 0;
+      color: var(--muted);
+      font-size: 14.08px;
+
+      &:hover {
+        color: white;
+        transform: none;
+      }
+    }
+  }
+
+  &__brand {
+    grid-column: span 2;
+
+    p {
+      max-width: 416px;
+      margin: 16px 0;
+      color: var(--muted-strong);
+      font-size: 14.72px;
+      line-height: 1.55;
+    }
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    a {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      margin: 0;
+      border-radius: 8px;
+      background: rgba(18, 28, 47, 0.6);
+      color: var(--muted);
+
+      &:hover {
+        background: var(--secondary);
+        color: white;
+        transform: none;
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__language {
+    display: flex;
+    margin-top: 23.2px;
+
+    .language-switch__trigger {
+      min-height: 32px;
+      padding: 0;
+      color: var(--muted-strong);
+    }
+
+    .language-switch__menu {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1536px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    border-top: 1px solid rgba(33, 48, 74, 0.6);
+    color: var(--muted);
+    font-size: 12.8px;
+
+    span:last-child {
+      display: flex;
+      gap: 22.4px;
+    }
+
+    a:hover {
+      color: white;
+      transform: none;
+    }
+  }
+}
+
+@include respond-to('tablet') {
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include respond-to('mobile') {
+  .footer__grid,
+  .footer__bottom {
+    padding-right: 16px;
+    padding-left: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .footer__brand {
+    grid-column: auto;
+  }
+
+  .footer__bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

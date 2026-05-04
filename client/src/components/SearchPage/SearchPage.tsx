@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
+import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
+import { EmptyPanel } from "@/components/EmptyPanel/EmptyPanel";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import {
@@ -21,6 +24,8 @@ import {
 import { articles } from "@/constants/articles";
 import { toolCatalog } from "@/constants/tools";
 import type { ToolIconName } from "@/types/content";
+
+import "./SearchPage.scss";
 
 function ToolIcon({ name }: { name: ToolIconName }) {
   if (name === "image") return <ImageIcon />;
@@ -60,11 +65,11 @@ export function SearchPage() {
   return (
     <div className="app-frame">
       <Header activeLabel="Articles" />
-      <main className="search-main">
-        <section className="search-hero" aria-labelledby="search-title">
-          <p className="eyebrow">Search</p>
+      <main className="search-page__main">
+        <section className="search-page__hero" aria-labelledby="search-title">
+          <Eyebrow>Search</Eyebrow>
           <h1 id="search-title">Find the useful thing.</h1>
-          <label className="search-field">
+          <label className="search-page__field">
             <SearchIcon />
             <input
               autoFocus
@@ -75,47 +80,47 @@ export function SearchPage() {
             />
           </label>
           {!normalizedQuery ? (
-            <p className="search-hint">Try react, elden, ai, or compressor.</p>
+            <p className="search-page__hint">Try react, elden, ai, or compressor.</p>
           ) : null}
         </section>
 
         {normalizedQuery ? (
-          <div className="search-results">
+          <div className="search-page__results">
             <section aria-labelledby="search-articles-title">
               <h2 id="search-articles-title">Articles ({results.articles.length})</h2>
               {results.articles.length > 0 ? (
-                <div className="article-grid search-grid">
+                <ArticleGrid className="search-page__grid">
                   {results.articles.map((article, index) => (
                     <ArticleCard article={article} eager={index < 3} key={article.slug} />
                   ))}
-                </div>
+                </ArticleGrid>
               ) : (
-                <div className="empty-panel empty-panel-compact">
+                <EmptyPanel as="div" compact>
                   <p>No articles matched {query}.</p>
-                </div>
+                </EmptyPanel>
               )}
             </section>
 
             <section aria-labelledby="search-tools-title">
               <h2 id="search-tools-title">Tools ({results.tools.length})</h2>
               {results.tools.length > 0 ? (
-                <div className="tools-catalog-grid search-grid">
+                <div className="tools-page__catalog search-page__grid">
                   {results.tools.map((tool) => (
                     <Link
                       aria-label={`Open ${tool.title}`}
-                      className="catalog-tool-card"
+                      className="tools-page__card"
                       href={`/tools/${tool.slug}`}
                       key={tool.slug}
                     >
-                      <div className="catalog-tool-top">
-                        <span className="catalog-tool-icon">
+                      <div className="tools-page__card-top">
+                        <span className="tools-page__card-icon">
                           <ToolIcon name={tool.icon} />
                         </span>
-                        <ArrowUpRightIcon className="catalog-tool-arrow" />
+                        <ArrowUpRightIcon className="tools-page__card-arrow" />
                       </div>
                       <h3>{tool.title}</h3>
                       <p>{tool.description}</p>
-                      <div className="catalog-tool-meta">
+                      <div className="tools-page__card-meta">
                         <span>{tool.category}</span>
                         <strong>{tool.metric}</strong>
                       </div>
@@ -123,9 +128,9 @@ export function SearchPage() {
                   ))}
                 </div>
               ) : (
-                <div className="empty-panel empty-panel-compact">
+                <EmptyPanel as="div" compact>
                   <p>No tools matched {query}.</p>
-                </div>
+                </EmptyPanel>
               )}
             </section>
           </div>

@@ -1,0 +1,32 @@
+.empty-panel {
+  margin-top: 48px;
+  padding: 36px;
+  border: 1px dashed var(--border-bright);
+  border-radius: 16px;
+  background: rgba(14, 22, 38, 0.62);
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    color: white;
+    font-size: 21.6px;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--muted-strong);
+    line-height: 1.6;
+  }
+
+  h2 + p {
+    margin-top: 10.4px;
+  }
+
+  &--compact {
+    margin-top: 16px;
+    padding: 21.6px;
+  }
+}

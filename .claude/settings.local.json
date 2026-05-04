@@ -8,7 +8,22 @@
       "WebFetch(domain:apex-weave-lab.lovable.app)",
       "Bash(node -e \"const c = require\\('prisma/config'\\); console.log\\(Object.keys\\(c\\)\\);\")",
       "Bash(node -e \"const fs = require\\('fs'\\); const path = require.resolve\\('prisma/config'\\); console.log\\(path\\); console.log\\(fs.readFileSync\\(path.replace\\(/\\\\.js$/, '.d.ts'\\), 'utf8'\\)\\);\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(npx --yes sass --no-source-map src/app/globals.scss /tmp/globals.compiled.css)",
+      "Read(//tmp/**)",
+      "Bash(npx --yes sass --no-source-map src/components/BrandLogo/BrandLogo.scss /tmp/brandlogo.compiled.css)",
+      "Bash(./node_modules/.bin/sass --no-source-map src/components/Header/Header.scss _scsstmp/header.css)",
+      "Bash(./node_modules/.bin/sass --no-source-map src/components/LanguageSwitcher/LanguageSwitcher.scss _scsstmp/lang.css src/components/Footer/Footer.scss _scsstmp/footer.css)",
+      "Bash(./node_modules/.bin/sass --no-source-map src/components/LanguageSwitcher/LanguageSwitcher.scss:_scsstmp/lang.css src/components/Footer/Footer.scss:_scsstmp/footer.css)",
+      "Bash(./node_modules/.bin/sass --no-source-map src/components/Header/Header.scss:_scsstmp/header.css src/components/Footer/Footer.scss:_scsstmp/footer.css src/components/LanguageSwitcher/LanguageSwitcher.scss:_scsstmp/lang.css src/components/ArticleCard/ArticleCard.scss:_scsstmp/articlecard.css src/components/ArticleDetailPage/ArticleDetailPage.scss:_scsstmp/articledetail.css src/components/ArticlesPage/ArticlesPage.scss:_scsstmp/articles.css src/components/HomePage/HomePage.scss:_scsstmp/home.css)",
+      "Bash(npx --yes next build --no-lint)",
+      "Bash(npx --yes next build)",
+      "Bash(mkdir -p _scsstmp)",
+      "Bash(npx --yes sass --no-source-map src/app/mixins.scss _scsstmp/mixins.css)",
+      "Bash(npx --yes sass --no-source-map src/app/globals.scss _scsstmp/globals.css)",
+      "Bash(npx next *)",
+      "PowerShell(Get-ChildItem -Force -Path \"f:\\\\Github Repository Projects\\\\AtlantisNexus\\\\client\" | Where-Object { $_.Name.StartsWith\\(\".env\"\\) } | Format-Table Name, Length, LastWriteTime)",
+      "Bash(./node_modules/.bin/tsc --noEmit)"
     ]
   }
 }

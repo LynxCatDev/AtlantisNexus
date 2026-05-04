@@ -1,0 +1,151 @@
+// Shared Sass mixins. Import in component .scss files via:
+//   @use '../../app/mixins.scss' as *;
+//
+// Provides: layout helpers, brand gradient, fade-in animations, responsive
+// breakpoints. Breakpoint values match the px values already in use across
+// the project (440/680/860/1100 max-width; 640/768/1024 min-width).
+
+// ---------------------------------------------------------------------------
+// Layout helpers
+// ---------------------------------------------------------------------------
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Brand gradients
+// ---------------------------------------------------------------------------
+
+@mixin brand-gradient {
+  background: var(--gradient-primary);
+}
+
+@mixin aurora-gradient {
+  background: var(--gradient-aurora);
+}
+
+// ---------------------------------------------------------------------------
+// Fade-in animations
+// ---------------------------------------------------------------------------
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@mixin fade-in($duration: 0.4s) {
+  animation: fadeIn $duration ease-out backwards;
+}
+
+@mixin fade-in-up($duration: 0.5s) {
+  animation: fadeInUp $duration ease-out backwards;
+}
+
+@mixin fade-in-down($duration: 0.5s) {
+  animation: fadeInDown $duration ease-out backwards;
+}
+
+@mixin fade-in-left($duration: 0.5s) {
+  animation: fadeInLeft $duration ease-out backwards;
+}
+
+@mixin fade-in-right($duration: 0.5s) {
+  animation: fadeInRight $duration ease-out backwards;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive breakpoints
+//
+// Usage:
+//   @include respond-to('mobile') { ... }       // <= 680px
+//   @include respond-to('desktop-up') { ... }   // >= 1024px
+// ---------------------------------------------------------------------------
+
+@mixin respond-to($breakpoint) {
+  // Max-width (desktop-first)
+  @if $breakpoint == 'mobile-sm' {
+    @media (max-width: 440px) { @content; }
+  } @else if $breakpoint == 'mobile' {
+    @media (max-width: 680px) { @content; }
+  } @else if $breakpoint == 'tablet' {
+    @media (max-width: 860px) { @content; }
+  } @else if $breakpoint == 'laptop' {
+    @media (max-width: 1100px) { @content; }
+  }
+
+  // Min-width (mobile-first)
+  @else if $breakpoint == 'tablet-up' {
+    @media (min-width: 640px) { @content; }
+  } @else if $breakpoint == 'laptop-up' {
+    @media (min-width: 768px) { @content; }
+  } @else if $breakpoint == 'desktop-up' {
+    @media (min-width: 1024px) { @content; }
+  }
+
+  // Reduced-motion is global enough to deserve a shorthand.
+  @else if $breakpoint == 'reduced-motion' {
+    @media (prefers-reduced-motion: reduce) { @content; }
+  }
+
+  @else {
+    @error 'Unknown breakpoint `#{$breakpoint}`. Allowed: mobile-sm, mobile, tablet, laptop, tablet-up, laptop-up, desktop-up, reduced-motion.';
+  }
+}

@@ -14,6 +14,7 @@ import {
   TrendUpIcon,
 } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 
 type AdminArticle = {
   id: string;
@@ -83,7 +84,7 @@ export function AdminDashboard() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <p className="eyebrow eyebrow-cyan">Overview</p>
+          <Eyebrow className="eyebrow-cyan">Overview</Eyebrow>
           <h1>Welcome back, {user?.nickname}</h1>
           <p>Here&rsquo;s what&rsquo;s happening across the platform today.</p>
         </div>

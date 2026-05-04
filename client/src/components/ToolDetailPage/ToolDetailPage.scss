@@ -1,0 +1,85 @@
+@use '../../app/mixins.scss' as *;
+
+// ToolDetailPage styles. Originally `.tool-detail-main`, `.tool-back-link`,
+// `.tool-detail-panel`, `.tool-detail-actions`.
+
+.tool-detail {
+  &__main {
+    max-width: 1536px;
+    min-height: 72vh;
+    margin: 0 auto;
+    padding: 96px 16px 128px;
+  }
+
+  &__back {
+    display: inline-flex;
+    margin-bottom: 19.2px;
+    color: var(--muted-strong);
+    font-size: 13.76px;
+    font-weight: 800;
+
+    &:hover {
+      color: var(--cyan);
+    }
+  }
+
+  &__panel {
+    max-width: 960px;
+    border: 1px solid var(--border);
+    border-radius: 14.4px;
+    padding: clamp(24px, 4vw, 43.2px);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(89, 143, 255, 0.16), transparent 288px),
+      var(--surface);
+
+    h1 {
+      margin: 0;
+      color: white;
+      font-size: clamp(35.2px, 5vw, 64px);
+      line-height: 1;
+    }
+
+    > p:not(.eyebrow) {
+      max-width: 680px;
+      margin: 16px 0 0;
+      color: var(--muted-strong);
+      font-size: 16.8px;
+      line-height: 1.6;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+
+    button {
+      gap: 8.8px;
+      min-height: 43.2px;
+      padding: 0 19.2px;
+      color: white;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    span {
+      color: var(--cyan);
+      font-size: 13.76px;
+      font-weight: 900;
+    }
+  }
+}
+
+@include respond-to('mobile') {
+  .tool-detail__main {
+    padding-top: 56px;
+    padding-bottom: 96px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}

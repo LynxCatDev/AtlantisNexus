@@ -1,0 +1,115 @@
+@use '../../app/mixins.scss' as *;
+
+// LanguageSwitcher styles. Originally `.language-switch`, `.language-trigger`,
+// `.language-menu`, `.language-options`, `.language-option`, `.language-code`.
+
+.language-switch {
+  position: relative;
+  flex: 0 0 auto;
+
+  summary {
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8.8px;
+    min-height: 38.4px;
+    border-radius: 10.4px;
+    padding: 0 7.2px;
+    color: var(--muted-strong);
+    font-size: 13.76px;
+    font-weight: 800;
+    outline: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+    }
+
+    svg {
+      width: 17.6px;
+      height: 17.6px;
+      color: #9caaca;
+    }
+  }
+
+  &[open] .language-switch__trigger {
+    color: white;
+  }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + 7.2px);
+    right: 0;
+    z-index: 30;
+    width: 220px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12.8px;
+    background: #0b1221;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+
+    h2 {
+      margin: 0;
+      padding: 16px 16px 13.6px;
+      border-bottom: 1px solid rgba(33, 48, 74, 0.72);
+      color: white;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+  }
+
+  &__options {
+    display: grid;
+    gap: 1.6px;
+    padding: 10.4px;
+  }
+
+  &__option {
+    display: grid;
+    grid-template-columns: 25.6px 1fr 16px;
+    align-items: center;
+    gap: 8.8px;
+    width: 100%;
+    min-height: 40.8px;
+    border: 0;
+    border-radius: 8.8px;
+    padding: 0 12px;
+    background: transparent;
+    color: var(--muted-strong);
+    text-align: left;
+    font-size: 14.88px;
+    font-weight: 800;
+
+    &:hover,
+    &--active {
+      background: #101a2c;
+      color: white;
+    }
+
+    svg {
+      color: #5d8dff;
+    }
+  }
+
+  &__code {
+    color: var(--foreground);
+    font-size: 10.88px;
+    font-weight: 950;
+    text-transform: uppercase;
+  }
+}
+
+@include respond-to('mobile') {
+  .language-switch {
+    margin-left: auto;
+  }
+}
+
+// Footer-specific overrides for the language switch live in Footer.scss.

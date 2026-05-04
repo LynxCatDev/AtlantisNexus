@@ -1,6 +1,9 @@
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { CodeIcon, FileTextIcon, SparkleIcon } from "@/components/Icons/Icons";
+
+import "./AboutPage.scss";
 
 const pillars = [
   {
@@ -24,9 +27,9 @@ export function AboutPage() {
   return (
     <div className="app-frame">
       <Header activeLabel="About" />
-      <main className="about-main">
-        <section className="about-hero" aria-labelledby="about-title">
-          <p className="eyebrow">About Atlantis Nexus</p>
+      <main className="about-page__main">
+        <section className="about-page__hero" aria-labelledby="about-title">
+          <Eyebrow>About Atlantis Nexus</Eyebrow>
           <h1 id="about-title">
             A calmer home for the <span>curious</span>.
           </h1>
@@ -36,12 +39,12 @@ export function AboutPage() {
           </p>
         </section>
 
-        <section className="about-pillars" aria-label="Atlantis Nexus pillars">
+        <section className="about-page__pillars" aria-label="Atlantis Nexus pillars">
           {pillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <article className="about-card" key={pillar.title}>
-                <span className="about-icon">
+              <article className="about-page__card" key={pillar.title}>
+                <span className="about-page__icon">
                   <Icon />
                 </span>
                 <h2>{pillar.title}</h2>
@@ -51,8 +54,8 @@ export function AboutPage() {
           })}
         </section>
 
-        <section className="belief-panel" aria-labelledby="belief-title">
-          <p className="eyebrow">What we believe</p>
+        <section className="about-page__belief" aria-labelledby="belief-title">
+          <Eyebrow>What we believe</Eyebrow>
           <h2 id="belief-title">Signal wins when design gets out of the way.</h2>
           <p>
             We believe a media hub can feel quiet without feeling empty. Articles should

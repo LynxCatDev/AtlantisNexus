@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
+import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
+import { Button } from "@/components/Button/Button";
+import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import {
@@ -19,6 +22,8 @@ import {
 import { articles } from "@/constants/articles";
 import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
 import type { ArticleCategory } from "@/types/content";
+
+import "./HomePage.scss";
 
 const HERO_PILLARS: { tone: ArticleCategory; title: string; description: string }[] = [
   {
@@ -63,9 +68,9 @@ function SectionHeading({
   title: string;
 }) {
   return (
-    <div className="section-heading">
+    <div className="home__section-heading">
       <div>
-        <p className="eyebrow">{eyebrow}</p>
+        <Eyebrow>{eyebrow}</Eyebrow>
         <h2 id={id}>{title}</h2>
       </div>
       <Link href={href}>
@@ -83,11 +88,11 @@ export function HomePage() {
   const aiDevArticles = articles.filter((a) => a.category !== "Gaming").slice(0, 3);
 
   return (
-    <div className="app-frame">
+    <div className="app-frame home">
       <Header />
-      <main className="landing-main">
-        <section className="landing-hero" aria-labelledby="home-title">
-          <p className="release-pill">
+      <main className="home__main">
+        <section className="home__hero" aria-labelledby="home-title">
+          <p className="home__release-pill">
             <SparkleIcon />
             <span>2026 era notes &middot; v1.0</span>
           </p>
@@ -98,16 +103,16 @@ export function HomePage() {
             News, deep guides and field-tested tools across gaming, AI and modern web
             development. One place. Zero noise.
           </p>
-          <div className="hero-actions">
-            <Link className="button hero-primary" href="/articles">
+          <div className="home__hero-actions">
+            <Button className="home__hero-primary" href="/articles">
               Explore articles
               <ArrowRightIcon />
-            </Link>
-            <Link className="hero-secondary" href="/tools">
+            </Button>
+            <Link className="home__hero-secondary" href="/tools">
               Browse tools
             </Link>
           </div>
-          <dl className="hero-metrics" aria-label="Atlantis Nexus metrics">
+          <dl className="home__hero-metrics" aria-label="Atlantis Nexus metrics">
             {heroMetrics.map((metric) => (
               <div key={metric.label}>
                 <dt>{metric.value}</dt>
@@ -117,13 +122,13 @@ export function HomePage() {
           </dl>
         </section>
 
-        <section className="feature-strip" aria-label="Main topics">
+        <section className="home__feature-strip" aria-label="Main topics">
           {HERO_PILLARS.map((pillar) => (
             <article
-              className={`feature-card feature-${pillar.tone.toLowerCase()}`}
+              className={`home__feature home__feature--${pillar.tone.toLowerCase()}`}
               key={pillar.title}
             >
-              <span className="feature-icon">
+              <span className="home__feature-icon">
                 <FeatureIcon category={pillar.tone} />
               </span>
               <h2>{pillar.title}</h2>
@@ -132,16 +137,16 @@ export function HomePage() {
           ))}
         </section>
 
-        <section className="home-section" id="articles" aria-labelledby="featured-title">
+        <section className="home__section" id="articles" aria-labelledby="featured-title">
           <SectionHeading
             eyebrow="Featured story"
             id="featured-title"
             title="This week's pick"
           />
-          <div className="editors-layout">
-            <Link className="editor-card" href={`/article/${featured.slug}`}>
+          <div className="home__editors-layout">
+            <Link className="home__editor-card" href={`/article/${featured.slug}`}>
               <article>
-                <div className="editor-image">
+                <div className="home__editor-image">
                   <Image
                     alt={featured.title}
                     fill
@@ -149,14 +154,16 @@ export function HomePage() {
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     src={featured.image}
                   />
-                  <span className={`tag tag-${featured.category.toLowerCase()}`}>
+                  <span
+                    className={`home__editor-tag home__editor-tag--${featured.category.toLowerCase()}`}
+                  >
                     {featured.category}
                   </span>
                 </div>
-                <div className="editor-body">
+                <div className="home__editor-body">
                   <h2>{featured.title}</h2>
                   <p>{featured.excerpt}</p>
-                  <div className="article-meta">
+                  <div className="home__editor-meta">
                     <strong>{featured.author}</strong>
                     <span aria-hidden="true">&middot;</span>
                     <span>{featured.publishedAt}</span>
@@ -166,15 +173,15 @@ export function HomePage() {
                 </div>
               </article>
             </Link>
-            <div className="side-picks" aria-label="More featured articles">
+            <div className="home__side-picks" aria-label="More featured articles">
               {sidePicks.map((article) => (
                 <Link
                   aria-label={`Read ${article.title}`}
-                  className="side-pick"
+                  className="home__side-pick"
                   href={`/article/${article.slug}`}
                   key={article.slug}
                 >
-                  <div className="side-pick-image">
+                  <div className="home__side-pick-image">
                     <Image alt={article.title} fill sizes="180px" src={article.image} />
                   </div>
                   <div>
@@ -188,53 +195,53 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="home-section" id="gaming" aria-labelledby="arena-title">
+        <section className="home__section" id="gaming" aria-labelledby="arena-title">
           <SectionHeading
             eyebrow="Gaming"
             href="/category/gaming"
             id="arena-title"
             title="Latest from the arena"
           />
-          <div className="article-grid home-article-grid">
+          <ArticleGrid className="home__article-grid">
             {gamingArticles.map((article, index) => (
               <ArticleCard article={article} eager={index === 0} key={article.slug} />
             ))}
-          </div>
+          </ArticleGrid>
         </section>
 
-        <section className="home-section" id="ai" aria-labelledby="builder-title">
+        <section className="home__section" id="ai" aria-labelledby="builder-title">
           <SectionHeading
             eyebrow="AI &amp; Dev"
             id="builder-title"
             title="Build smarter, ship faster"
           />
-          <div className="article-grid home-article-grid">
+          <ArticleGrid className="home__article-grid">
             {aiDevArticles.map((article, index) => (
               <ArticleCard article={article} eager={index === 0} key={article.slug} />
             ))}
-          </div>
+          </ArticleGrid>
         </section>
 
-        <section className="home-section" id="tools" aria-labelledby="tools-title">
+        <section className="home__section" id="tools" aria-labelledby="tools-title">
           <SectionHeading
             eyebrow="Free tools"
             href="/tools"
             id="tools-title"
             title="Useful, fast, no signup"
           />
-          <div className="tool-grid">
+          <div className="home__tool-grid">
             {freeTools.map((tool) => (
-              <Link className="tool-card" href={`/tools/${tool.slug}`} key={tool.slug}>
-                <span className="tool-glow" aria-hidden="true" />
-                <span className="tool-card-top">
-                  <span className="tool-icon">
+              <Link className="home__tool-card" href={`/tools/${tool.slug}`} key={tool.slug}>
+                <span className="home__tool-glow" aria-hidden="true" />
+                <span className="home__tool-card-top">
+                  <span className="home__tool-icon">
                     <HomeToolIcon slug={tool.slug} />
                   </span>
-                  <ArrowUpRightIcon className="tool-card-arrow" />
+                  <ArrowUpRightIcon className="home__tool-card-arrow" />
                 </span>
                 <h3>{tool.title}</h3>
                 <p>{tool.description}</p>
-                <span className="tool-card-meta">
+                <span className="home__tool-card-meta">
                   <span>{tool.type}</span>
                   <strong>{tool.metric}</strong>
                 </span>
@@ -243,7 +250,7 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="topic-panel" aria-label="Trending topics">
+        <section className="home__topic-panel" aria-label="Trending topics">
           <h2>Trending topics</h2>
           <div>
             {trendingTopics.map((topic) => (
@@ -254,20 +261,18 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="newsletter-panel" id="about" aria-labelledby="newsletter-title">
-          <p className="eyebrow">Weekly signal</p>
+        <section className="home__newsletter" id="about" aria-labelledby="newsletter-title">
+          <Eyebrow>Weekly signal</Eyebrow>
           <h2 id="newsletter-title">Signal, never noise.</h2>
           <p>
             One email a week. The best gaming news, AI breakthroughs, and dev essays,
             curated by humans, not algorithms.
           </p>
-          <form className="newsletter-form">
+          <form className="home__newsletter-form">
             <input aria-label="Email address" placeholder="you@domain.com" type="email" />
-            <button className="button" type="submit">
-              Subscribe
-            </button>
+            <Button type="submit">Subscribe</Button>
           </form>
-          <p className="newsletter-note">No spam. Unsubscribe anytime.</p>
+          <p className="home__newsletter-note">No spam. Unsubscribe anytime.</p>
         </section>
       </main>
       <Footer />

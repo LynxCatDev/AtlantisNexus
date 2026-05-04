@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { Button } from "@/components/Button/Button";
 
 export function UserMenu() {
   const { user, status, logout } = useAuth();
@@ -24,18 +25,18 @@ export function UserMenu() {
   }, [open]);
 
   if (status === "loading") {
-    return <span className="user-menu-skeleton" aria-hidden="true" />;
+    return <span className="user-menu__skeleton" aria-hidden="true" />;
   }
 
   if (!user) {
     return (
       <>
-        <Link className="signin-link" href="/signin">
+        <Link className="header__signin" href="/signin">
           Sign in
         </Link>
-        <Link className="button button-small" href="/signup">
+        <Button size="small" href="/signup">
           Get started
-        </Link>
+        </Button>
       </>
     );
   }
@@ -47,31 +48,31 @@ export function UserMenu() {
     <div className="user-menu" ref={wrapRef}>
       <button
         type="button"
-        className="user-menu-trigger"
+        className="user-menu__trigger"
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        <span className="user-avatar" aria-hidden="true">
+        <span className="user-menu__avatar" aria-hidden="true">
           {initial}
         </span>
-        <span className="user-name">{user.nickname}</span>
+        <span className="user-menu__name">{user.nickname}</span>
       </button>
       {open ? (
-        <div className="user-menu-panel" role="menu">
-          <div className="user-menu-head">
+        <div className="user-menu__panel" role="menu">
+          <div className="user-menu__head">
             <strong>{user.nickname}</strong>
             <span>{user.email}</span>
-            <span className={`role-pill role-${user.role.toLowerCase()}`}>{user.role}</span>
+            <span className={`role-pill role-pill--${user.role.toLowerCase()}`}>{user.role}</span>
           </div>
           {isAdmin ? (
-            <Link className="user-menu-item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
+            <Link className="user-menu__item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
               Admin dashboard
             </Link>
           ) : null}
           <button
             type="button"
-            className="user-menu-item user-menu-danger"
+            className="user-menu__item user-menu__item--danger"
             role="menuitem"
             onClick={async () => {
               setOpen(false);

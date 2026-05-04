@@ -6,6 +6,7 @@ import { BrandLogo } from "../BrandLogo/BrandLogo";
 import { SearchIcon } from "../Icons/Icons";
 import { LanguageSwitcher } from "../LanguageSwitcher/LanguageSwitcher";
 import { UserMenu } from "./UserMenu";
+import "./Header.scss";
 
 type HeaderProps = {
   activeLabel?: string;
@@ -13,13 +14,17 @@ type HeaderProps = {
 
 export function Header({ activeLabel }: HeaderProps) {
   return (
-    <header className="site-header">
-      <nav className="nav-shell" aria-label="Primary navigation">
+    <header className="header">
+      <nav className="header__nav" aria-label="Primary navigation">
         <BrandLogo />
-        <div className="nav-links" aria-label="Sections">
+        <div className="header__nav-links" aria-label="Sections">
           {mainNavigation.map((item) => (
             <Link
-              className={item.label === activeLabel ? "nav-link active" : "nav-link"}
+              className={
+                item.label === activeLabel
+                  ? "header__nav-link header__nav-link--active"
+                  : "header__nav-link"
+              }
               href={item.href}
               key={item.label}
             >
@@ -27,10 +32,10 @@ export function Header({ activeLabel }: HeaderProps) {
             </Link>
           ))}
         </div>
-        <Link className="search-box" href="/search">
+        <Link className="header__search" href="/search">
           <SearchIcon />
           <span>Search articles, tools...</span>
-          <kbd>{"\u2318K"}</kbd>
+          <kbd>{"⌘K"}</kbd>
         </Link>
         <LanguageSwitcher />
         <UserMenu />

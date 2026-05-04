@@ -1,0 +1,329 @@
+{
+  "nav": {
+    "articles": "Articles",
+    "gaming": "Gaming",
+    "ai": "AI",
+    "dev": "Dev",
+    "tools": "Tools",
+    "about": "About"
+  },
+  "header": {
+    "searchPlaceholder": "Search articles, tools..."
+  },
+  "userMenu": {
+    "signIn": "Sign in",
+    "getStarted": "Get started",
+    "signOut": "Sign out",
+    "adminDashboard": "Admin dashboard"
+  },
+  "languageSwitcher": {
+    "heading": "Language",
+    "ariaLabel": "Choose language"
+  },
+  "categories": {
+    "Gaming": "Gaming",
+    "AI": "AI",
+    "Dev": "Dev",
+    "All": "All"
+  },
+  "toolCategories": {
+    "All": "All",
+    "Calculators": "Calculators",
+    "Media": "Media",
+    "Developer": "Developer",
+    "AI": "AI"
+  },
+  "home": {
+    "releasePill": "2026 era notes · v1.0",
+    "title": "The hub for",
+    "titleAccent": "gamers, builders",
+    "titleEnd": "and the curious.",
+    "lede": "News, deep guides and field-tested tools across gaming, AI and modern web development. One place. Zero noise.",
+    "exploreArticles": "Explore articles",
+    "browseTools": "Browse tools",
+    "metricsAriaLabel": "Atlantis Nexus metrics",
+    "mainTopicsAriaLabel": "Main topics",
+    "pillarGamingDescription": "News, RPG guides and analysis without the clickbait.",
+    "pillarAiDescription": "Practical AI for builders — tools, agents, systems that ship.",
+    "pillarDevDescription": "React, TypeScript, edge runtimes, architecture that scales.",
+    "viewAll": "View all",
+    "featuredEyebrow": "Featured story",
+    "featuredTitle": "This week's pick",
+    "moreFeaturedAriaLabel": "More featured articles",
+    "readPrefix": "Read",
+    "readSuffix": "read",
+    "gamingEyebrow": "Gaming",
+    "gamingTitle": "Latest from the arena",
+    "aiDevEyebrow": "AI & Dev",
+    "aiDevTitle": "Build smarter, ship faster",
+    "toolsEyebrow": "Free tools",
+    "toolsTitle": "Useful, fast, no signup",
+    "trendingHeading": "Trending topics",
+    "trendingAriaLabel": "Trending topics",
+    "newsletterEyebrow": "Weekly signal",
+    "newsletterTitle": "Signal, never noise.",
+    "newsletterCopy": "One email a week. The best gaming news, AI breakthroughs, and dev essays, curated by humans, not algorithms.",
+    "newsletterPlaceholder": "you@domain.com",
+    "newsletterAriaLabel": "Email address",
+    "subscribe": "Subscribe",
+    "newsletterNote": "No spam. Unsubscribe anytime."
+  },
+  "about": {
+    "eyebrow": "About Atlantis Nexus",
+    "titleStart": "A calmer home for the",
+    "titleAccent": "curious",
+    "titleEnd": ".",
+    "lede": "Atlantis Nexus blends long-form editorial, practical web development notes, gaming coverage, AI systems thinking, and small tools that help readers move.",
+    "pillarsAriaLabel": "Atlantis Nexus pillars",
+    "pillar1Title": "Editorial-first",
+    "pillar1Copy": "Deep stories, clear angles, and context that respects your time.",
+    "pillar2Title": "Tools that ship",
+    "pillar2Copy": "Fast utilities that solve small everyday problems without accounts.",
+    "pillar3Title": "Reader-funded",
+    "pillar3Copy": "Built around curious readers, not feeds designed to exhaust them.",
+    "beliefEyebrow": "What we believe",
+    "beliefTitle": "Signal wins when design gets out of the way.",
+    "beliefCopy1": "We believe a media hub can feel quiet without feeling empty. Articles should help you understand what changed, tools should be available the moment you need them, and every page should make the next step obvious.",
+    "beliefCopy2": "Atlantis Nexus is built for people who read carefully, ship thoughtfully, and still want the web to feel a little electric."
+  },
+  "articlesPage": {
+    "eyebrowAll": "All articles",
+    "headingAll": "The library",
+    "headingCategory": "{category} articles",
+    "lede": "Long reads, news and guides. Filter by topic to dive deeper.",
+    "filtersAriaLabel": "Article filters",
+    "latestAriaLabel": "Latest articles"
+  },
+  "articleCard": {
+    "readTime": "{minutes}"
+  },
+  "articleDetail": {
+    "save": "Save",
+    "share": "Share",
+    "tagsAriaLabel": "Article tags",
+    "reactionsAriaLabel": "Article reactions",
+    "heart": "Heart",
+    "comments": "{count} comments",
+    "commentsHeading": "Comments",
+    "commentPlaceholder": "Share your thoughts...",
+    "commentAriaLabel": "Comment",
+    "postComment": "Post comment",
+    "sidebarAriaLabel": "Article sidebar",
+    "onThisPage": "On this page",
+    "newsletterEyebrow": "Newsletter",
+    "newsletterHeading": "Get the weekly digest.",
+    "emailAriaLabel": "Email address",
+    "emailPlaceholder": "Email",
+    "subscribe": "Subscribe",
+    "keepReading": "Keep reading"
+  },
+  "categoryPage": {
+    "eyebrow": "Category",
+    "titleStart": "Explore",
+    "stories": "{count} stories in this category.",
+    "filtersAriaLabel": "Article filters",
+    "gridAriaLabel": "{category} articles",
+    "emptyTitle": "No articles yet in {category}.",
+    "emptyCopy": "New stories will appear here when the category starts publishing."
+  },
+  "tagPage": {
+    "eyebrow": "Tag",
+    "titleStart": "Browse",
+    "stories": "{count} stories tagged with #{tag}.",
+    "gridAriaLabel": "Articles tagged {tag}",
+    "emptyTitle": "No articles yet for #{tag}.",
+    "emptyCopy": "Try another topic or come back after the next editorial drop."
+  },
+  "searchPage": {
+    "eyebrow": "Search",
+    "title": "Find the useful thing.",
+    "placeholder": "Search articles, tools, tags...",
+    "hint": "Try react, elden, ai, or compressor.",
+    "articlesHeading": "Articles ({count})",
+    "toolsHeading": "Tools ({count})",
+    "noArticles": "No articles matched {query}.",
+    "noTools": "No tools matched {query}.",
+    "openTool": "Open {title}"
+  },
+  "toolsPage": {
+    "eyebrow": "Tools",
+    "titleStart": "Free, fast,",
+    "titleAccent": "no signup",
+    "titleEnd": ".",
+    "lede": "A growing kit of utilities for everyday work. Built for the browser. Your data never leaves your device.",
+    "catalogTitle": "Tool catalogue",
+    "filtersAriaLabel": "Tool filters",
+    "openTool": "Open {title}"
+  },
+  "toolDetail": {
+    "back": "Back to tools",
+    "launch": "Launch tool"
+  },
+  "footer": {
+    "tagline": "A premium media hub for gamers, developers, and tech-curious minds. News, deep guides, and useful tools in one place.",
+    "socialAriaLabel": "Social links",
+    "groupContent": "Content",
+    "groupTools": "Tools",
+    "groupCompany": "Company",
+    "linkAllTools": "All Tools",
+    "linkCalculators": "Calculators",
+    "linkDeveloper": "Developer",
+    "linkMedia": "Media",
+    "linkNewsletter": "Newsletter",
+    "linkContact": "Contact",
+    "linkCareers": "Careers",
+    "copyright": "© 2026 Atlantis Nexus. Built for the curious.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signinTitle": "Sign in",
+    "signinSubtitle": "to your Atlantis Nexus account",
+    "communityTitleStart": "Welcome back to the",
+    "communityTitleAccent": "hub",
+    "communityCopy": "Pick up where you left off — your bookmarks, comments and saved tools are all in sync.",
+    "continueGoogle": "Continue with Google",
+    "signupGoogle": "Sign up with Google",
+    "or": "or",
+    "email": "Email",
+    "emailPlaceholder": "you@domain.com",
+    "password": "Password",
+    "forgot": "Forgot?",
+    "signinButton": "Sign in",
+    "signinButtonLoading": "Signing in...",
+    "signinFailed": "Sign in failed.",
+    "newHere": "New here?",
+    "createAccountLink": "Create an account",
+    "signupTitle": "Create your account",
+    "signupSubtitle": "Free forever. No credit card required.",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "Mira Voss",
+    "passwordHint": "At least 8 characters",
+    "signupButton": "Create account",
+    "signupButtonLoading": "Creating account...",
+    "signupFailed": "Sign up failed.",
+    "legal": "By continuing, you agree to our",
+    "legalTerms": "Terms",
+    "legalAnd": "and",
+    "legalPrivacy": "Privacy Policy",
+    "haveAccount": "Already have an account?",
+    "signinLink": "Sign in",
+    "signupCommunityTitleStart": "Join a community of",
+    "signupCommunityTitleAccent": "builders",
+    "signupBenefit1": "Bookmark articles across devices",
+    "signupBenefit2": "Comment & follow your favorite writers",
+    "signupBenefit3": "Save your tool history",
+    "signupBenefit4": "Early access to new features"
+  },
+  "content": {
+    "metrics": {
+      "articles": "Articles",
+      "freeTools": "Free tools",
+      "monthlyReaders": "Monthly readers"
+    },
+    "usesSuffix": "uses",
+    "sectionTitles": {
+      "introduction": "Introduction",
+      "keyTakeaways": "Key takeaways",
+      "deepDive": "The deep dive",
+      "verdict": "Verdict"
+    },
+    "trendingTopics": {
+      "llmAgents": "LLM Agents",
+      "mediaCareers": "Media Careers",
+      "promptEngineering": "Prompt Engineering",
+      "edgeRuntimes": "Edge Runtimes",
+      "indieDev": "Indie Dev"
+    },
+    "articles": {
+      "elden-ring-nightreign-co-op-souls-era": {
+        "title": "Elden Ring Nightreign — A Deep Dive Into the New Co-Op Souls Era",
+        "excerpt": "FromSoftware reshapes its formula. Here's everything we learned playing 30 hours of the new co-op spinoff."
+      },
+      "shipping-ai-agents-to-production": {
+        "title": "Shipping AI Agents to Production Without Losing Your Mind",
+        "excerpt": "Battle-tested patterns for tool-use, memory, evaluation, and rollout from teams running agents at scale."
+      },
+      "react-19-server-actions-patterns": {
+        "title": "React 19 Server Actions: Patterns That Actually Scale",
+        "excerpt": "Beyond hello-world demos: real architecture for forms, mutations, and progressive enhancement."
+      },
+      "rpgs-defining-2026": {
+        "title": "The 12 RPGs Defining 2026 So Far",
+        "excerpt": "From indie darlings to AAA juggernauts, the role-playing landscape has never been richer."
+      },
+      "rag-is-dead-long-live-rag": {
+        "title": "RAG Is Dead. Long Live RAG.",
+        "excerpt": "Why retrieval still matters in the era of million-token context windows."
+      },
+      "edge-runtime-tradeoffs-2026": {
+        "title": "The Real Tradeoffs of Edge Runtimes in 2026",
+        "excerpt": "Cold starts, cost, locality: a sober look at when the edge actually wins."
+      }
+    },
+    "tools": {
+      "image-compressor": {
+        "title": "Image Compressor",
+        "description": "Shrink JPG, PNG, and WebP without visible quality loss."
+      },
+      "color-converter": {
+        "title": "Color Converter",
+        "description": "Convert between HEX, RGB, HSL, OKLCH instantly."
+      },
+      "percentage-calculator": {
+        "title": "Percentage Calculator",
+        "description": "Quick percentage, increase, decrease and ratio math."
+      },
+      "json-formatter": {
+        "title": "JSON Formatter",
+        "description": "Beautify, validate and minify JSON in one click."
+      },
+      "ai-token-counter": {
+        "title": "AI Token Counter",
+        "description": "Count tokens for GPT, Claude, Gemini before you send."
+      },
+      "markdown-preview": {
+        "title": "Markdown Preview",
+        "description": "Live preview your README with GitHub-flavored MD."
+      },
+      "image-converter": {
+        "title": "Image Converter",
+        "description": "Convert PNG, JPG, WebP, AVIF — no upload required."
+      },
+      "regex-tester": {
+        "title": "Regex Tester",
+        "description": "Test, explain and debug regular expressions."
+      }
+    },
+    "comments": {
+      "default": [
+        { "author": "Ren K.", "postedAt": "2h ago", "body": "This is the kind of context I wanted, not just another quick headline." },
+        { "author": "Aria T.", "postedAt": "5h ago", "body": "The practical angle here is what makes it useful." }
+      ],
+      "elden": [
+        { "author": "Ren K.", "postedAt": "2h ago", "body": "Best Souls take I've read in months. The point about coordination is dead-on." },
+        { "author": "Aria T.", "postedAt": "5h ago", "body": "Genuinely excited now. Was skeptical the co-op pivot would water down the tension." }
+      ]
+    },
+    "eldenDetail": {
+      "intro": "The reveal felt inevitable, and yet it landed with the same gut-punch every FromSoftware reveal does. Nightreign is not just an Elden Ring expansion. It is a re-imagining of the formula, refracted through co-op, run-based progression, and a tighter loop than the studio has ever shipped.",
+      "bullet1": "Three-player runs replace the open-world wander.",
+      "bullet2": "Procedural Limveld biomes keep encounters fresh.",
+      "bullet3": "Boss roster pulls from across Souls history.",
+      "deep1": "After thirty hours in the press preview build, the moment-to-moment combat retains the deliberate, weighty rhythm of Elden Ring while the run structure injects the kind of variance that Hades fans will find familiar. Each night cycle escalates pressure in a way that quietly teaches you to trust your party.",
+      "deep2": "Class identity is the other big swing. Each of the eight Nightfarers feels distinct enough to demand actual coordination, not the loose three-player chaos we have seen in older co-op experiments.",
+      "quote": "We did not want a new world. We wanted players to see the old one with new eyes.",
+      "verdict": "Nightreign is a confident, surprising left turn. If FromSoftware can keep the meta-progression honest and the netcode clean at launch, this becomes one of 2026's defining co-op experiences."
+    },
+    "genericDetail": {
+      "intro": "{title} sits right at the center of what Atlantis Nexus tracks: practical shifts, clear analysis, and enough context to make the next decision easier.",
+      "bullet1": "The topic is moving faster than casual coverage suggests.",
+      "bullet2": "The strongest ideas are already showing up in production work.",
+      "bullet3": "The useful pattern is less hype, more repeatable process.",
+      "deep1Suffix": "The interesting part is not the headline itself, but the way teams and players adapt once the first wave of excitement fades. That is where durable habits, better tooling, and stronger taste start to matter.",
+      "quote": "Useful coverage should make the signal easier to act on.",
+      "verdict": "This is worth watching closely, especially as the first real users push past launch-day assumptions."
+    }
+  }
+}

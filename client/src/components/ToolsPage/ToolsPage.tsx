@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -19,6 +20,7 @@ import {
   RegexIcon,
 } from "@/components/Icons/Icons";
 import { toolCatalog, toolCategories } from "@/constants/tools";
+import { useToolContent } from "@/i18n/content";
 import type { ToolCategory, ToolIconName } from "@/types/content";
 
 import "./ToolsPage.scss";
@@ -58,7 +60,12 @@ function ToolIcon({ name }: { name: ToolIconName }) {
 }
 
 export function ToolsPage() {
+  const t = useTranslations("toolsPage");
+  const tCat = useTranslations("toolCategories");
+  const tContent = useTranslations("content");
+  const tc = useToolContent();
   const [activeCategory, setActiveCategory] = useState<ToolFilter>("All");
+  const localizedMetric = (value: string) => value.replace(/uses/i, tContent("usesSuffix"));
 
   const filteredTools = useMemo(() => {
     if (activeCategory === "All") {
@@ -73,21 +80,19 @@ export function ToolsPage() {
       <Header activeLabel="Tools" />
       <main className="tools-page__main">
         <section className="tools-page__hero" aria-labelledby="tools-title">
-          <Eyebrow>Tools</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h1 id="tools-title">
-            Free, fast, <span>no signup</span>.
+            {t("titleStart")} <span>{t("titleAccent")}</span>
+            {t("titleEnd")}
           </h1>
-          <p>
-            A growing kit of utilities for everyday work. Built for the browser. Your
-            data never leaves your device.
-          </p>
+          <p>{t("lede")}</p>
         </section>
 
         <section aria-labelledby="tools-catalog-title">
           <h2 className="sr-only" id="tools-catalog-title">
-            Tool catalogue
+            {t("catalogTitle")}
           </h2>
-          <FilterRow className="tools-page__filter-row" aria-label="Tool filters">
+          <FilterRow className="tools-page__filter-row" aria-label={t("filtersAriaLabel")}>
             {toolCategories.map((category) => (
               <FilterPill
                 active={category === activeCategory}
@@ -95,34 +100,37 @@ export function ToolsPage() {
                 key={category}
                 onClick={() => setActiveCategory(category)}
               >
-                {category}
+                {tCat(category)}
               </FilterPill>
             ))}
           </FilterRow>
 
           <div className="tools-page__catalog">
-            {filteredTools.map((tool) => (
-              <Link
-                aria-label={`Open ${tool.title}`}
-                className="tools-page__card"
-                href={`/tools/${tool.slug}`}
-                id={tool.slug}
-                key={tool.slug}
-              >
-                <div className="tools-page__card-top">
-                  <span className="tools-page__card-icon">
-                    <ToolIcon name={tool.icon} />
-                  </span>
-                  <ArrowUpRightIcon className="tools-page__card-arrow" />
-                </div>
-                <h3>{tool.title}</h3>
-                <p>{tool.description}</p>
-                <div className="tools-page__card-meta">
-                  <span>{tool.category}</span>
-                  <strong>{tool.metric}</strong>
-                </div>
-              </Link>
-            ))}
+            {filteredTools.map((tool) => {
+              const title = tc.title(tool.slug, tool.title);
+              return (
+                <Link
+                  aria-label={t("openTool", { title })}
+                  className="tools-page__card"
+                  href={`/tools/${tool.slug}`}
+                  id={tool.slug}
+                  key={tool.slug}
+                >
+                  <div className="tools-page__card-top">
+                    <span className="tools-page__card-icon">
+                      <ToolIcon name={tool.icon} />
+                    </span>
+                    <ArrowUpRightIcon className="tools-page__card-arrow" />
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{tc.description(tool.slug, tool.description)}</p>
+                  <div className="tools-page__card-meta">
+                    <span>{tCat(tool.category)}</span>
+                    <strong>{localizedMetric(tool.metric)}</strong>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
       </main>

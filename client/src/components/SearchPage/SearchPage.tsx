@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
@@ -23,6 +24,7 @@ import {
 } from "@/components/Icons/Icons";
 import { articles } from "@/constants/articles";
 import { toolCatalog } from "@/constants/tools";
+import { useArticleContent, useToolContent } from "@/i18n/content";
 import type { ToolIconName } from "@/types/content";
 
 import "./SearchPage.scss";
@@ -40,8 +42,14 @@ function ToolIcon({ name }: { name: ToolIconName }) {
 }
 
 export function SearchPage() {
+  const t = useTranslations("searchPage");
+  const tToolCat = useTranslations("toolCategories");
+  const tContent = useTranslations("content");
+  const ac = useArticleContent();
+  const tc = useToolContent();
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
+  const localizedMetric = (value: string) => value.replace(/uses/i, tContent("usesSuffix"));
 
   const results = useMemo(() => {
     if (!normalizedQuery) {
@@ -49,17 +57,22 @@ export function SearchPage() {
     }
 
     return {
-      articles: articles.filter((article) =>
-        `${article.title} ${article.excerpt} ${article.tags.join(" ")}`
+      articles: articles.filter((article) => {
+        const title = ac.title(article.slug, article.title);
+        const excerpt = ac.excerpt(article.slug, article.excerpt);
+        return `${title} ${excerpt} ${article.title} ${article.excerpt} ${article.tags.join(" ")}`
           .toLowerCase()
-          .includes(normalizedQuery),
-      ),
-      tools: toolCatalog.filter((tool) =>
-        `${tool.title} ${tool.description} ${tool.category}`
+          .includes(normalizedQuery);
+      }),
+      tools: toolCatalog.filter((tool) => {
+        const title = tc.title(tool.slug, tool.title);
+        const description = tc.description(tool.slug, tool.description);
+        return `${title} ${description} ${tool.title} ${tool.description} ${tool.category}`
           .toLowerCase()
-          .includes(normalizedQuery),
-      ),
+          .includes(normalizedQuery);
+      }),
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [normalizedQuery]);
 
   return (
@@ -67,27 +80,29 @@ export function SearchPage() {
       <Header activeLabel="Articles" />
       <main className="search-page__main">
         <section className="search-page__hero" aria-labelledby="search-title">
-          <Eyebrow>Search</Eyebrow>
-          <h1 id="search-title">Find the useful thing.</h1>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <h1 id="search-title">{t("title")}</h1>
           <label className="search-page__field">
             <SearchIcon />
             <input
               autoFocus
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search articles, tools, tags..."
+              placeholder={t("placeholder")}
               type="search"
               value={query}
             />
           </label>
           {!normalizedQuery ? (
-            <p className="search-page__hint">Try react, elden, ai, or compressor.</p>
+            <p className="search-page__hint">{t("hint")}</p>
           ) : null}
         </section>
 
         {normalizedQuery ? (
           <div className="search-page__results">
             <section aria-labelledby="search-articles-title">
-              <h2 id="search-articles-title">Articles ({results.articles.length})</h2>
+              <h2 id="search-articles-title">
+                {t("articlesHeading", { count: results.articles.length })}
+              </h2>
               {results.articles.length > 0 ? (
                 <ArticleGrid className="search-page__grid">
                   {results.articles.map((article, index) => (
@@ -96,40 +111,45 @@ export function SearchPage() {
                 </ArticleGrid>
               ) : (
                 <EmptyPanel as="div" compact>
-                  <p>No articles matched {query}.</p>
+                  <p>{t("noArticles", { query })}</p>
                 </EmptyPanel>
               )}
             </section>
 
             <section aria-labelledby="search-tools-title">
-              <h2 id="search-tools-title">Tools ({results.tools.length})</h2>
+              <h2 id="search-tools-title">
+                {t("toolsHeading", { count: results.tools.length })}
+              </h2>
               {results.tools.length > 0 ? (
                 <div className="tools-page__catalog search-page__grid">
-                  {results.tools.map((tool) => (
-                    <Link
-                      aria-label={`Open ${tool.title}`}
-                      className="tools-page__card"
-                      href={`/tools/${tool.slug}`}
-                      key={tool.slug}
-                    >
-                      <div className="tools-page__card-top">
-                        <span className="tools-page__card-icon">
-                          <ToolIcon name={tool.icon} />
-                        </span>
-                        <ArrowUpRightIcon className="tools-page__card-arrow" />
-                      </div>
-                      <h3>{tool.title}</h3>
-                      <p>{tool.description}</p>
-                      <div className="tools-page__card-meta">
-                        <span>{tool.category}</span>
-                        <strong>{tool.metric}</strong>
-                      </div>
-                    </Link>
-                  ))}
+                  {results.tools.map((tool) => {
+                    const title = tc.title(tool.slug, tool.title);
+                    return (
+                      <Link
+                        aria-label={t("openTool", { title })}
+                        className="tools-page__card"
+                        href={`/tools/${tool.slug}`}
+                        key={tool.slug}
+                      >
+                        <div className="tools-page__card-top">
+                          <span className="tools-page__card-icon">
+                            <ToolIcon name={tool.icon} />
+                          </span>
+                          <ArrowUpRightIcon className="tools-page__card-arrow" />
+                        </div>
+                        <h3>{title}</h3>
+                        <p>{tc.description(tool.slug, tool.description)}</p>
+                        <div className="tools-page__card-meta">
+                          <span>{tToolCat(tool.category)}</span>
+                          <strong>{localizedMetric(tool.metric)}</strong>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               ) : (
                 <EmptyPanel as="div" compact>
-                  <p>No tools matched {query}.</p>
+                  <p>{t("noTools", { query })}</p>
                 </EmptyPanel>
               )}
             </section>

@@ -1,7 +1,13 @@
-import type { LanguageOption } from "@/types/content";
+import type { Locale } from "@/i18n/config";
+
+export type LanguageOption = {
+  locale: Locale;
+  label: string;
+  short: string;
+};
 
 export const languages: LanguageOption[] = [
-  { code: "GB", label: "English", short: "EN", active: true },
-  { code: "RU", label: "Русский", short: "RU", active: false },
-  { code: "RO", label: "Română", short: "RO", active: false },
+  { locale: "en", label: "English", short: "EN" },
+  { locale: "ru", label: "Русский", short: "RU" },
+  { locale: "ro", label: "Română", short: "RO" },
 ];

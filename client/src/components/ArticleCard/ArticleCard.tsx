@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { ClockIcon } from "@/components/Icons/Icons";
+import { useArticleContent } from "@/i18n/content";
 import type { Article } from "@/types/content";
 
 import "./ArticleCard.scss";
@@ -12,12 +14,17 @@ type ArticleCardProps = {
 };
 
 export function ArticleCard({ article, eager = false }: ArticleCardProps) {
+  const tCat = useTranslations("categories");
+  const ac = useArticleContent();
+  const title = ac.title(article.slug, article.title);
+  const excerpt = ac.excerpt(article.slug, article.excerpt);
+
   return (
     <Link className="article-card" href={`/article/${article.slug}`}>
       <article>
         <div className="article-card__image">
           <Image
-            alt={article.title}
+            alt={title}
             fill
             loading={eager ? "eager" : "lazy"}
             sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
@@ -26,12 +33,12 @@ export function ArticleCard({ article, eager = false }: ArticleCardProps) {
           <span
             className={`article-card__tag article-card__tag--${article.category.toLowerCase()}`}
           >
-            {article.category}
+            {tCat(article.category)}
           </span>
         </div>
         <div className="article-card__body">
-          <h2>{article.title}</h2>
-          <p>{article.excerpt}</p>
+          <h2>{title}</h2>
+          <p>{excerpt}</p>
           <div className="article-card__meta">
             <strong>{article.author}</strong>
             <span aria-hidden="true">&middot;</span>

@@ -46,6 +46,7 @@ export type Metric = {
 
 export type NavItem = {
   label: string;
+  labelKey?: string;
   href: string;
 };
 
@@ -82,13 +83,6 @@ export type ToolCatalogItem = {
   category: ToolCategory;
   metric: string;
   icon: ToolIconName;
-};
-
-export type LanguageOption = {
-  code: string;
-  label: string;
-  short: string;
-  active: boolean;
 };
 
 export type FooterLinkGroup = {

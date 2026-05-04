@@ -1,0 +1,329 @@
+{
+  "nav": {
+    "articles": "Articole",
+    "gaming": "Gaming",
+    "ai": "AI",
+    "dev": "Dev",
+    "tools": "Unelte",
+    "about": "Despre"
+  },
+  "header": {
+    "searchPlaceholder": "Caută articole, unelte..."
+  },
+  "userMenu": {
+    "signIn": "Conectare",
+    "getStarted": "Începe",
+    "signOut": "Deconectare",
+    "adminDashboard": "Panou admin"
+  },
+  "languageSwitcher": {
+    "heading": "Limbă",
+    "ariaLabel": "Alege limba"
+  },
+  "categories": {
+    "Gaming": "Gaming",
+    "AI": "AI",
+    "Dev": "Dev",
+    "All": "Toate"
+  },
+  "toolCategories": {
+    "All": "Toate",
+    "Calculators": "Calculatoare",
+    "Media": "Media",
+    "Developer": "Dezvoltatori",
+    "AI": "AI"
+  },
+  "home": {
+    "releasePill": "Note era 2026 · v1.0",
+    "title": "Centrul pentru",
+    "titleAccent": "gameri, creatori",
+    "titleEnd": "și curioși.",
+    "lede": "Știri, ghiduri detaliate și unelte testate în domeniul gaming, AI și dezvoltare web modernă. Un singur loc. Zero zgomot.",
+    "exploreArticles": "Explorează articole",
+    "browseTools": "Vezi uneltele",
+    "metricsAriaLabel": "Statistici Atlantis Nexus",
+    "mainTopicsAriaLabel": "Subiecte principale",
+    "pillarGamingDescription": "Știri, ghiduri RPG și analize fără clickbait.",
+    "pillarAiDescription": "AI practic pentru creatori — unelte, agenți, sisteme care funcționează.",
+    "pillarDevDescription": "React, TypeScript, edge runtimes, arhitectură care scalează.",
+    "viewAll": "Vezi tot",
+    "featuredEyebrow": "Articol promovat",
+    "featuredTitle": "Alegerea săptămânii",
+    "moreFeaturedAriaLabel": "Mai multe articole promovate",
+    "readPrefix": "Citește",
+    "readSuffix": "lectură",
+    "gamingEyebrow": "Gaming",
+    "gamingTitle": "Cele mai noi din arenă",
+    "aiDevEyebrow": "AI și Dev",
+    "aiDevTitle": "Construiește mai inteligent, lansează mai rapid",
+    "toolsEyebrow": "Unelte gratuite",
+    "toolsTitle": "Utile, rapide, fără cont",
+    "trendingHeading": "În tendințe",
+    "trendingAriaLabel": "Subiecte populare",
+    "newsletterEyebrow": "Semnalul săptămânal",
+    "newsletterTitle": "Semnal, niciodată zgomot.",
+    "newsletterCopy": "Un email pe săptămână. Cele mai bune știri de gaming, descoperiri AI și eseuri de dezvoltare, alese de oameni, nu de algoritmi.",
+    "newsletterPlaceholder": "you@domain.com",
+    "newsletterAriaLabel": "Adresă de email",
+    "subscribe": "Abonează-te",
+    "newsletterNote": "Fără spam. Te poți dezabona oricând."
+  },
+  "about": {
+    "eyebrow": "Despre Atlantis Nexus",
+    "titleStart": "O casă mai liniștită pentru cei",
+    "titleAccent": "curioși",
+    "titleEnd": ".",
+    "lede": "Atlantis Nexus combină articole de fond, note practice de dezvoltare web, acoperire gaming, gândire sistemică AI și unelte mici care îi ajută pe cititori să avanseze.",
+    "pillarsAriaLabel": "Pilonii Atlantis Nexus",
+    "pillar1Title": "Editorial pe primul loc",
+    "pillar1Copy": "Povești de profunzime, unghiuri clare și context care îți respectă timpul.",
+    "pillar2Title": "Unelte care funcționează",
+    "pillar2Copy": "Utilități rapide care rezolvă probleme zilnice — fără conturi.",
+    "pillar3Title": "Susținut de cititori",
+    "pillar3Copy": "Construit pentru cititori curioși, nu pentru fluxuri menite să-i epuizeze.",
+    "beliefEyebrow": "În ce credem",
+    "beliefTitle": "Semnalul câștigă când designul se dă la o parte.",
+    "beliefCopy1": "Credem că un hub media poate fi liniștit fără să fie gol. Articolele te ajută să înțelegi ce s-a schimbat, uneltele sunt acolo când ai nevoie, iar fiecare pagină face următorul pas evident.",
+    "beliefCopy2": "Atlantis Nexus este construit pentru cei care citesc atent, lansează cu grijă și totuși vor ca webul să aibă puțină scânteie."
+  },
+  "articlesPage": {
+    "eyebrowAll": "Toate articolele",
+    "headingAll": "Biblioteca",
+    "headingCategory": "Articole {category}",
+    "lede": "Lecturi lungi, știri și ghiduri. Filtrează după subiect ca să aprofundezi.",
+    "filtersAriaLabel": "Filtre articole",
+    "latestAriaLabel": "Cele mai noi articole"
+  },
+  "articleCard": {
+    "readTime": "{minutes}"
+  },
+  "articleDetail": {
+    "save": "Salvează",
+    "share": "Distribuie",
+    "tagsAriaLabel": "Etichete articol",
+    "reactionsAriaLabel": "Reacții articol",
+    "heart": "Inimă",
+    "comments": "{count} comentarii",
+    "commentsHeading": "Comentarii",
+    "commentPlaceholder": "Împărtășește gândurile tale...",
+    "commentAriaLabel": "Comentariu",
+    "postComment": "Trimite",
+    "sidebarAriaLabel": "Panou lateral articol",
+    "onThisPage": "Pe această pagină",
+    "newsletterEyebrow": "Newsletter",
+    "newsletterHeading": "Primește rezumatul săptămânal.",
+    "emailAriaLabel": "Adresă de email",
+    "emailPlaceholder": "Email",
+    "subscribe": "Abonează-te",
+    "keepReading": "Continuă lectura"
+  },
+  "categoryPage": {
+    "eyebrow": "Categorie",
+    "titleStart": "Explorează",
+    "stories": "{count} povești în această categorie.",
+    "filtersAriaLabel": "Filtre articole",
+    "gridAriaLabel": "Articole {category}",
+    "emptyTitle": "Încă nu sunt articole în {category}.",
+    "emptyCopy": "Poveștile noi vor apărea aici când categoria începe să publice."
+  },
+  "tagPage": {
+    "eyebrow": "Etichetă",
+    "titleStart": "Răsfoiește",
+    "stories": "{count} povești cu eticheta #{tag}.",
+    "gridAriaLabel": "Articole cu eticheta {tag}",
+    "emptyTitle": "Încă nu sunt articole pentru #{tag}.",
+    "emptyCopy": "Încearcă alt subiect sau revino după următoarea ediție editorială."
+  },
+  "searchPage": {
+    "eyebrow": "Căutare",
+    "title": "Găsește lucrul util.",
+    "placeholder": "Caută articole, unelte, etichete...",
+    "hint": "Încearcă react, elden, ai sau compressor.",
+    "articlesHeading": "Articole ({count})",
+    "toolsHeading": "Unelte ({count})",
+    "noArticles": "Niciun articol pentru {query}.",
+    "noTools": "Nicio unealtă pentru {query}.",
+    "openTool": "Deschide {title}"
+  },
+  "toolsPage": {
+    "eyebrow": "Unelte",
+    "titleStart": "Gratuite, rapide,",
+    "titleAccent": "fără cont",
+    "titleEnd": ".",
+    "lede": "Un set în creștere de utilități pentru munca zilnică. Direct în browser. Datele tale nu părăsesc dispozitivul.",
+    "catalogTitle": "Catalog de unelte",
+    "filtersAriaLabel": "Filtre unelte",
+    "openTool": "Deschide {title}"
+  },
+  "toolDetail": {
+    "back": "Înapoi la unelte",
+    "launch": "Lansează unealta"
+  },
+  "footer": {
+    "tagline": "Un hub media premium pentru gameri, dezvoltatori și minți curioase. Știri, ghiduri detaliate și unelte utile, într-un singur loc.",
+    "socialAriaLabel": "Rețele sociale",
+    "groupContent": "Conținut",
+    "groupTools": "Unelte",
+    "groupCompany": "Companie",
+    "linkAllTools": "Toate uneltele",
+    "linkCalculators": "Calculatoare",
+    "linkDeveloper": "Dezvoltatori",
+    "linkMedia": "Media",
+    "linkNewsletter": "Newsletter",
+    "linkContact": "Contact",
+    "linkCareers": "Cariere",
+    "copyright": "© 2026 Atlantis Nexus. Construit pentru cei curioși.",
+    "privacy": "Confidențialitate",
+    "terms": "Termeni",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signinTitle": "Conectare",
+    "signinSubtitle": "în contul tău Atlantis Nexus",
+    "communityTitleStart": "Bine ai revenit în",
+    "communityTitleAccent": "hub",
+    "communityCopy": "Continuă de unde ai rămas — favoritele, comentariile și uneltele salvate sunt sincronizate.",
+    "continueGoogle": "Continuă cu Google",
+    "signupGoogle": "Înscrie-te cu Google",
+    "or": "sau",
+    "email": "Email",
+    "emailPlaceholder": "you@domain.com",
+    "password": "Parolă",
+    "forgot": "Ai uitat?",
+    "signinButton": "Conectare",
+    "signinButtonLoading": "Se conectează...",
+    "signinFailed": "Conectarea a eșuat.",
+    "newHere": "Prima dată aici?",
+    "createAccountLink": "Creează un cont",
+    "signupTitle": "Creează-ți contul",
+    "signupSubtitle": "Gratuit pentru totdeauna. Fără card.",
+    "displayName": "Nume afișat",
+    "displayNamePlaceholder": "Mira Voss",
+    "passwordHint": "Cel puțin 8 caractere",
+    "signupButton": "Creează cont",
+    "signupButtonLoading": "Se creează...",
+    "signupFailed": "Înregistrarea a eșuat.",
+    "legal": "Continuând, ești de acord cu",
+    "legalTerms": "Termenii",
+    "legalAnd": "și",
+    "legalPrivacy": "Politica de confidențialitate",
+    "haveAccount": "Ai deja un cont?",
+    "signinLink": "Conectare",
+    "signupCommunityTitleStart": "Alătură-te comunității de",
+    "signupCommunityTitleAccent": "creatori",
+    "signupBenefit1": "Salvează articole pe toate dispozitivele",
+    "signupBenefit2": "Comentează și urmărește autorii preferați",
+    "signupBenefit3": "Salvează istoricul uneltelor",
+    "signupBenefit4": "Acces timpuriu la funcții noi"
+  },
+  "content": {
+    "metrics": {
+      "articles": "Articole",
+      "freeTools": "Unelte gratuite",
+      "monthlyReaders": "Cititori lunari"
+    },
+    "usesSuffix": "folosiri",
+    "sectionTitles": {
+      "introduction": "Introducere",
+      "keyTakeaways": "Idei principale",
+      "deepDive": "În profunzime",
+      "verdict": "Verdict"
+    },
+    "trendingTopics": {
+      "llmAgents": "Agenți LLM",
+      "mediaCareers": "Cariere media",
+      "promptEngineering": "Inginerie de prompt",
+      "edgeRuntimes": "Edge runtimes",
+      "indieDev": "Dezvoltare indie"
+    },
+    "articles": {
+      "elden-ring-nightreign-co-op-souls-era": {
+        "title": "Elden Ring Nightreign — analiză detaliată a noii ere co-op Souls",
+        "excerpt": "FromSoftware reinventează formula. Tot ce am învățat după 30 de ore în noul spin-off cooperativ."
+      },
+      "shipping-ai-agents-to-production": {
+        "title": "Cum lansezi agenți AI în producție fără să-ți pierzi mințile",
+        "excerpt": "Modele testate pentru utilizarea uneltelor, memorie, evaluare și lansare, de la echipe care rulează agenți la scară."
+      },
+      "react-19-server-actions-patterns": {
+        "title": "React 19 Server Actions: modele care chiar scalează",
+        "excerpt": "Dincolo de demo-uri hello-world: arhitectură reală pentru formulare, mutații și progressive enhancement."
+      },
+      "rpgs-defining-2026": {
+        "title": "Cele 12 RPG-uri care definesc anul 2026",
+        "excerpt": "De la perle indie la titani AAA, peisajul rolurilor n-a fost niciodată mai bogat."
+      },
+      "rag-is-dead-long-live-rag": {
+        "title": "RAG a murit. Trăiască RAG.",
+        "excerpt": "De ce regăsirea contează în continuare în era ferestrelor de context cu milioane de tokeni."
+      },
+      "edge-runtime-tradeoffs-2026": {
+        "title": "Compromisurile reale ale edge runtimes în 2026",
+        "excerpt": "Cold starts, costuri, localitate: o privire sobră asupra momentelor în care edge câștigă cu adevărat."
+      }
+    },
+    "tools": {
+      "image-compressor": {
+        "title": "Compresor de imagini",
+        "description": "Reduce JPG, PNG și WebP fără pierdere vizibilă de calitate."
+      },
+      "color-converter": {
+        "title": "Convertor de culori",
+        "description": "Convertește instant între HEX, RGB, HSL, OKLCH."
+      },
+      "percentage-calculator": {
+        "title": "Calculator de procente",
+        "description": "Procente, creșteri, scăderi și raporturi rapide."
+      },
+      "json-formatter": {
+        "title": "Formator JSON",
+        "description": "Înfrumusețează, validează și minifică JSON dintr-un clic."
+      },
+      "ai-token-counter": {
+        "title": "Numărător token AI",
+        "description": "Numără tokeni pentru GPT, Claude, Gemini înainte să trimiți."
+      },
+      "markdown-preview": {
+        "title": "Previzualizare Markdown",
+        "description": "Previzualizare live a README-ului în GitHub-flavored MD."
+      },
+      "image-converter": {
+        "title": "Convertor de imagini",
+        "description": "Convertește PNG, JPG, WebP, AVIF — fără upload."
+      },
+      "regex-tester": {
+        "title": "Tester regex",
+        "description": "Testează, explică și depanează expresii regulate."
+      }
+    },
+    "comments": {
+      "default": [
+        { "author": "Ren K.", "postedAt": "acum 2h", "body": "Exact contextul pe care îl voiam — nu un alt titlu rapid." },
+        { "author": "Aria T.", "postedAt": "acum 5h", "body": "Unghiul practic e ceea ce face materialul util." }
+      ],
+      "elden": [
+        { "author": "Ren K.", "postedAt": "acum 2h", "body": "Cea mai bună analiză Souls din ultimele luni. Punctul despre coordonare e exact." },
+        { "author": "Aria T.", "postedAt": "acum 5h", "body": "Acum chiar mă entuziasmează. Eram sceptic că trecerea la co-op va dilua tensiunea." }
+      ]
+    },
+    "eldenDetail": {
+      "intro": "Anunțul părea inevitabil, totuși a aterizat cu lovitura aceea în plex specifică oricărui anunț FromSoftware. Nightreign nu e doar o expansiune Elden Ring. E o reinventare a formulei prin co-op, progresie pe runde și un loop mai strâns decât a livrat vreodată studioul.",
+      "bullet1": "Runde de trei jucători înlocuiesc rătăcirea în lumea deschisă.",
+      "bullet2": "Biomele procedurale Limveld păstrează întâlnirile proaspete.",
+      "bullet3": "Lista de bossi adună tot ce a făcut istoria Souls.",
+      "deep1": "După treizeci de ore în build-ul de presă, lupta moment-cu-moment păstrează ritmul greu și deliberat din Elden Ring, în timp ce structura pe runde injectează o variație familiară fanilor Hades. Fiecare ciclu de noapte ridică tensiunea într-un fel care te învață, încet, să ai încredere în echipă.",
+      "deep2": "Identitatea claselor e celălalt punct mare. Fiecare dintre cei opt Nightfari e suficient de distinct încât să ceară coordonare reală, nu haosul liber de trei jucători din experimentele co-op anterioare.",
+      "quote": "Nu am vrut o lume nouă. Am vrut ca jucătorii să o vadă pe cea veche cu alți ochi.",
+      "verdict": "Nightreign e o cotitură încrezătoare și surprinzătoare. Dacă FromSoftware menține meta-progresia onestă și netcode-ul curat la lansare, devine una dintre experiențele co-op definitorii ale lui 2026."
+    },
+    "genericDetail": {
+      "intro": "„{title}” se află exact în centrul a ceea ce urmărește Atlantis Nexus: schimbări practice, analiză clară și suficient context pentru a face următoarea decizie mai ușoară.",
+      "bullet1": "Subiectul evoluează mai rapid decât sugerează acoperirea ocazională.",
+      "bullet2": "Cele mai puternice idei apar deja în munca de producție.",
+      "bullet3": "Modelul util înseamnă mai puțin hype și mai mult proces repetabil.",
+      "deep1Suffix": "Partea interesantă nu e titlul în sine, ci modul în care echipele și jucătorii se adaptează după ce primul val de entuziasm trece. Acolo încep să conteze obiceiurile durabile, uneltele mai bune și gustul mai bun.",
+      "quote": "O acoperire utilă ar trebui să facă semnalul mai ușor de transformat în acțiune.",
+      "verdict": "Merită urmărit îndeaproape, mai ales pe măsură ce primii utilizatori reali depășesc presupunerile de la lansare."
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
 import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
 import { EmptyPanel } from "@/components/EmptyPanel/EmptyPanel";
@@ -14,23 +16,25 @@ type TagPageProps = {
 };
 
 export function TagPage({ articles, tag }: TagPageProps) {
+  const t = useTranslations("tagPage");
+
   return (
     <div className="app-frame">
       <Header activeLabel="Articles" />
       <main className="tag-page__main">
         <section className="tag-page__hero" aria-labelledby="tag-title">
-          <Eyebrow>Tag</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h1 id="tag-title">
-            Browse <span>#{tag}</span>
+            {t("titleStart")} <span>#{tag}</span>
           </h1>
-          <p>{articles.length} stories tagged with #{tag}.</p>
+          <p>{t("stories", { count: articles.length, tag })}</p>
         </section>
 
         {articles.length > 0 ? (
           <ArticleGrid
             as="section"
             className="tag-page__grid"
-            aria-label={`Articles tagged ${tag}`}
+            aria-label={t("gridAriaLabel", { tag })}
           >
             {articles.map((article, index) => (
               <ArticleCard article={article} eager={index < 3} key={article.slug} />
@@ -38,8 +42,8 @@ export function TagPage({ articles, tag }: TagPageProps) {
           </ArticleGrid>
         ) : (
           <EmptyPanel>
-            <h2>No articles yet for #{tag}.</h2>
-            <p>Try another topic or come back after the next editorial drop.</p>
+            <h2>{t("emptyTitle", { tag })}</h2>
+            <p>{t("emptyCopy")}</p>
           </EmptyPanel>
         )}
       </main>

@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
 import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -16,12 +18,18 @@ type ArticlesPageProps = {
 };
 
 export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
+  const t = useTranslations("articlesPage");
+  const tCat = useTranslations("categories");
+
   const filteredArticles =
     activeCategory === "All"
       ? articles
       : articles.filter((article) => article.category === activeCategory);
-  const heading = activeCategory === "All" ? "The library" : `${activeCategory} articles`;
-  const eyebrow = activeCategory === "All" ? "All articles" : activeCategory;
+  const heading =
+    activeCategory === "All"
+      ? t("headingAll")
+      : t("headingCategory", { category: tCat(activeCategory) });
+  const eyebrow = activeCategory === "All" ? t("eyebrowAll") : tCat(activeCategory);
 
   return (
     <div className="app-frame">
@@ -30,8 +38,8 @@ export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
         <section className="articles-page__hero" aria-labelledby="library-title">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 id="library-title">{heading}</h1>
-          <p>Long reads, news and guides. Filter by topic to dive deeper.</p>
-          <FilterRow aria-label="Article filters">
+          <p>{t("lede")}</p>
+          <FilterRow aria-label={t("filtersAriaLabel")}>
             {articleCategories.map((category) => (
               <FilterPill
                 active={category === activeCategory}
@@ -39,13 +47,13 @@ export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
                 href={getArticleCategoryHref(category)}
                 key={category}
               >
-                {category}
+                {tCat(category)}
               </FilterPill>
             ))}
           </FilterRow>
         </section>
 
-        <ArticleGrid as="section" id="articles" aria-label="Latest articles">
+        <ArticleGrid as="section" id="articles" aria-label={t("latestAriaLabel")}>
           {filteredArticles.map((article, index) => (
             <ArticleCard article={article} eager={index < 3} key={article.title} />
           ))}

@@ -24,7 +24,14 @@
       "Bash(npx next *)",
       "PowerShell(Get-ChildItem -Force -Path \"f:\\\\Github Repository Projects\\\\AtlantisNexus\\\\client\" | Where-Object { $_.Name.StartsWith\\(\".env\"\\) } | Format-Table Name, Length, LastWriteTime)",
       "Bash(./node_modules/.bin/tsc --noEmit)",
-      "Bash(echo \"EXIT=$?\")"
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(powershell -Command \"Get-Content 'F:\\\\AI\\\\claude\\\\projects\\\\f--Github-Repository-Projects-AtlantisNexus\\\\63c2792b-b318-4dae-be89-0b13b2773b30.jsonl' | Select-Object -Last 30\")",
+      "PowerShell($lines = Get-Content 'F:\\\\AI\\\\claude\\\\projects\\\\f--Github-Repository-Projects-AtlantisNexus\\\\63c2792b-b318-4dae-be89-0b13b2773b30.jsonl'; Write-Output \"Total: $\\($lines.Count\\)\"; $lines | Select-Object -Last 3)",
+      "PowerShell($lines = Get-Content 'F:\\\\AI\\\\claude\\\\projects\\\\f--Github-Repository-Projects-AtlantisNexus\\\\63c2792b-b318-4dae-be89-0b13b2773b30.jsonl'; $userPrompts = $lines | Where-Object { $_ -match '\"type\":\"user\"' -and $_ -notmatch '\"tool_result\"' -and $_ -notmatch '\"tool_use_id\"' }; Write-Output \"User prompts count: $\\($userPrompts.Count\\)\"; $userPrompts | Select-Object -Last 5)",
+      "PowerShell($lines = Get-Content 'F:\\\\AI\\\\claude\\\\projects\\\\f--Github-Repository-Projects-AtlantisNexus\\\\63c2792b-b318-4dae-be89-0b13b2773b30.jsonl'; $userPrompts = $lines | Where-Object { $_ -match '\"type\":\"user\"' -and $_ -notmatch '\"tool_result\"' -and $_ -notmatch '\"tool_use_id\"' -and $_ -notmatch '\"isCompactSummary\":true' -and $_ -notmatch 'local-command' -and $_ -notmatch 'isMeta' }; $userPrompts | Select-Object -Last 8 | ForEach-Object { \\($_ | ConvertFrom-Json\\).message.content | ConvertTo-Json -Depth 3 -Compress; Write-Output \"---\" })",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(node_modules/.bin/next build *)",
+      "Bash(./node_modules/.bin/next build *)"
     ]
   }
 }

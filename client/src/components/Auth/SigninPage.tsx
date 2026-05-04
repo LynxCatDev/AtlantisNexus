@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
@@ -16,6 +17,7 @@ import "./Auth.scss";
 export function SigninPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,7 @@ export function SigninPage() {
       router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign in failed.");
+      setError(err instanceof Error ? err.message : t("signinFailed"));
       setSubmitting(false);
     }
   };
@@ -45,12 +47,9 @@ export function SigninPage() {
             <span>Atlantis Nexus</span>
           </Link>
           <h2>
-            Welcome back to the <span>hub</span>.
+            {t("communityTitleStart")} <span>{t("communityTitleAccent")}</span>.
           </h2>
-          <p>
-            Pick up where you left off &mdash; your bookmarks, comments and saved tools are all
-            in sync.
-          </p>
+          <p>{t("communityCopy")}</p>
         </div>
       </section>
 
@@ -59,27 +58,27 @@ export function SigninPage() {
           <BrandLogo className="auth-brand" />
 
           <div className="auth-heading">
-            <h1 id="sign-in-title">Sign in</h1>
-            <p>to your Atlantis Nexus account</p>
+            <h1 id="sign-in-title">{t("signinTitle")}</h1>
+            <p>{t("signinSubtitle")}</p>
           </div>
 
           <form className="auth-form" onSubmit={onSubmit} noValidate>
             <button className="google-button" type="button" disabled>
               <GoogleIcon />
-              Continue with Google
+              {t("continueGoogle")}
             </button>
 
             <div className="divider">
-              <span>or</span>
+              <span>{t("or")}</span>
             </div>
 
             <label className="field">
-              <span>Email</span>
+              <span>{t("email")}</span>
               <span className="input-wrap">
                 <MailIcon />
                 <input
                   name="email"
-                  placeholder="you@domain.com"
+                  placeholder={t("emailPlaceholder")}
                   type="email"
                   autoComplete="email"
                   required
@@ -91,8 +90,8 @@ export function SigninPage() {
 
             <label className="field">
               <span className="field-row">
-                <span>Password</span>
-                <a href="#">Forgot?</a>
+                <span>{t("password")}</span>
+                <a href="#">{t("forgot")}</a>
               </span>
               <PasswordField
                 name="password"
@@ -107,13 +106,13 @@ export function SigninPage() {
             {error ? <p className="auth-error">{error}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
-              {submitting ? "Signing in..." : "Sign in"}
+              {submitting ? t("signinButtonLoading") : t("signinButton")}
             </Button>
           </form>
 
           <p className="auth-switch">
-            New here?{" "}
-            <Link href="/signup">Create an account</Link>
+            {t("newHere")}{" "}
+            <Link href="/signup">{t("createAccountLink")}</Link>
           </p>
         </div>
       </section>

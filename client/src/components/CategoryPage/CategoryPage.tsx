@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
 import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
 import { EmptyPanel } from "@/components/EmptyPanel/EmptyPanel";
@@ -16,17 +18,21 @@ type CategoryPageProps = {
 };
 
 export function CategoryPage({ articles, category }: CategoryPageProps) {
+  const t = useTranslations("categoryPage");
+  const tCat = useTranslations("categories");
+  const localizedCategory = tCat(category);
+
   return (
     <div className="app-frame">
       <Header activeLabel={category} />
       <main className="category-page__main">
         <section className="category-page__hero" aria-labelledby="category-title">
-          <Eyebrow>Category</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h1 id="category-title">
-            Explore <span>{category}</span>
+            {t("titleStart")} <span>{localizedCategory}</span>
           </h1>
-          <p>{articles.length} stories in this category.</p>
-          <FilterRow aria-label="Article filters">
+          <p>{t("stories", { count: articles.length })}</p>
+          <FilterRow aria-label={t("filtersAriaLabel")}>
             {articleCategories.map((filterCategory) => (
               <FilterPill
                 active={filterCategory === category}
@@ -34,7 +40,7 @@ export function CategoryPage({ articles, category }: CategoryPageProps) {
                 href={getArticleCategoryHref(filterCategory)}
                 key={filterCategory}
               >
-                {filterCategory}
+                {tCat(filterCategory)}
               </FilterPill>
             ))}
           </FilterRow>
@@ -44,7 +50,7 @@ export function CategoryPage({ articles, category }: CategoryPageProps) {
           <ArticleGrid
             as="section"
             className="category-page__grid"
-            aria-label={`${category} articles`}
+            aria-label={t("gridAriaLabel", { category: localizedCategory })}
           >
             {articles.map((article, index) => (
               <ArticleCard article={article} eager={index < 3} key={article.slug} />
@@ -52,8 +58,8 @@ export function CategoryPage({ articles, category }: CategoryPageProps) {
           </ArticleGrid>
         ) : (
           <EmptyPanel>
-            <h2>No articles yet in {category}.</h2>
-            <p>New stories will appear here when the category starts publishing.</p>
+            <h2>{t("emptyTitle", { category: localizedCategory })}</h2>
+            <p>{t("emptyCopy")}</p>
           </EmptyPanel>
         )}
       </main>

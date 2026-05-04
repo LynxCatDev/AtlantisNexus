@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
@@ -16,6 +17,7 @@ import "./Auth.scss";
 export function SignupPage() {
   const router = useRouter();
   const { register } = useAuth();
+  const t = useTranslations("auth");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +38,7 @@ export function SignupPage() {
       router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign up failed.");
+      setError(err instanceof Error ? err.message : t("signupFailed"));
       setSubmitting(false);
     }
   };
@@ -48,27 +50,27 @@ export function SignupPage() {
           <BrandLogo className="auth-brand" />
 
           <div className="auth-heading">
-            <h1 id="create-account-title">Create your account</h1>
-            <p>Free forever. No credit card required.</p>
+            <h1 id="create-account-title">{t("signupTitle")}</h1>
+            <p>{t("signupSubtitle")}</p>
           </div>
 
           <form className="auth-form" onSubmit={onSubmit} noValidate>
             <button className="google-button" type="button" disabled>
               <GoogleIcon />
-              Sign up with Google
+              {t("signupGoogle")}
             </button>
 
             <div className="divider">
-              <span>or</span>
+              <span>{t("or")}</span>
             </div>
 
             <label className="field">
-              <span>Display name</span>
+              <span>{t("displayName")}</span>
               <span className="input-wrap">
                 <UserIcon />
                 <input
                   name="nickname"
-                  placeholder="Mira Voss"
+                  placeholder={t("displayNamePlaceholder")}
                   type="text"
                   autoComplete="nickname"
                   required
@@ -81,12 +83,12 @@ export function SignupPage() {
             </label>
 
             <label className="field">
-              <span>Email</span>
+              <span>{t("email")}</span>
               <span className="input-wrap">
                 <MailIcon />
                 <input
                   name="email"
-                  placeholder="you@domain.com"
+                  placeholder={t("emailPlaceholder")}
                   type="email"
                   autoComplete="email"
                   required
@@ -97,10 +99,10 @@ export function SignupPage() {
             </label>
 
             <label className="field">
-              <span>Password</span>
+              <span>{t("password")}</span>
               <PasswordField
                 name="password"
-                placeholder="At least 8 characters"
+                placeholder={t("passwordHint")}
                 autoComplete="new-password"
                 required
                 minLength={8}
@@ -113,17 +115,17 @@ export function SignupPage() {
             {error ? <p className="auth-error">{error}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
-              {submitting ? "Creating account..." : "Create account"}
+              {submitting ? t("signupButtonLoading") : t("signupButton")}
             </Button>
 
             <p className="legal-copy">
-              By continuing, you agree to our <a href="#">Terms</a> and{" "}
-              <a href="#">Privacy Policy</a>.
+              {t("legal")} <a href="#">{t("legalTerms")}</a> {t("legalAnd")}{" "}
+              <a href="#">{t("legalPrivacy")}</a>.
             </p>
           </form>
 
           <p className="auth-switch">
-            Already have an account? <Link href="/signin">Sign in</Link>
+            {t("haveAccount")} <Link href="/signin">{t("signinLink")}</Link>
           </p>
         </div>
       </section>
@@ -138,13 +140,13 @@ export function SignupPage() {
             <span>Atlantis Nexus</span>
           </Link>
           <h2>
-            Join a community of <span>builders</span>.
+            {t("signupCommunityTitleStart")} <span>{t("signupCommunityTitleAccent")}</span>.
           </h2>
           <ul>
-            <li>Bookmark articles across devices</li>
-            <li>Comment &amp; follow your favorite writers</li>
-            <li>Save your tool history</li>
-            <li>Early access to new features</li>
+            <li>{t("signupBenefit1")}</li>
+            <li>{t("signupBenefit2")}</li>
+            <li>{t("signupBenefit3")}</li>
+            <li>{t("signupBenefit4")}</li>
           </ul>
         </div>
       </section>

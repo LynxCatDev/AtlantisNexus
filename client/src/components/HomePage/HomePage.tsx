@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
 import { ArticleGrid } from "@/components/ArticleGrid/ArticleGrid";
@@ -21,27 +22,31 @@ import {
 } from "@/components/Icons/Icons";
 import { articles } from "@/constants/articles";
 import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
+import { useArticleContent, useToolContent } from "@/i18n/content";
 import type { ArticleCategory } from "@/types/content";
 
-import "./HomePage.scss";
+const HERO_METRIC_KEYS: Record<string, "articles" | "freeTools" | "monthlyReaders"> = {
+  Articles: "articles",
+  "Free tools": "freeTools",
+  "Monthly readers": "monthlyReaders",
+};
 
-const HERO_PILLARS: { tone: ArticleCategory; title: string; description: string }[] = [
-  {
-    tone: "Gaming",
-    title: "Gaming",
-    description: "News, RPG guides and analysis without the clickbait.",
-  },
-  {
-    tone: "AI",
-    title: "AI",
-    description: "Practical AI for builders — tools, agents, systems that ship.",
-  },
-  {
-    tone: "Dev",
-    title: "Dev",
-    description: "React, TypeScript, edge runtimes, architecture that scales.",
-  },
-];
+const TOOL_TYPE_KEYS: Record<string, "Calculators" | "Media" | "Developer" | "AI"> = {
+  Calculators: "Calculators",
+  Media: "Media",
+  Developer: "Developer",
+  AI: "AI",
+};
+
+const TRENDING_KEYS: Record<string, "llmAgents" | "mediaCareers" | "promptEngineering" | "edgeRuntimes" | "indieDev"> = {
+  "LLM Agents": "llmAgents",
+  "Media Careers": "mediaCareers",
+  "Prompt Engineering": "promptEngineering",
+  "Edge Runtimes": "edgeRuntimes",
+  "Indie Dev": "indieDev",
+};
+
+import "./HomePage.scss";
 
 function FeatureIcon({ category }: { category: ArticleCategory }) {
   if (category === "Gaming") return <GamepadIcon />;
@@ -56,36 +61,42 @@ function HomeToolIcon({ slug }: { slug: string }) {
   return <BracesIcon />;
 }
 
-function SectionHeading({
-  eyebrow,
-  href = "/articles",
-  id,
-  title,
-}: {
-  eyebrow: string;
-  href?: string;
-  id: string;
-  title: string;
-}) {
-  return (
-    <div className="home__section-heading">
-      <div>
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 id={id}>{title}</h2>
-      </div>
-      <Link href={href}>
-        View all
-        <ArrowRightIcon />
-      </Link>
-    </div>
-  );
-}
-
 export function HomePage() {
+  const t = useTranslations("home");
+  const tCat = useTranslations("categories");
+  const tToolCat = useTranslations("toolCategories");
+  const tMetrics = useTranslations("content.metrics");
+  const tTrending = useTranslations("content.trendingTopics");
+  const tContent = useTranslations("content");
+  const ac = useArticleContent();
+  const tc = useToolContent();
   const featured = articles[0];
   const sidePicks = articles.slice(1, 4);
   const gamingArticles = articles.filter((a) => a.category === "Gaming").slice(0, 3);
   const aiDevArticles = articles.filter((a) => a.category !== "Gaming").slice(0, 3);
+
+  const localizedMetric = (label: string) => {
+    const key = HERO_METRIC_KEYS[label];
+    return key ? tMetrics(key) : label;
+  };
+
+  const localizedMetricValue = (value: string) =>
+    value.replace(/uses/i, tContent("usesSuffix"));
+
+  const localizedTopic = (topic: string) => {
+    const key = TRENDING_KEYS[topic];
+    return key ? tTrending(key) : topic;
+  };
+
+  const heroPillars: Array<{
+    tone: ArticleCategory;
+    title: string;
+    description: string;
+  }> = [
+    { tone: "Gaming", title: tCat("Gaming"), description: t("pillarGamingDescription") },
+    { tone: "AI", title: tCat("AI"), description: t("pillarAiDescription") },
+    { tone: "Dev", title: tCat("Dev"), description: t("pillarDevDescription") },
+  ];
 
   return (
     <div className="app-frame home">
@@ -94,39 +105,36 @@ export function HomePage() {
         <section className="home__hero" aria-labelledby="home-title">
           <p className="home__release-pill">
             <SparkleIcon />
-            <span>2026 era notes &middot; v1.0</span>
+            <span>{t("releasePill")}</span>
           </p>
           <h1 id="home-title">
-            The hub for <span>gamers, builders</span> and the curious.
+            {t("title")} <span>{t("titleAccent")}</span> {t("titleEnd")}
           </h1>
-          <p>
-            News, deep guides and field-tested tools across gaming, AI and modern web
-            development. One place. Zero noise.
-          </p>
+          <p>{t("lede")}</p>
           <div className="home__hero-actions">
             <Button className="home__hero-primary" href="/articles">
-              Explore articles
+              {t("exploreArticles")}
               <ArrowRightIcon />
             </Button>
             <Link className="home__hero-secondary" href="/tools">
-              Browse tools
+              {t("browseTools")}
             </Link>
           </div>
-          <dl className="home__hero-metrics" aria-label="Atlantis Nexus metrics">
+          <dl className="home__hero-metrics" aria-label={t("metricsAriaLabel")}>
             {heroMetrics.map((metric) => (
               <div key={metric.label}>
                 <dt>{metric.value}</dt>
-                <dd>{metric.label}</dd>
+                <dd>{localizedMetric(metric.label)}</dd>
               </div>
             ))}
           </dl>
         </section>
 
-        <section className="home__feature-strip" aria-label="Main topics">
-          {HERO_PILLARS.map((pillar) => (
+        <section className="home__feature-strip" aria-label={t("mainTopicsAriaLabel")}>
+          {heroPillars.map((pillar) => (
             <article
               className={`home__feature home__feature--${pillar.tone.toLowerCase()}`}
-              key={pillar.title}
+              key={pillar.tone}
             >
               <span className="home__feature-icon">
                 <FeatureIcon category={pillar.tone} />
@@ -138,11 +146,16 @@ export function HomePage() {
         </section>
 
         <section className="home__section" id="articles" aria-labelledby="featured-title">
-          <SectionHeading
-            eyebrow="Featured story"
-            id="featured-title"
-            title="This week's pick"
-          />
+          <div className="home__section-heading">
+            <div>
+              <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
+              <h2 id="featured-title">{t("featuredTitle")}</h2>
+            </div>
+            <Link href="/articles">
+              {t("viewAll")}
+              <ArrowRightIcon />
+            </Link>
+          </div>
           <div className="home__editors-layout">
             <Link className="home__editor-card" href={`/article/${featured.slug}`}>
               <article>
@@ -157,12 +170,12 @@ export function HomePage() {
                   <span
                     className={`home__editor-tag home__editor-tag--${featured.category.toLowerCase()}`}
                   >
-                    {featured.category}
+                    {tCat(featured.category)}
                   </span>
                 </div>
                 <div className="home__editor-body">
-                  <h2>{featured.title}</h2>
-                  <p>{featured.excerpt}</p>
+                  <h2>{ac.title(featured.slug, featured.title)}</h2>
+                  <p>{ac.excerpt(featured.slug, featured.excerpt)}</p>
                   <div className="home__editor-meta">
                     <strong>{featured.author}</strong>
                     <span aria-hidden="true">&middot;</span>
@@ -173,35 +186,42 @@ export function HomePage() {
                 </div>
               </article>
             </Link>
-            <div className="home__side-picks" aria-label="More featured articles">
-              {sidePicks.map((article) => (
-                <Link
-                  aria-label={`Read ${article.title}`}
-                  className="home__side-pick"
-                  href={`/article/${article.slug}`}
-                  key={article.slug}
-                >
-                  <div className="home__side-pick-image">
-                    <Image alt={article.title} fill sizes="180px" src={article.image} />
-                  </div>
-                  <div>
-                    <span>{article.category}</span>
-                    <h3>{article.title}</h3>
-                    <p>{article.minutes} read</p>
-                  </div>
-                </Link>
-              ))}
+            <div className="home__side-picks" aria-label={t("moreFeaturedAriaLabel")}>
+              {sidePicks.map((article) => {
+                const title = ac.title(article.slug, article.title);
+                return (
+                  <Link
+                    aria-label={`${t("readPrefix")} ${title}`}
+                    className="home__side-pick"
+                    href={`/article/${article.slug}`}
+                    key={article.slug}
+                  >
+                    <div className="home__side-pick-image">
+                      <Image alt={title} fill sizes="180px" src={article.image} />
+                    </div>
+                    <div>
+                      <span>{tCat(article.category)}</span>
+                      <h3>{title}</h3>
+                      <p>{article.minutes} {t("readSuffix")}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
 
         <section className="home__section" id="gaming" aria-labelledby="arena-title">
-          <SectionHeading
-            eyebrow="Gaming"
-            href="/category/gaming"
-            id="arena-title"
-            title="Latest from the arena"
-          />
+          <div className="home__section-heading">
+            <div>
+              <Eyebrow>{t("gamingEyebrow")}</Eyebrow>
+              <h2 id="arena-title">{t("gamingTitle")}</h2>
+            </div>
+            <Link href="/category/gaming">
+              {t("viewAll")}
+              <ArrowRightIcon />
+            </Link>
+          </div>
           <ArticleGrid className="home__article-grid">
             {gamingArticles.map((article, index) => (
               <ArticleCard article={article} eager={index === 0} key={article.slug} />
@@ -210,11 +230,16 @@ export function HomePage() {
         </section>
 
         <section className="home__section" id="ai" aria-labelledby="builder-title">
-          <SectionHeading
-            eyebrow="AI &amp; Dev"
-            id="builder-title"
-            title="Build smarter, ship faster"
-          />
+          <div className="home__section-heading">
+            <div>
+              <Eyebrow>{t("aiDevEyebrow")}</Eyebrow>
+              <h2 id="builder-title">{t("aiDevTitle")}</h2>
+            </div>
+            <Link href="/articles">
+              {t("viewAll")}
+              <ArrowRightIcon />
+            </Link>
+          </div>
           <ArticleGrid className="home__article-grid">
             {aiDevArticles.map((article, index) => (
               <ArticleCard article={article} eager={index === 0} key={article.slug} />
@@ -223,12 +248,16 @@ export function HomePage() {
         </section>
 
         <section className="home__section" id="tools" aria-labelledby="tools-title">
-          <SectionHeading
-            eyebrow="Free tools"
-            href="/tools"
-            id="tools-title"
-            title="Useful, fast, no signup"
-          />
+          <div className="home__section-heading">
+            <div>
+              <Eyebrow>{t("toolsEyebrow")}</Eyebrow>
+              <h2 id="tools-title">{t("toolsTitle")}</h2>
+            </div>
+            <Link href="/tools">
+              {t("viewAll")}
+              <ArrowRightIcon />
+            </Link>
+          </div>
           <div className="home__tool-grid">
             {freeTools.map((tool) => (
               <Link className="home__tool-card" href={`/tools/${tool.slug}`} key={tool.slug}>
@@ -239,40 +268,41 @@ export function HomePage() {
                   </span>
                   <ArrowUpRightIcon className="home__tool-card-arrow" />
                 </span>
-                <h3>{tool.title}</h3>
-                <p>{tool.description}</p>
+                <h3>{tc.title(tool.slug, tool.title)}</h3>
+                <p>{tc.description(tool.slug, tool.description)}</p>
                 <span className="home__tool-card-meta">
-                  <span>{tool.type}</span>
-                  <strong>{tool.metric}</strong>
+                  <span>{tToolCat(TOOL_TYPE_KEYS[tool.type] ?? "Developer")}</span>
+                  <strong>{localizedMetricValue(tool.metric)}</strong>
                 </span>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="home__topic-panel" aria-label="Trending topics">
-          <h2>Trending topics</h2>
+        <section className="home__topic-panel" aria-label={t("trendingAriaLabel")}>
+          <h2>{t("trendingHeading")}</h2>
           <div>
             {trendingTopics.map((topic) => (
               <Link href="/articles" key={topic}>
-                #{topic}
+                #{localizedTopic(topic)}
               </Link>
             ))}
           </div>
         </section>
 
         <section className="home__newsletter" id="about" aria-labelledby="newsletter-title">
-          <Eyebrow>Weekly signal</Eyebrow>
-          <h2 id="newsletter-title">Signal, never noise.</h2>
-          <p>
-            One email a week. The best gaming news, AI breakthroughs, and dev essays,
-            curated by humans, not algorithms.
-          </p>
+          <Eyebrow>{t("newsletterEyebrow")}</Eyebrow>
+          <h2 id="newsletter-title">{t("newsletterTitle")}</h2>
+          <p>{t("newsletterCopy")}</p>
           <form className="home__newsletter-form">
-            <input aria-label="Email address" placeholder="you@domain.com" type="email" />
-            <Button type="submit">Subscribe</Button>
+            <input
+              aria-label={t("newsletterAriaLabel")}
+              placeholder={t("newsletterPlaceholder")}
+              type="email"
+            />
+            <Button type="submit">{t("subscribe")}</Button>
           </form>
-          <p className="home__newsletter-note">No spam. Unsubscribe anytime.</p>
+          <p className="home__newsletter-note">{t("newsletterNote")}</p>
         </section>
       </main>
       <Footer />

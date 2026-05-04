@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
@@ -10,6 +11,7 @@ import { Button } from "@/components/Button/Button";
 export function UserMenu() {
   const { user, status, logout } = useAuth();
   const router = useRouter();
+  const t = useTranslations("userMenu");
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,10 +34,10 @@ export function UserMenu() {
     return (
       <>
         <Link className="header__signin" href="/signin">
-          Sign in
+          {t("signIn")}
         </Link>
         <Button size="small" href="/signup">
-          Get started
+          {t("getStarted")}
         </Button>
       </>
     );
@@ -75,7 +77,7 @@ export function UserMenu() {
           </div>
           {isAdmin ? (
             <Link className="user-menu__item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
-              Admin dashboard
+              {t("adminDashboard")}
             </Link>
           ) : null}
           <button
@@ -89,7 +91,7 @@ export function UserMenu() {
               router.refresh();
             }}
           >
-            Sign out
+            {t("signOut")}
           </button>
         </div>
       ) : null}

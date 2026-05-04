@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import {
@@ -34,17 +35,24 @@ function SocialIcon({ label }: { label: string }) {
 export function Footer() {
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+  const tFooter = useTranslations("footer");
+  const tNav = useTranslations("nav");
+
+  const resolveLinkLabel = (key: string | undefined, fallback: string): string => {
+    if (!key) return fallback;
+    if (["articles", "gaming", "ai", "dev", "tools", "about"].includes(key)) {
+      return tNav(key as Parameters<typeof tNav>[0]);
+    }
+    return tFooter(key as Parameters<typeof tFooter>[0]);
+  };
 
   return (
     <footer className="footer">
       <div className="footer__grid">
         <div className="footer__brand">
           <BrandLogo />
-          <p>
-            A premium media hub for gamers, developers, and tech-curious minds. News, deep
-            guides, and useful tools in one place.
-          </p>
-          <div className="footer__social" aria-label="Social links">
+          <p>{tFooter("tagline")}</p>
+          <div className="footer__social" aria-label={tFooter("socialAriaLabel")}>
             {socialLinks.map((link) => (
               <a href={link.href} aria-label={link.label} key={link.label}>
                 <SocialIcon label={link.label} />
@@ -56,22 +64,22 @@ export function Footer() {
           </div>
         </div>
         {footerLinkGroups.map((group) => (
-          <div key={group.title}>
-            <h3>{group.title}</h3>
+          <div key={group.titleKey}>
+            <h3>{tFooter(group.titleKey)}</h3>
             {group.links.map((link) => (
               <Link href={link.href} key={link.label}>
-                {link.label}
+                {resolveLinkLabel(link.footerKey, link.label)}
               </Link>
             ))}
           </div>
         ))}
       </div>
       <div className="footer__bottom">
-        <span>&copy; 2026 Atlantis Nexus. Built for the curious.</span>
+        <span>{tFooter("copyright")}</span>
         <span>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          {isAdmin ? <Link href="/admin">Admin</Link> : null}
+          <a href="#">{tFooter("privacy")}</a>
+          <a href="#">{tFooter("terms")}</a>
+          {isAdmin ? <Link href="/admin">{tFooter("admin")}</Link> : null}
         </span>
       </div>
     </footer>

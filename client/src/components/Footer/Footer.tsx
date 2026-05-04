@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 
+import { useAuth } from "@/components/Auth/AuthProvider";
 import {
   GitHubIcon,
   RssIcon,
@@ -29,6 +32,9 @@ function SocialIcon({ label }: { label: string }) {
 }
 
 export function Footer() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+
   return (
     <footer className="footer">
       <div className="footer__grid">
@@ -65,7 +71,7 @@ export function Footer() {
         <span>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
-          <Link href="/admin">Admin</Link>
+          {isAdmin ? <Link href="/admin">Admin</Link> : null}
         </span>
       </div>
     </footer>

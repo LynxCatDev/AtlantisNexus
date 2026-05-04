@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import {
+  BellIcon,
   DashboardIcon,
   FileTextIcon,
   MediaIcon,
@@ -37,11 +38,24 @@ const NAV: NavItem[] = [
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
-  const { user, status } = useAuth();
+  const { user, status, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (status === "ready" && !isAdmin) {
@@ -116,10 +130,63 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <SearchIcon />
             <input type="search" placeholder="Search articles, comments…" />
           </label>
-          <span className={`role-pill role-${user?.role.toLowerCase()}`}>{user?.role}</span>
-          <span className="admin-avatar" aria-hidden="true">
-            {initials}
-          </span>
+          <button type="button" className="admin-bell" aria-label="Notifications">
+            <BellIcon />
+          </button>
+          <div className="admin-user-menu" ref={menuRef}>
+            <button
+              type="button"
+              className="admin-avatar"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              aria-label="Account menu"
+              onClick={() => setMenuOpen((v) => !v)}
+              style={
+                user?.avatar
+                  ? { backgroundImage: `url(${user.avatar})`, backgroundSize: "cover", backgroundPosition: "center" }
+                  : undefined
+              }
+            >
+              {user?.avatar ? null : initials}
+            </button>
+            {menuOpen ? (
+              <div className="admin-user-menu__panel" role="menu">
+                <div className="admin-user-menu__head">
+                  <strong>{user?.nickname}</strong>
+                  <span>{user?.email}</span>
+                </div>
+                <Link
+                  href="/admin/profile"
+                  className="admin-user-menu__item"
+                  role="menuitem"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <Link
+                  href="/"
+                  className="admin-user-menu__item"
+                  role="menuitem"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Back to site
+                </Link>
+                <button
+                  type="button"
+                  className="admin-user-menu__item admin-user-menu__item--danger"
+                  role="menuitem"
+                  onClick={async () => {
+                    setMenuOpen(false);
+                    await logout();
+                    router.push("/");
+                    router.refresh();
+                  }}
+                >
+                  Sign out
+                </button>
+              </div>
+            ) : null}
+          </div>
         </header>
         <section className="admin-content">{children}</section>
       </div>

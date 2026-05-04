@@ -4,6 +4,7 @@ dist/
 coverage/
 .tmp/
 .ruff_cache/
+uploads/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

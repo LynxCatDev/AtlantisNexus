@@ -25,8 +25,12 @@ export async function apiFetch<T>(path: string, opts: RequestOptions = {}): Prom
 
   let body: BodyInit | undefined;
   if (opts.body !== undefined) {
-    headers["Content-Type"] = "application/json";
-    body = JSON.stringify(opts.body);
+    if (opts.body instanceof FormData) {
+      body = opts.body;
+    } else {
+      headers["Content-Type"] = "application/json";
+      body = JSON.stringify(opts.body);
+    }
   }
   if (opts.accessToken) {
     headers["Authorization"] = `Bearer ${opts.accessToken}`;

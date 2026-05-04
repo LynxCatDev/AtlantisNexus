@@ -1,33 +1,73 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { ProfileIcon, SparkleIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
+import { AvatarUploadDialog } from "@/components/AvatarUpload/AvatarUploadDialog";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
+import type { AuthUser } from "@/types/auth";
 
 export function AdminProfilePage() {
-  const { user } = useAuth();
+  const { user, setUser, authedFetch } = useAuth();
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [pickedImage, setPickedImage] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState(user?.nickname ?? "");
-  const [username, setUsername] = useState(user?.nickname?.toLowerCase().replace(/\s+/g, "-") ?? "");
+  const [username, setUsername] = useState(
+    user?.nickname?.toLowerCase().replace(/\s+/g, "-") ?? "",
+  );
   const [email, setEmail] = useState(user?.email ?? "");
-  const [avatarUrl, setAvatarUrl] = useState("");
   const [bio, setBio] = useState("");
   const [notice, setNotice] = useState<string | null>(null);
+  const [removingAvatar, setRemovingAvatar] = useState(false);
 
   const resetForm = () => {
     setDisplayName(user?.nickname ?? "");
     setUsername(user?.nickname?.toLowerCase().replace(/\s+/g, "-") ?? "");
     setEmail(user?.email ?? "");
-    setAvatarUrl("");
     setBio("");
     setNotice(null);
   };
 
+  const onPickFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setPickedImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onUploaded = (updated: AuthUser) => {
+    setUser(updated);
+    setPickedImage(null);
+    setNotice("Avatar updated.");
+  };
+
+  const onRemoveAvatar = async () => {
+    if (!user?.avatar) return;
+    setRemovingAvatar(true);
+    try {
+      const updated = await authedFetch<AuthUser>("/users/me/avatar", { method: "DELETE" });
+      setUser(updated);
+      setNotice("Avatar removed.");
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : "Failed to remove avatar");
+    } finally {
+      setRemovingAvatar(false);
+    }
+  };
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNotice("Coming soon. Profile endpoints are not wired yet.");
+    setNotice("Profile field saving will be wired up next.");
   };
+
+  const initials = (user?.nickname || "?").slice(0, 2).toUpperCase();
 
   return (
     <div className="admin-dashboard">
@@ -35,7 +75,7 @@ export function AdminProfilePage() {
         <div>
           <Eyebrow className="eyebrow-cyan">Profile</Eyebrow>
           <h1>Account settings</h1>
-          <p>Profile editing is designed here and will connect once the backend endpoints exist.</p>
+          <p>Update your avatar and public profile.</p>
         </div>
       </header>
 
@@ -48,21 +88,42 @@ export function AdminProfilePage() {
       <form className="admin-profile-grid" onSubmit={onSubmit}>
         <section className="admin-card admin-avatar-card" aria-labelledby="avatar-title">
           <span className="admin-avatar-preview" aria-hidden="true">
-            {avatarUrl ? <span style={{ backgroundImage: `url(${avatarUrl})` }} /> : <ProfileIcon />}
+            {user?.avatar ? (
+              <span style={{ backgroundImage: `url(${user.avatar})` }} />
+            ) : (
+              <span className="admin-avatar-preview__initials">{initials}</span>
+            )}
           </span>
           <div>
             <h2 id="avatar-title">Avatar</h2>
-            <p>Add a public image URL now. Upload storage comes later.</p>
+            <p>Upload an image (JPEG, PNG, or WebP up to 5 MB). You can crop it before saving.</p>
           </div>
-          <label className="admin-field">
-            <span>Avatar URL</span>
-            <input
-              onChange={(event) => setAvatarUrl(event.target.value)}
-              placeholder="https://..."
-              type="url"
-              value={avatarUrl}
-            />
-          </label>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            hidden
+            onChange={onPickFile}
+          />
+          <div className="admin-avatar-actions">
+            <button
+              type="button"
+              className="admin-cta admin-cta-pill"
+              onClick={() => fileRef.current?.click()}
+            >
+              {user?.avatar ? "Change avatar" : "Upload avatar"}
+            </button>
+            {user?.avatar ? (
+              <button
+                type="button"
+                className="admin-secondary-button"
+                disabled={removingAvatar}
+                onClick={onRemoveAvatar}
+              >
+                {removingAvatar ? "Removing…" : "Remove"}
+              </button>
+            ) : null}
+          </div>
         </section>
 
         <div className="admin-profile-stack">
@@ -166,6 +227,14 @@ export function AdminProfilePage() {
           </div>
         </div>
       </form>
+
+      {pickedImage ? (
+        <AvatarUploadDialog
+          imageSrc={pickedImage}
+          onClose={() => setPickedImage(null)}
+          onUploaded={onUploaded}
+        />
+      ) : null}
     </div>
   );
 }

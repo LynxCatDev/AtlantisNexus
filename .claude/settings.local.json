@@ -23,7 +23,8 @@
       "Bash(npx --yes sass --no-source-map src/app/globals.scss _scsstmp/globals.css)",
       "Bash(npx next *)",
       "PowerShell(Get-ChildItem -Force -Path \"f:\\\\Github Repository Projects\\\\AtlantisNexus\\\\client\" | Where-Object { $_.Name.StartsWith\\(\".env\"\\) } | Format-Table Name, Length, LastWriteTime)",
-      "Bash(./node_modules/.bin/tsc --noEmit)"
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(echo \"EXIT=$?\")"
     ]
   }
 }

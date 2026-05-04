@@ -20,7 +20,7 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: minmax(260px, 2fr) repeat(3, minmax(140px, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 40px;
     max-width: 1536px;
     margin: 0 auto;
@@ -97,7 +97,9 @@
     }
 
     .language-switch__menu {
+      top: auto;
       right: auto;
+      bottom: calc(100% + 7.2px);
       left: 0;
     }
   }

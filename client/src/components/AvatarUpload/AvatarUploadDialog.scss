@@ -1,0 +1,125 @@
+.avatar-upload {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 12, 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  &__panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 16px;
+    width: min(520px, 100%);
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: var(--shadow-elegant);
+  }
+
+  &__head {
+    display: grid;
+    gap: 4px;
+
+    h2 {
+      margin: 0;
+      color: var(--foreground);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.6px;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  &__zoom {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12.8px;
+
+    input {
+      accent-color: var(--primary);
+      width: 100%;
+    }
+  }
+
+  &__error {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 99, 132, 0.45);
+    border-radius: 10px;
+    background: rgba(255, 99, 132, 0.08);
+    color: #ffb2c0;
+    font-size: 13.6px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &__cancel,
+  &__save {
+    min-height: 38px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  }
+
+  &__cancel {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted-strong);
+
+    &:hover:not(:disabled) {
+      border-color: var(--border-bright);
+      color: var(--foreground);
+    }
+  }
+
+  &__save {
+    border: 0;
+    background: var(--gradient-primary);
+    color: var(--primary-foreground);
+    box-shadow: var(--shadow-glow);
+
+    &:hover:not(:disabled) {
+      opacity: 0.92;
+    }
+  }
+
+  &__cancel:disabled,
+  &__save:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+}

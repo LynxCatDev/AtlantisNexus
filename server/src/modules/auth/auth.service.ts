@@ -54,7 +54,7 @@ export class AuthService {
         dateOfBirth: dto.dateOfBirth,
         role: Role.USER,
       },
-      select: { id: true, email: true, nickname: true, role: true },
+      select: { id: true, email: true, nickname: true, role: true, avatar: true },
     });
 
     return this.issueTokens(user);
@@ -68,6 +68,7 @@ export class AuthService {
         email: true,
         nickname: true,
         role: true,
+        avatar: true,
         passwordHash: true,
       },
     });
@@ -86,6 +87,7 @@ export class AuthService {
       email: user.email,
       nickname: user.nickname,
       role: user.role,
+      avatar: user.avatar,
     });
   }
 
@@ -100,7 +102,7 @@ export class AuthService {
       where: { tokenHash },
       include: {
         user: {
-          select: { id: true, email: true, nickname: true, role: true },
+          select: { id: true, email: true, nickname: true, role: true, avatar: true },
         },
       },
     });

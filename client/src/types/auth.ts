@@ -5,6 +5,7 @@ export type AuthUser = {
   email: string;
   nickname: string;
   role: Role;
+  avatar: string | null;
 };
 
 export type AuthResponse = {

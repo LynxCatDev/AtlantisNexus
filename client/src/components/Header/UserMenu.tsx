@@ -53,8 +53,16 @@ export function UserMenu() {
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        <span className="user-menu__avatar" aria-hidden="true">
-          {initial}
+        <span
+          className="user-menu__avatar"
+          aria-hidden="true"
+          style={
+            user.avatar
+              ? { backgroundImage: `url(${user.avatar})`, backgroundSize: "cover", backgroundPosition: "center" }
+              : undefined
+          }
+        >
+          {user.avatar ? null : initial}
         </span>
         <span className="user-menu__name">{user.nickname}</span>
       </button>

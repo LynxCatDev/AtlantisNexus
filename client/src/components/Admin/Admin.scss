@@ -215,11 +215,84 @@
   place-items: center;
   width: 32px;
   height: 32px;
+  border: 0;
   border-radius: 50%;
   background: var(--gradient-primary);
   color: var(--primary-foreground);
+  font-family: inherit;
   font-weight: 700;
   font-size: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+.admin-user-menu {
+  position: relative;
+  display: inline-flex;
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 30;
+    min-width: 224px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 13.6px;
+    background: var(--surface);
+    box-shadow: var(--shadow-elegant);
+  }
+
+  &__head {
+    display: grid;
+    gap: 3.2px;
+    padding: 10.4px 12px 13.6px;
+    border-bottom: 1px solid var(--border);
+
+    strong {
+      color: var(--foreground);
+      font-size: 15.2px;
+    }
+
+    span {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12.8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__item {
+    display: block;
+    width: 100%;
+    padding: 9.6px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--foreground);
+    text-align: left;
+    font-family: inherit;
+    font-size: 14.08px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    &--danger {
+      color: #ffb2c0;
+
+      &:hover {
+        background: rgba(255, 99, 132, 0.08);
+      }
+    }
+  }
 }
 
 .admin-content {
@@ -276,30 +349,27 @@
   text-transform: uppercase;
 }
 
-// Role pill (duplicated from Header.scss because AdminShell renders the
-// pill in its topbar but doesn't import the Header component).
-.role-pill {
-  align-self: start;
-  margin-top: 5.6px;
-  padding: 2.4px 8.8px;
-  border-radius: 999px;
-  background: rgba(154, 87, 255, 0.12);
-  color: var(--violet);
-  font-size: 11.2px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
+.admin-bell {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-left: auto;
+  border: 0;
+  border-radius: 9.6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 
-  &.role-superadmin,
-  &--superadmin {
-    background: rgba(228, 81, 255, 0.15);
-    color: var(--magenta);
+  svg {
+    width: 18px;
+    height: 18px;
   }
 
-  &.role-admin,
-  &--admin {
-    background: rgba(32, 230, 255, 0.12);
-    color: var(--cyan);
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--foreground);
   }
 }
 
@@ -935,10 +1005,26 @@
     background-size: cover;
   }
 
+  &__initials {
+    display: grid;
+    place-items: center;
+    background: transparent;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
   svg {
     width: 38.4px;
     height: 38.4px;
   }
+}
+
+.admin-avatar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .admin-form-grid {

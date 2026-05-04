@@ -22,6 +22,18 @@ export type AppConfiguration = {
     password: string;
     nickname: string;
   };
+  storage: {
+    driver: "local" | "r2";
+    localRoot: string;
+    localPublicBase: string;
+    r2: {
+      accountId: string;
+      bucket: string;
+      accessKeyId: string;
+      secretAccessKey: string;
+      publicUrlBase: string;
+    };
+  };
 };
 
 export function appConfig(): AppConfiguration {
@@ -49,6 +61,19 @@ export function appConfig(): AppConfiguration {
       email: process.env.SUPERADMIN_EMAIL ?? "",
       password: process.env.SUPERADMIN_PASSWORD ?? "",
       nickname: process.env.SUPERADMIN_NICKNAME ?? "",
+    },
+    storage: {
+      driver: (process.env.STORAGE_DRIVER as "local" | "r2") ?? "local",
+      localRoot: process.env.STORAGE_LOCAL_ROOT ?? "uploads",
+      localPublicBase:
+        process.env.STORAGE_LOCAL_PUBLIC_BASE ?? "http://localhost:4000/uploads",
+      r2: {
+        accountId: process.env.R2_ACCOUNT_ID ?? "",
+        bucket: process.env.R2_BUCKET ?? "",
+        accessKeyId: process.env.R2_ACCESS_KEY_ID ?? "",
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? "",
+        publicUrlBase: process.env.R2_PUBLIC_URL_BASE ?? "",
+      },
     },
   };
 }

@@ -15,7 +15,8 @@
     "getStarted": "Начать",
     "signOut": "Выйти",
     "dashboard": "Кабинет",
-    "adminDashboard": "Панель администратора"
+    "adminDashboard": "Панель администратора",
+    "backToSite": "Вернуться на сайт"
   },
   "dashboard": {
     "loading": "Загружаем кабинет…",

@@ -15,7 +15,8 @@
     "getStarted": "Get started",
     "signOut": "Sign out",
     "dashboard": "Dashboard",
-    "adminDashboard": "Admin dashboard"
+    "adminDashboard": "Admin dashboard",
+    "backToSite": "Back to site"
   },
   "dashboard": {
     "loading": "Loading your dashboard…",

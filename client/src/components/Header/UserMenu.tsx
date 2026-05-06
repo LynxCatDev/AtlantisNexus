@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,6 +11,7 @@ import { Button } from "@/components/Button/Button";
 export function UserMenu() {
   const { user, status, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("userMenu");
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -45,6 +46,7 @@ export function UserMenu() {
 
   const isAdmin = user.role === "ADMIN" || user.role === "SUPERADMIN";
   const initial = user.nickname?.[0]?.toUpperCase() ?? "?";
+  const inDashboard = pathname?.startsWith("/dashboard") ?? false;
 
   return (
     <div className="user-menu" ref={wrapRef}>
@@ -86,6 +88,11 @@ export function UserMenu() {
           {isAdmin ? (
             <Link className="user-menu__item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
               {t("adminDashboard")}
+            </Link>
+          ) : null}
+          {inDashboard ? (
+            <Link className="user-menu__item" href="/" role="menuitem" onClick={() => setOpen(false)}>
+              {t("backToSite")}
             </Link>
           ) : null}
           <button

@@ -15,7 +15,8 @@
     "getStarted": "Începe",
     "signOut": "Deconectare",
     "dashboard": "Panou",
-    "adminDashboard": "Panou admin"
+    "adminDashboard": "Panou admin",
+    "backToSite": "Înapoi la site"
   },
   "dashboard": {
     "loading": "Se încarcă panoul…",

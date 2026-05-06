@@ -14,6 +14,7 @@ import {
   PlusIcon,
   ProfileIcon,
   TagsIcon,
+  UsersIcon,
 } from "@/components/Admin/adminIcons";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { SearchIcon } from "@/components/Icons/Icons";
@@ -26,6 +27,7 @@ type NavItem = {
   icon: (props: { className?: string }) => React.ReactElement;
   exact?: boolean;
   soon?: boolean;
+  superadminOnly?: boolean;
 };
 
 const NAV: NavItem[] = [
@@ -33,6 +35,7 @@ const NAV: NavItem[] = [
   { href: "/admin/articles", label: "Articles", icon: FileTextIcon },
   { href: "/admin/comments", label: "Comments", icon: MessageIcon, soon: true },
   { href: "/admin/taxonomy", label: "Categories & Tags", icon: TagsIcon },
+  { href: "/admin/users", label: "Users", icon: UsersIcon, superadminOnly: true },
   { href: "/admin/media", label: "Media library", icon: MediaIcon, soon: true },
   { href: "/admin/profile", label: "Profile", icon: ProfileIcon },
 ];
@@ -45,6 +48,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+  const isSuperadmin = user?.role === "SUPERADMIN";
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -86,7 +90,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </Link>
 
           <ul>
-            {NAV.map((item) => {
+            {NAV.filter((item) => !item.superadminOnly || isSuperadmin).map((item) => {
               const active = item.exact
                 ? pathname === item.href
                 : pathname?.startsWith(item.href) ?? false;

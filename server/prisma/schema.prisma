@@ -29,20 +29,51 @@ enum ReactionType {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  nickname     String   @unique
-  passwordHash String
-  role         Role     @default(USER)
-  avatar       String?
-  dateOfBirth  DateTime?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String    @id @default(uuid())
+  email           String    @unique
+  nickname        String    @unique
+  passwordHash    String
+  role            Role      @default(USER)
+  avatar          String?
+  emailVerifiedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  refreshTokens RefreshToken[]
-  articles      Article[]      @relation("ArticleAuthor")
-  comments      Comment[]
-  reactions     Reaction[]
+  refreshTokens          RefreshToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  articles               Article[]                @relation("ArticleAuthor")
+  comments               Comment[]
+  reactions              Reaction[]
+  roleChangesActed       RoleChangeAudit[]        @relation("RoleChangeActor")
+  roleChangesReceived    RoleChangeAudit[]        @relation("RoleChangeTarget")
+}
+
+model EmailVerificationToken {
+  id         String    @id @default(uuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model RoleChangeAudit {
+  id        String   @id @default(uuid())
+  actorId   String
+  targetId  String
+  fromRole  Role
+  toRole    Role
+  createdAt DateTime @default(now())
+
+  actor  User @relation("RoleChangeActor", fields: [actorId], references: [id], onDelete: Cascade)
+  target User @relation("RoleChangeTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@index([targetId])
+  @@index([actorId])
 }
 
 model RefreshToken {

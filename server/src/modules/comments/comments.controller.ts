@@ -12,9 +12,11 @@ import {
 import { Role } from "@prisma/client";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
+import { RequiresVerifiedEmail } from "../../common/decorators/requires-verified-email.decorator";
 import { Roles } from "../../common/decorators/roles.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
 import { RolesGuard } from "../../common/guards/roles.guard";
+import { VerifiedEmailGuard } from "../../common/guards/verified-email.guard";
 import type { AuthenticatedUser } from "../../common/types/authenticated-user.type";
 
 import { CommentsService } from "./comments.service";
@@ -30,7 +32,8 @@ export class CommentsController {
   }
 
   @Post("articles/:slug/comments")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, VerifiedEmailGuard)
+  @RequiresVerifiedEmail()
   create(
     @Param("slug") slug: string,
     @Body() dto: CreateCommentDto,

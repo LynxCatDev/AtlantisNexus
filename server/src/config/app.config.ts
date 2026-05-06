@@ -34,6 +34,16 @@ export type AppConfiguration = {
       publicUrlBase: string;
     };
   };
+  mail: {
+    driver: "console" | "resend";
+    fromAddress: string;
+    fromName: string;
+    resendApiKey: string;
+  };
+  verification: {
+    tokenTtl: string;
+    appBaseUrl: string;
+  };
 };
 
 export function appConfig(): AppConfiguration {
@@ -74,6 +84,16 @@ export function appConfig(): AppConfiguration {
         secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? "",
         publicUrlBase: process.env.R2_PUBLIC_URL_BASE ?? "",
       },
+    },
+    mail: {
+      driver: (process.env.MAIL_DRIVER as "console" | "resend") ?? "console",
+      fromAddress: process.env.MAIL_FROM_ADDRESS ?? "no-reply@atlantis-nexus.local",
+      fromName: process.env.MAIL_FROM_NAME ?? "Atlantis Nexus",
+      resendApiKey: process.env.RESEND_API_KEY ?? "",
+    },
+    verification: {
+      tokenTtl: process.env.EMAIL_VERIFICATION_TTL ?? "24h",
+      appBaseUrl: process.env.APP_BASE_URL ?? "http://localhost:3000",
     },
   };
 }

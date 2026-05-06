@@ -75,6 +75,14 @@ export function UserMenu() {
             <span>{user.email}</span>
             <span className={`role-pill role-pill--${user.role.toLowerCase()}`}>{user.role}</span>
           </div>
+          <Link
+            className="user-menu__item"
+            href="/dashboard/profile"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            {t("dashboard")}
+          </Link>
           {isAdmin ? (
             <Link className="user-menu__item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
               {t("adminDashboard")}

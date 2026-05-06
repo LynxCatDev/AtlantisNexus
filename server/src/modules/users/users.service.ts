@@ -9,9 +9,10 @@ import {
   Logger,
   NotFoundException,
   OnApplicationBootstrap,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { Role } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import sharp from "sharp";
 
@@ -20,6 +21,8 @@ import { OBJECT_STORAGE } from "../storage/storage.module";
 import type { ObjectStorage } from "../storage/storage.types";
 
 import type { UpdateProfileDto } from "./dto/update-profile.dto";
+import type { ChangePasswordDto } from "./dto/change-password.dto";
+import type { ListUsersQueryDto } from "./dto/list-users-query.dto";
 
 const PUBLIC_USER_SELECT = {
   id: true,
@@ -27,7 +30,7 @@ const PUBLIC_USER_SELECT = {
   nickname: true,
   role: true,
   avatar: true,
-  dateOfBirth: true,
+  emailVerifiedAt: true,
   createdAt: true,
 } as const;
 
@@ -43,8 +46,15 @@ type PublicUser = {
   nickname: string;
   role: Role;
   avatar: string | null;
-  dateOfBirth: Date | null;
+  emailVerifiedAt: Date | null;
   createdAt: Date;
+};
+
+type PaginatedUsers = {
+  items: PublicUser[];
+  total: number;
+  page: number;
+  pageSize: number;
 };
 
 @Injectable()
@@ -75,10 +85,16 @@ export class UsersService implements OnApplicationBootstrap {
 
     const existingSuper = await this.prisma.user.findFirst({
       where: { role: Role.SUPERADMIN },
-      select: { id: true },
+      select: { id: true, emailVerifiedAt: true },
     });
 
     if (existingSuper) {
+      if (!existingSuper.emailVerifiedAt) {
+        await this.prisma.user.update({
+          where: { id: existingSuper.id },
+          data: { emailVerifiedAt: new Date() },
+        });
+      }
       return;
     }
 
@@ -86,7 +102,7 @@ export class UsersService implements OnApplicationBootstrap {
     if (byEmail) {
       await this.prisma.user.update({
         where: { id: byEmail.id },
-        data: { role: Role.SUPERADMIN },
+        data: { role: Role.SUPERADMIN, emailVerifiedAt: byEmail.emailVerifiedAt ?? new Date() },
       });
       this.logger.log(`Promoted existing user ${email} to SUPERADMIN.`);
       return;
@@ -99,6 +115,7 @@ export class UsersService implements OnApplicationBootstrap {
         nickname,
         passwordHash,
         role: Role.SUPERADMIN,
+        emailVerifiedAt: new Date(),
       },
     });
     this.logger.log(`Created SUPERADMIN account ${email}.`);
@@ -116,11 +133,38 @@ export class UsersService implements OnApplicationBootstrap {
     return user;
   }
 
-  async listAll(): Promise<PublicUser[]> {
-    return this.prisma.user.findMany({
-      select: PUBLIC_USER_SELECT,
-      orderBy: { createdAt: "desc" },
-    });
+  async list(query: ListUsersQueryDto): Promise<PaginatedUsers> {
+    const page = normalizePositiveInt(query.page, 1);
+    const pageSize = Math.min(normalizePositiveInt(query.pageSize, 20), 100);
+    const search = query.q?.trim();
+    const filters: Prisma.UserWhereInput[] = [];
+
+    if (search) {
+      filters.push({
+        OR: [
+          { email: { contains: search, mode: "insensitive" } },
+          { nickname: { contains: search, mode: "insensitive" } },
+        ],
+      });
+    }
+
+    if (query.role) {
+      filters.push({ role: query.role });
+    }
+
+    const where: Prisma.UserWhereInput = filters.length > 0 ? { AND: filters } : {};
+    const [items, total] = await this.prisma.$transaction([
+      this.prisma.user.findMany({
+        where,
+        select: PUBLIC_USER_SELECT,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return { items, total, page, pageSize };
   }
 
   async updateRole(targetId: string, role: Role, actorId: string): Promise<PublicUser> {
@@ -134,7 +178,7 @@ export class UsersService implements OnApplicationBootstrap {
 
     const target = await this.prisma.user.findUnique({
       where: { id: targetId },
-      select: { id: true, role: true },
+      select: { id: true, role: true, emailVerifiedAt: true },
     });
 
     if (!target) {
@@ -145,62 +189,116 @@ export class UsersService implements OnApplicationBootstrap {
       throw new ForbiddenException("Cannot modify a SUPERADMIN");
     }
 
-    return this.prisma.user.update({
-      where: { id: targetId },
-      data: { role },
-      select: PUBLIC_USER_SELECT,
-    });
+    if (role === Role.ADMIN && !target.emailVerifiedAt) {
+      throw new BadRequestException("User must verify their email before becoming an admin");
+    }
+
+    if (target.role === role) {
+      return this.findById(targetId);
+    }
+
+    const [updated] = await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: targetId },
+        data: { role },
+        select: PUBLIC_USER_SELECT,
+      }),
+      this.prisma.roleChangeAudit.create({
+        data: {
+          actorId,
+          targetId,
+          fromRole: target.role,
+          toRole: role,
+        },
+      }),
+    ]);
+
+    return updated;
   }
 
   async updateProfile(userId: string, dto: UpdateProfileDto): Promise<PublicUser> {
     const data: {
-      email?: string;
       nickname?: string;
-      dateOfBirth?: Date | null;
       avatar?: string | null;
     } = {};
 
-    if (dto.email !== undefined) {
-      data.email = dto.email;
-    }
     if (dto.nickname !== undefined) {
       data.nickname = dto.nickname;
     }
-    if (dto.dateOfBirth !== undefined) {
-      data.dateOfBirth = new Date(dto.dateOfBirth);
-    }
     if (dto.avatar !== undefined) {
       data.avatar = dto.avatar;
+    }
+
+    if (dto.email !== undefined) {
+      const current = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { email: true },
+      });
+      if (!current) {
+        throw new NotFoundException("User not found");
+      }
+
+      if (dto.email !== current.email) {
+        throw new BadRequestException(
+          "Email changes are paused until the confirmation flow is ready",
+        );
+      }
     }
 
     if (Object.keys(data).length === 0) {
       return this.findById(userId);
     }
 
-    if (data.email || data.nickname) {
+    if (data.nickname) {
       const conflict = await this.prisma.user.findFirst({
         where: {
           AND: [
             { id: { not: userId } },
             {
-              OR: [
-                ...(data.email ? [{ email: data.email }] : []),
-                ...(data.nickname ? [{ nickname: data.nickname }] : []),
-              ],
+              nickname: data.nickname,
             },
           ],
         },
         select: { id: true },
       });
       if (conflict) {
-        throw new ConflictException("Email or nickname already in use");
+        throw new ConflictException("Nickname already in use");
       }
     }
 
-    return this.prisma.user.update({
+    const updated = await this.prisma.user.update({
       where: { id: userId },
       data,
       select: PUBLIC_USER_SELECT,
+    });
+
+    return updated;
+  }
+
+  async changePassword(userId: string, dto: ChangePasswordDto): Promise<void> {
+    if (dto.currentPassword === dto.newPassword) {
+      throw new BadRequestException("New password must be different from the current password");
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { passwordHash: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const validCurrent = await bcrypt.compare(dto.currentPassword, user.passwordHash);
+    if (!validCurrent) {
+      throw new UnauthorizedException("Current password is incorrect");
+    }
+
+    const passwordHash = await bcrypt.hash(dto.newPassword, BCRYPT_ROUNDS);
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { passwordHash },
+      select: { id: true },
     });
   }
 
@@ -292,4 +390,12 @@ export class UsersService implements OnApplicationBootstrap {
     }
     return null;
   }
+}
+
+function normalizePositiveInt(value: number | undefined, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return fallback;
+  }
+
+  return Math.max(1, Math.trunc(value));
 }

@@ -20,6 +20,8 @@ import { normalizeRoutePrefix } from "../../common/utils/env.utils";
 import { AuthService, IssuedTokens } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
+import { ResendVerificationDto } from "./dto/resend-verification.dto";
+import { VerifyEmailDto } from "./dto/verify-email.dto";
 
 type AuthResponse = {
   accessToken: string;
@@ -75,6 +77,18 @@ export class AuthController {
     const raw = req.cookies?.[cookieName];
     await this.auth.logout(raw);
     res.clearCookie(cookieName, this.refreshCookieOptions(0));
+  }
+
+  @Post("verify-email")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async verifyEmail(@Body() dto: VerifyEmailDto): Promise<void> {
+    await this.auth.verifyEmail(dto.token);
+  }
+
+  @Post("resend-verification")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async resendVerification(@Body() dto: ResendVerificationDto): Promise<void> {
+    await this.auth.resendVerification(dto.email);
   }
 
   @Get("session")

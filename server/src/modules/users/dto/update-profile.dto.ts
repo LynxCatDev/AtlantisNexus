@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsEmail, IsISO8601, IsOptional, IsString, Length } from "class-validator";
+import { IsEmail, IsOptional, IsString, Length } from "class-validator";
 
 export class UpdateProfileDto {
   @IsOptional()
@@ -10,10 +10,6 @@ export class UpdateProfileDto {
   @IsString()
   @Length(2, 32)
   nickname?: string;
-
-  @IsOptional()
-  @IsISO8601()
-  dateOfBirth?: string;
 
   @IsOptional()
   @IsString()

@@ -25,3 +25,19 @@ export function parsePort(value: string | undefined, fallback: number): number {
   const port = Number(value);
   return Number.isInteger(port) && port > 0 ? port : fallback;
 }
+
+export function parseDurationMs(value: string, fallbackMs: number): number {
+  const match = /^(\d+)\s*([smhd])?$/.exec(value.trim());
+  if (!match) {
+    return fallbackMs;
+  }
+  const amount = Number(match[1]);
+  const unit = match[2] ?? "s";
+  const unitMs: Record<string, number> = {
+    s: 1000,
+    m: 60 * 1000,
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000,
+  };
+  return amount * unitMs[unit];
+}

@@ -1,0 +1,104 @@
+@use '../../app/mixins.scss' as *;
+
+.dashboard-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.dashboard-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+
+  @include respond-to('tablet') {
+    grid-template-columns: 1fr;
+    padding: 24px 16px 64px;
+    gap: 16px;
+  }
+}
+
+.dashboard-sidebar {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  border: 1px solid rgba(33, 48, 74, 0.6);
+  background: rgba(10, 16, 28, 0.55);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @include respond-to('tablet') {
+    position: static;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(33, 48, 74, 0.6);
+
+    strong {
+      color: var(--foreground);
+      font-size: 15px;
+    }
+  }
+
+  &__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 1.28px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  &__email {
+    color: var(--muted);
+    font-size: 12px;
+    word-break: break-all;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.dashboard-nav-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--foreground);
+  }
+
+  &.active {
+    background: var(--surface-strong);
+    color: var(--foreground);
+  }
+}
+
+.dashboard-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

@@ -14,7 +14,63 @@
     "signIn": "Sign in",
     "getStarted": "Get started",
     "signOut": "Sign out",
+    "dashboard": "Dashboard",
     "adminDashboard": "Admin dashboard"
+  },
+  "dashboard": {
+    "loading": "Loading your dashboard…",
+    "navAriaLabel": "Dashboard navigation",
+    "sidebarEyebrow": "Account",
+    "profile": "Profile",
+    "profileSection": {
+      "title": "Account settings",
+      "subtitle": "Update your avatar, nickname and password.",
+      "unverifiedTitle": "Verify your email",
+      "unverifiedCopy": "Confirm your address so you can comment, react, and unlock admin features.",
+      "resend": "Resend email",
+      "resending": "Sending…",
+      "resentNotice": "If your email is on file, a new link is on the way.",
+      "resendFailed": "Could not send the verification email. Try again later.",
+      "avatarTitle": "Avatar",
+      "avatarHint": "JPEG, PNG or WebP up to 5 MB. You can crop after picking a file.",
+      "avatarUpload": "Upload avatar",
+      "avatarChange": "Change avatar",
+      "avatarRemove": "Remove",
+      "avatarRemoving": "Removing…",
+      "avatarUpdated": "Avatar updated.",
+      "avatarRemoved": "Avatar removed.",
+      "avatarRemoveFailed": "Could not remove avatar.",
+      "identityTitle": "Identity",
+      "nicknameLabel": "Nickname",
+      "emailLabel": "Email",
+      "emailHint": "Email changes are paused until the safer confirmation flow is ready.",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "saved": "Profile updated.",
+      "saveFailed": "Could not save changes.",
+      "passwordTitle": "Password",
+      "passwordCopy": "Use your current password to set a new one.",
+      "currentPasswordLabel": "Current password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "passwordSave": "Change password",
+      "passwordSaving": "Changing…",
+      "passwordSaved": "Password changed.",
+      "passwordFailed": "Could not change password.",
+      "passwordMismatch": "New passwords do not match."
+    }
+  },
+  "verifyEmail": {
+    "pendingTitle": "Verifying your email…",
+    "pendingCopy": "This will only take a moment.",
+    "successTitle": "Email verified",
+    "successCopy": "Thanks for confirming. You can now use account features in full.",
+    "errorTitle": "Verification failed",
+    "missingToken": "This link is missing the verification token.",
+    "genericError": "This link is invalid or has expired. Request a new one from your dashboard.",
+    "toDashboard": "Go to dashboard",
+    "toSignin": "Sign in"
   },
   "languageSwitcher": {
     "heading": "Language",
@@ -214,7 +270,21 @@
     "signupBenefit1": "Bookmark articles across devices",
     "signupBenefit2": "Comment & follow your favorite writers",
     "signupBenefit3": "Save your tool history",
-    "signupBenefit4": "Early access to new features"
+    "signupBenefit4": "Early access to new features",
+    "errorEmailRequired": "Enter your email address.",
+    "errorEmailInvalid": "Enter a valid email address.",
+    "errorPasswordRequired": "Enter your password.",
+    "errorPasswordTooShort": "Password must be at least 8 characters.",
+    "errorNicknameTooShort": "Nickname must be at least 2 characters.",
+    "errorInvalidCredentials": "Email or password is incorrect.",
+    "errorSigninValidation": "Check your email and password, then try again.",
+    "errorSignupValidation": "Check your email, nickname, and password, then try again.",
+    "errorSignupConflict": "This email or nickname is already in use.",
+    "errorEmailTaken": "An account with this email already exists.",
+    "errorNicknameTaken": "This nickname is already taken.",
+    "errorTooManyAttempts": "Too many attempts. Wait a moment and try again.",
+    "errorNetwork": "We could not sign you in right now. Please try again in a moment.",
+    "errorServer": "Something went wrong while signing you in. Please try again in a moment."
   },
   "content": {
     "metrics": {
@@ -298,12 +368,28 @@
     },
     "comments": {
       "default": [
-        { "author": "Ren K.", "postedAt": "2h ago", "body": "This is the kind of context I wanted, not just another quick headline." },
-        { "author": "Aria T.", "postedAt": "5h ago", "body": "The practical angle here is what makes it useful." }
+        {
+          "author": "Ren K.",
+          "postedAt": "2h ago",
+          "body": "This is the kind of context I wanted, not just another quick headline."
+        },
+        {
+          "author": "Aria T.",
+          "postedAt": "5h ago",
+          "body": "The practical angle here is what makes it useful."
+        }
       ],
       "elden": [
-        { "author": "Ren K.", "postedAt": "2h ago", "body": "Best Souls take I've read in months. The point about coordination is dead-on." },
-        { "author": "Aria T.", "postedAt": "5h ago", "body": "Genuinely excited now. Was skeptical the co-op pivot would water down the tension." }
+        {
+          "author": "Ren K.",
+          "postedAt": "2h ago",
+          "body": "Best Souls take I've read in months. The point about coordination is dead-on."
+        },
+        {
+          "author": "Aria T.",
+          "postedAt": "5h ago",
+          "body": "Genuinely excited now. Was skeptical the co-op pivot would water down the tension."
+        }
       ]
     },
     "eldenDetail": {

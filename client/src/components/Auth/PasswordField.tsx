@@ -13,6 +13,8 @@ type Props = {
   required?: boolean;
   minLength?: number;
   maxLength?: number;
+  "aria-invalid"?: boolean;
+  "aria-describedby"?: string;
 };
 
 export function PasswordField({
@@ -24,6 +26,8 @@ export function PasswordField({
   required,
   minLength,
   maxLength,
+  "aria-invalid": ariaInvalid,
+  "aria-describedby": ariaDescribedBy,
 }: Props) {
   const [visible, setVisible] = useState(false);
   return (
@@ -37,6 +41,8 @@ export function PasswordField({
         required={required}
         minLength={minLength}
         maxLength={maxLength}
+        aria-invalid={ariaInvalid}
+        aria-describedby={ariaDescribedBy}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

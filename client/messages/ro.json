@@ -14,7 +14,63 @@
     "signIn": "Conectare",
     "getStarted": "Începe",
     "signOut": "Deconectare",
+    "dashboard": "Panou",
     "adminDashboard": "Panou admin"
+  },
+  "dashboard": {
+    "loading": "Se încarcă panoul…",
+    "navAriaLabel": "Navigare panou",
+    "sidebarEyebrow": "Cont",
+    "profile": "Profil",
+    "profileSection": {
+      "title": "Setările contului",
+      "subtitle": "Actualizează avatarul, porecla și parola.",
+      "unverifiedTitle": "Confirmă emailul",
+      "unverifiedCopy": "Confirmă adresa pentru a putea comenta, reacționa și debloca funcții de admin.",
+      "resend": "Retrimite emailul",
+      "resending": "Se trimite…",
+      "resentNotice": "Dacă adresa este înregistrată, un nou link este pe drum.",
+      "resendFailed": "Nu am putut trimite emailul de confirmare. Încearcă mai târziu.",
+      "avatarTitle": "Avatar",
+      "avatarHint": "JPEG, PNG sau WebP până la 5 MB. Poți decupa după ce alegi fișierul.",
+      "avatarUpload": "Încarcă avatar",
+      "avatarChange": "Schimbă avatar",
+      "avatarRemove": "Elimină",
+      "avatarRemoving": "Se elimină…",
+      "avatarUpdated": "Avatar actualizat.",
+      "avatarRemoved": "Avatar eliminat.",
+      "avatarRemoveFailed": "Nu am putut elimina avatarul.",
+      "identityTitle": "Identitate",
+      "nicknameLabel": "Poreclă",
+      "emailLabel": "Email",
+      "emailHint": "Schimbarea emailului este oprită până adăugăm confirmarea sigură.",
+      "cancel": "Anulează",
+      "save": "Salvează",
+      "saving": "Se salvează…",
+      "saved": "Profil actualizat.",
+      "saveFailed": "Nu am putut salva modificările.",
+      "passwordTitle": "Parolă",
+      "passwordCopy": "Folosește parola curentă pentru a seta una nouă.",
+      "currentPasswordLabel": "Parola curentă",
+      "newPasswordLabel": "Parolă nouă",
+      "confirmPasswordLabel": "Confirmă parola",
+      "passwordSave": "Schimbă parola",
+      "passwordSaving": "Se schimbă…",
+      "passwordSaved": "Parola a fost schimbată.",
+      "passwordFailed": "Nu am putut schimba parola.",
+      "passwordMismatch": "Parolele noi nu coincid."
+    }
+  },
+  "verifyEmail": {
+    "pendingTitle": "Se verifică emailul…",
+    "pendingCopy": "Durează doar o clipă.",
+    "successTitle": "Email confirmat",
+    "successCopy": "Mulțumim! Acum poți folosi pe deplin funcțiile contului.",
+    "errorTitle": "Verificare eșuată",
+    "missingToken": "Acest link nu conține codul de verificare.",
+    "genericError": "Linkul este invalid sau a expirat. Solicită unul nou din panou.",
+    "toDashboard": "Mergi la panou",
+    "toSignin": "Conectare"
   },
   "languageSwitcher": {
     "heading": "Limbă",
@@ -214,7 +270,21 @@
     "signupBenefit1": "Salvează articole pe toate dispozitivele",
     "signupBenefit2": "Comentează și urmărește autorii preferați",
     "signupBenefit3": "Salvează istoricul uneltelor",
-    "signupBenefit4": "Acces timpuriu la funcții noi"
+    "signupBenefit4": "Acces timpuriu la funcții noi",
+    "errorEmailRequired": "Introdu emailul.",
+    "errorEmailInvalid": "Introdu un email valid.",
+    "errorPasswordRequired": "Introdu parola.",
+    "errorPasswordTooShort": "Parola trebuie să aibă cel puțin 8 caractere.",
+    "errorNicknameTooShort": "Porecla trebuie să aibă cel puțin 2 caractere.",
+    "errorInvalidCredentials": "Email sau parolă incorectă.",
+    "errorSigninValidation": "Verifică emailul și parola, apoi încearcă din nou.",
+    "errorSignupValidation": "Verifică emailul, porecla și parola, apoi încearcă din nou.",
+    "errorSignupConflict": "Acest email sau această poreclă este deja folosită.",
+    "errorEmailTaken": "Există deja un cont cu acest email.",
+    "errorNicknameTaken": "Această poreclă este deja folosită.",
+    "errorTooManyAttempts": "Prea multe încercări. Așteaptă puțin și încearcă din nou.",
+    "errorNetwork": "Nu te putem conecta acum. Încearcă din nou peste puțin timp.",
+    "errorServer": "Ceva nu a mers bine la conectare. Încearcă din nou peste puțin timp."
   },
   "content": {
     "metrics": {
@@ -298,12 +368,28 @@
     },
     "comments": {
       "default": [
-        { "author": "Ren K.", "postedAt": "acum 2h", "body": "Exact contextul pe care îl voiam — nu un alt titlu rapid." },
-        { "author": "Aria T.", "postedAt": "acum 5h", "body": "Unghiul practic e ceea ce face materialul util." }
+        {
+          "author": "Ren K.",
+          "postedAt": "acum 2h",
+          "body": "Exact contextul pe care îl voiam — nu un alt titlu rapid."
+        },
+        {
+          "author": "Aria T.",
+          "postedAt": "acum 5h",
+          "body": "Unghiul practic e ceea ce face materialul util."
+        }
       ],
       "elden": [
-        { "author": "Ren K.", "postedAt": "acum 2h", "body": "Cea mai bună analiză Souls din ultimele luni. Punctul despre coordonare e exact." },
-        { "author": "Aria T.", "postedAt": "acum 5h", "body": "Acum chiar mă entuziasmează. Eram sceptic că trecerea la co-op va dilua tensiunea." }
+        {
+          "author": "Ren K.",
+          "postedAt": "acum 2h",
+          "body": "Cea mai bună analiză Souls din ultimele luni. Punctul despre coordonare e exact."
+        },
+        {
+          "author": "Aria T.",
+          "postedAt": "acum 5h",
+          "body": "Acum chiar mă entuziasmează. Eram sceptic că trecerea la co-op va dilua tensiunea."
+        }
       ]
     },
     "eldenDetail": {

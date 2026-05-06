@@ -3,9 +3,12 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -20,6 +23,8 @@ import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
 import { RolesGuard } from "../../common/guards/roles.guard";
 import type { AuthenticatedUser } from "../../common/types/authenticated-user.type";
 
+import { ChangePasswordDto } from "./dto/change-password.dto";
+import { ListUsersQueryDto } from "./dto/list-users-query.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 import { UpdateRoleDto } from "./dto/update-role.dto";
 import { UsersService } from "./users.service";
@@ -37,6 +42,12 @@ export class UsersController {
   @Patch("me")
   updateMe(@CurrentUser() user: AuthenticatedUser, @Body() dto: UpdateProfileDto) {
     return this.users.updateProfile(user.id, dto);
+  }
+
+  @Patch("me/password")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  changePassword(@CurrentUser() user: AuthenticatedUser, @Body() dto: ChangePasswordDto) {
+    return this.users.changePassword(user.id, dto);
   }
 
   @Post("me/avatar")
@@ -59,8 +70,8 @@ export class UsersController {
 
   @Get()
   @Roles(Role.SUPERADMIN, Role.ADMIN)
-  list() {
-    return this.users.listAll();
+  list(@Query() query: ListUsersQueryDto) {
+    return this.users.list(query);
   }
 
   @Patch(":id/role")

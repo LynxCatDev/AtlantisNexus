@@ -23,7 +23,7 @@ agents. Read it before changing either app.
    PostgreSQL (via Prisma).
 3. Users have profile/settings data:
    - Required: email, nickname.
-   - Optional: avatar, date of birth.
+   - Optional: avatar.
 4. All signups must be saved in PostgreSQL (via Prisma).
 5. Supported locales for articles: `en` (default), `ru`, `ro`. Planned: `es`,
    `de`, `fr`. English is the default and required on every article. The

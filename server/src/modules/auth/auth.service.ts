@@ -11,12 +11,15 @@ import { Role } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 
 import type { AuthenticatedUser } from "../../common/types/authenticated-user.type";
+import { parseDurationMs } from "../../common/utils/env.utils";
 import { PrismaService } from "../../database/prisma.service";
 
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
+import { EmailVerificationService } from "./email-verification.service";
 
 const BCRYPT_ROUNDS = 12;
+const TIMING_EQUALIZER_PASSWORD = "__timing-equalizer__";
 
 export type IssuedTokens = {
   accessToken: string;
@@ -27,20 +30,36 @@ export type IssuedTokens = {
 
 @Injectable()
 export class AuthService {
+  private dummyHashPromise: Promise<string> | null = null;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
     private readonly config: ConfigService,
+    private readonly emailVerification: EmailVerificationService,
   ) {}
 
   async register(dto: RegisterDto): Promise<IssuedTokens> {
     const existing = await this.prisma.user.findFirst({
       where: { OR: [{ email: dto.email }, { nickname: dto.nickname }] },
-      select: { id: true },
+      select: { id: true, email: true, nickname: true },
     });
 
     if (existing) {
-      throw new ConflictException("Email or nickname already in use");
+      if (existing.email === dto.email) {
+        throw new ConflictException({
+          statusCode: 409,
+          code: "EMAIL_TAKEN",
+          message: "An account with this email already exists",
+          error: "Conflict",
+        });
+      }
+      throw new ConflictException({
+        statusCode: 409,
+        code: "NICKNAME_TAKEN",
+        message: "This nickname is already taken",
+        error: "Conflict",
+      });
     }
 
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
@@ -51,13 +70,46 @@ export class AuthService {
         nickname: dto.nickname,
         passwordHash,
         avatar: dto.avatar,
-        dateOfBirth: dto.dateOfBirth,
         role: Role.USER,
       },
-      select: { id: true, email: true, nickname: true, role: true, avatar: true },
+      select: {
+        id: true,
+        email: true,
+        nickname: true,
+        role: true,
+        avatar: true,
+        emailVerifiedAt: true,
+      },
+    });
+
+    await this.emailVerification.issueAndSend({
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
     });
 
     return this.issueTokens(user);
+  }
+
+  async resendVerification(email: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      select: { id: true, email: true, nickname: true, emailVerifiedAt: true },
+    });
+
+    if (!user || user.emailVerifiedAt) {
+      return;
+    }
+
+    await this.emailVerification.issueAndSend({
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+    });
+  }
+
+  async verifyEmail(token: string): Promise<void> {
+    await this.emailVerification.verify(token);
   }
 
   async login(dto: LoginDto): Promise<IssuedTokens> {
@@ -69,16 +121,15 @@ export class AuthService {
         nickname: true,
         role: true,
         avatar: true,
+        emailVerifiedAt: true,
         passwordHash: true,
       },
     });
 
-    if (!user) {
-      throw new UnauthorizedException("Invalid credentials");
-    }
+    const hashToCompare = user?.passwordHash ?? (await this.getDummyHash());
+    const ok = await bcrypt.compare(dto.password, hashToCompare);
 
-    const ok = await bcrypt.compare(dto.password, user.passwordHash);
-    if (!ok) {
+    if (!user || !ok) {
       throw new UnauthorizedException("Invalid credentials");
     }
 
@@ -88,6 +139,7 @@ export class AuthService {
       nickname: user.nickname,
       role: user.role,
       avatar: user.avatar,
+      emailVerifiedAt: user.emailVerifiedAt,
     });
   }
 
@@ -102,7 +154,14 @@ export class AuthService {
       where: { tokenHash },
       include: {
         user: {
-          select: { id: true, email: true, nickname: true, role: true, avatar: true },
+          select: {
+            id: true,
+            email: true,
+            nickname: true,
+            role: true,
+            avatar: true,
+            emailVerifiedAt: true,
+          },
         },
       },
     });
@@ -158,7 +217,9 @@ export class AuthService {
     const refreshToken = randomBytes(64).toString("hex");
     const tokenHash = this.hashRefreshToken(refreshToken);
     const refreshTtl = this.config.get<string>("jwt.refreshTtl", "7d");
-    const expiresAt = new Date(Date.now() + this.parseDuration(refreshTtl));
+    const expiresAt = new Date(
+      Date.now() + parseDurationMs(refreshTtl, 7 * 24 * 60 * 60 * 1000),
+    );
 
     await this.prisma.refreshToken.create({
       data: {
@@ -175,20 +236,10 @@ export class AuthService {
     return createHash("sha256").update(token).digest("hex");
   }
 
-  private parseDuration(value: string): number {
-    const match = /^(\d+)\s*([smhd])?$/.exec(value.trim());
-    if (!match) {
-      return 7 * 24 * 60 * 60 * 1000;
+  private getDummyHash(): Promise<string> {
+    if (!this.dummyHashPromise) {
+      this.dummyHashPromise = bcrypt.hash(TIMING_EQUALIZER_PASSWORD, BCRYPT_ROUNDS);
     }
-
-    const amount = Number(match[1]);
-    const unit = match[2] ?? "s";
-    const unitMs: Record<string, number> = {
-      s: 1000,
-      m: 60 * 1000,
-      h: 60 * 60 * 1000,
-      d: 24 * 60 * 60 * 1000,
-    };
-    return amount * unitMs[unit];
+    return this.dummyHashPromise;
   }
 }

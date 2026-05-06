@@ -12,6 +12,7 @@ import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { Button } from "@/components/Button/Button";
 import { MailIcon } from "@/components/Icons/Icons";
 
+import { getSigninErrors, isEmailLike, type SigninFieldErrors } from "./authErrors";
 import "./Auth.scss";
 
 export function SigninPage() {
@@ -20,20 +21,43 @@ export function SigninPage() {
   const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<SigninFieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const onEmailChange = (value: string) => {
+    setEmail(value);
+    if (errors.email || errors.form) setErrors((e) => ({ ...e, email: undefined, form: undefined }));
+  };
+
+  const onPasswordChange = (value: string) => {
+    setPassword(value);
+    if (errors.password || errors.form) setErrors((e) => ({ ...e, password: undefined, form: undefined }));
+  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null);
+
+    const trimmedEmail = email.trim();
+    const next: SigninFieldErrors = {};
+    if (!trimmedEmail) next.email = t("errorEmailRequired");
+    else if (!isEmailLike(trimmedEmail)) next.email = t("errorEmailInvalid");
+    if (!password) next.password = t("errorPasswordRequired");
+    else if (password.length < 8) next.password = t("errorPasswordTooShort");
+
+    if (next.email || next.password) {
+      setErrors(next);
+      return;
+    }
+
+    setErrors({});
     setSubmitting(true);
     try {
-      const user = await login({ email: email.trim(), password });
+      const user = await login({ email: trimmedEmail, password });
       const isStaff = user.role === "ADMIN" || user.role === "SUPERADMIN";
       router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("signinFailed"));
+      setErrors(getSigninErrors(err, t));
       setSubmitting(false);
     }
   };
@@ -72,7 +96,7 @@ export function SigninPage() {
               <span>{t("or")}</span>
             </div>
 
-            <label className="field">
+            <label className={`field${errors.email ? " field--error" : ""}`}>
               <span>{t("email")}</span>
               <span className="input-wrap">
                 <MailIcon />
@@ -82,13 +106,20 @@ export function SigninPage() {
                   type="email"
                   autoComplete="email"
                   required
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "signin-email-error" : undefined}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => onEmailChange(e.target.value)}
                 />
               </span>
+              {errors.email ? (
+                <span className="field-error" id="signin-email-error" role="alert">
+                  {errors.email}
+                </span>
+              ) : null}
             </label>
 
-            <label className="field">
+            <label className={`field${errors.password ? " field--error" : ""}`}>
               <span className="field-row">
                 <span>{t("password")}</span>
                 <a href="#">{t("forgot")}</a>
@@ -99,11 +130,18 @@ export function SigninPage() {
                 required
                 minLength={8}
                 value={password}
-                onChange={setPassword}
+                onChange={onPasswordChange}
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={errors.password ? "signin-password-error" : undefined}
               />
+              {errors.password ? (
+                <span className="field-error" id="signin-password-error" role="alert">
+                  {errors.password}
+                </span>
+              ) : null}
             </label>
 
-            {error ? <p className="auth-error">{error}</p> : null}
+            {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
               {submitting ? t("signinButtonLoading") : t("signinButton")}

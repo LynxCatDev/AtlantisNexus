@@ -112,6 +112,22 @@
   color: var(--muted-strong);
   font-size: 13.12px;
   font-weight: 500;
+
+  &--error .input-wrap input {
+    border-color: rgba(255, 99, 132, 0.65);
+
+    &:focus {
+      border-color: rgba(255, 99, 132, 0.85);
+      box-shadow: 0 0 0 3px rgba(255, 99, 132, 0.18);
+    }
+  }
+}
+
+.field-error {
+  color: #ffb2c0;
+  font-size: 12.4px;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
 .field-row {

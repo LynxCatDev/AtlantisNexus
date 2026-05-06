@@ -12,6 +12,7 @@ import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { Button } from "@/components/Button/Button";
 import { MailIcon, UserIcon } from "@/components/Icons/Icons";
 
+import { getSignupErrors, isEmailLike, type SignupFieldErrors } from "./authErrors";
 import "./Auth.scss";
 
 export function SignupPage() {
@@ -21,24 +22,54 @@ export function SignupPage() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<SignupFieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const onNicknameChange = (value: string) => {
+    setNickname(value);
+    if (errors.nickname || errors.form) setErrors((e) => ({ ...e, nickname: undefined, form: undefined }));
+  };
+
+  const onEmailChange = (value: string) => {
+    setEmail(value);
+    if (errors.email || errors.form) setErrors((e) => ({ ...e, email: undefined, form: undefined }));
+  };
+
+  const onPasswordChange = (value: string) => {
+    setPassword(value);
+    if (errors.password || errors.form) setErrors((e) => ({ ...e, password: undefined, form: undefined }));
+  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null);
+
+    const trimmedNickname = nickname.trim();
+    const trimmedEmail = email.trim();
+    const next: SignupFieldErrors = {};
+    if (trimmedNickname.length < 2) next.nickname = t("errorNicknameTooShort");
+    if (!trimmedEmail) next.email = t("errorEmailRequired");
+    else if (!isEmailLike(trimmedEmail)) next.email = t("errorEmailInvalid");
+    if (!password) next.password = t("errorPasswordRequired");
+    else if (password.length < 8) next.password = t("errorPasswordTooShort");
+
+    if (next.nickname || next.email || next.password) {
+      setErrors(next);
+      return;
+    }
+
+    setErrors({});
     setSubmitting(true);
     try {
       const user = await register({
-        email: email.trim(),
-        nickname: nickname.trim(),
+        email: trimmedEmail,
+        nickname: trimmedNickname,
         password,
       });
       const isStaff = user.role === "ADMIN" || user.role === "SUPERADMIN";
       router.push(isStaff ? "/admin" : "/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("signupFailed"));
+      setErrors(getSignupErrors(err, t));
       setSubmitting(false);
     }
   };
@@ -64,7 +95,7 @@ export function SignupPage() {
               <span>{t("or")}</span>
             </div>
 
-            <label className="field">
+            <label className={`field${errors.nickname ? " field--error" : ""}`}>
               <span>{t("displayName")}</span>
               <span className="input-wrap">
                 <UserIcon />
@@ -76,13 +107,20 @@ export function SignupPage() {
                   required
                   minLength={2}
                   maxLength={32}
+                  aria-invalid={Boolean(errors.nickname)}
+                  aria-describedby={errors.nickname ? "signup-nickname-error" : undefined}
                   value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  onChange={(e) => onNicknameChange(e.target.value)}
                 />
               </span>
+              {errors.nickname ? (
+                <span className="field-error" id="signup-nickname-error" role="alert">
+                  {errors.nickname}
+                </span>
+              ) : null}
             </label>
 
-            <label className="field">
+            <label className={`field${errors.email ? " field--error" : ""}`}>
               <span>{t("email")}</span>
               <span className="input-wrap">
                 <MailIcon />
@@ -92,13 +130,20 @@ export function SignupPage() {
                   type="email"
                   autoComplete="email"
                   required
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "signup-email-error" : undefined}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => onEmailChange(e.target.value)}
                 />
               </span>
+              {errors.email ? (
+                <span className="field-error" id="signup-email-error" role="alert">
+                  {errors.email}
+                </span>
+              ) : null}
             </label>
 
-            <label className="field">
+            <label className={`field${errors.password ? " field--error" : ""}`}>
               <span>{t("password")}</span>
               <PasswordField
                 name="password"
@@ -108,11 +153,18 @@ export function SignupPage() {
                 minLength={8}
                 maxLength={128}
                 value={password}
-                onChange={setPassword}
+                onChange={onPasswordChange}
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={errors.password ? "signup-password-error" : undefined}
               />
+              {errors.password ? (
+                <span className="field-error" id="signup-password-error" role="alert">
+                  {errors.password}
+                </span>
+              ) : null}
             </label>
 
-            {error ? <p className="auth-error">{error}</p> : null}
+            {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
               {submitting ? t("signupButtonLoading") : t("signupButton")}

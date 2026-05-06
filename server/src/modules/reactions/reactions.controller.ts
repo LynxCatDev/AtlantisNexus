@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
+import { RequiresVerifiedEmail } from "../../common/decorators/requires-verified-email.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
+import { VerifiedEmailGuard } from "../../common/guards/verified-email.guard";
 import type { AuthenticatedUser } from "../../common/types/authenticated-user.type";
 
 import { ToggleReactionDto } from "./dto/toggle-reaction.dto";
@@ -17,7 +19,8 @@ export class ReactionsController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, VerifiedEmailGuard)
+  @RequiresVerifiedEmail()
   toggle(
     @Param("slug") slug: string,
     @Body() dto: ToggleReactionDto,

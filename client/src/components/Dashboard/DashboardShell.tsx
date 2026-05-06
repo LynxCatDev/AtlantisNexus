@@ -67,6 +67,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               })}
             </ul>
           </nav>
+
+          <div className="dashboard-sidebar__foot">
+            <Link href="/" className="dashboard-back">
+              {t("backToSite")}
+            </Link>
+          </div>
         </aside>
         <section className="dashboard-content">{children}</section>
       </main>

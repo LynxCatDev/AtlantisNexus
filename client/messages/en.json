@@ -21,6 +21,7 @@
     "loading": "Loading your dashboard…",
     "navAriaLabel": "Dashboard navigation",
     "sidebarEyebrow": "Account",
+    "backToSite": "← Back to site",
     "profile": "Profile",
     "profileSection": {
       "title": "Account settings",

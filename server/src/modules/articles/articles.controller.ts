@@ -11,9 +11,13 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { Locale, Role } from "@prisma/client";
+import "multer";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { Roles } from "../../common/decorators/roles.decorator";
@@ -45,6 +49,18 @@ export class ArticlesController {
   @Roles(Role.ADMIN, Role.SUPERADMIN)
   create(@Body() dto: CreateArticleDto, @CurrentUser() user: AuthenticatedUser) {
     return this.articles.create(dto, user.id);
+  }
+
+  @Post("cover-image")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPERADMIN)
+  @UseInterceptors(
+    FileInterceptor("file", {
+      limits: { fileSize: 8 * 1024 * 1024 },
+    }),
+  )
+  uploadCoverImage(@UploadedFile() file: Express.Multer.File) {
+    return this.articles.uploadCoverImage(file);
   }
 
   @Patch(":slug")

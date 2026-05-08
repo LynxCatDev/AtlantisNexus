@@ -1,13 +1,19 @@
+import { randomBytes } from "node:crypto";
+
 import {
   BadRequestException,
-  ConflictException,
+  Inject,
   Injectable,
+  ConflictException,
   NotFoundException,
 } from "@nestjs/common";
 import { Locale, Prisma } from "@prisma/client";
+import sharp from "sharp";
 
 import { PrismaService } from "../../database/prisma.service";
 import { CategoriesService } from "../categories/categories.service";
+import { OBJECT_STORAGE } from "../storage/storage.module";
+import type { ObjectStorage } from "../storage/storage.types";
 
 import { ArticleTranslationDto } from "./dto/article-translation.dto";
 import { CreateArticleDto } from "./dto/create-article.dto";
@@ -16,6 +22,11 @@ import { UpsertTranslationDto } from "./dto/upsert-translation.dto";
 
 const DEFAULT_LOCALE: Locale = Locale.en;
 
+const COVER_MAX_BYTES = 8 * 1024 * 1024;
+const COVER_OUTPUT_WIDTH = 1600;
+const COVER_OUTPUT_HEIGHT = 900;
+const ALLOWED_COVER_MIMES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
 type CategoryView = { slug: string; label: string; isMain: boolean };
 
 @Injectable()
@@ -23,6 +34,7 @@ export class ArticlesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly categories: CategoriesService,
+    @Inject(OBJECT_STORAGE) private readonly storage: ObjectStorage,
   ) {}
 
   async list(locale: Locale) {
@@ -269,6 +281,43 @@ export class ArticlesService {
     } catch {
       throw new NotFoundException("Translation not found");
     }
+  }
+
+  async uploadCoverImage(
+    file: { buffer: Buffer; mimetype: string; size: number } | undefined,
+  ): Promise<{ url: string }> {
+    if (!file) {
+      throw new BadRequestException("No file uploaded");
+    }
+    if (file.size > COVER_MAX_BYTES) {
+      throw new BadRequestException("Image too large (max 8 MB)");
+    }
+    if (!ALLOWED_COVER_MIMES.has(file.mimetype)) {
+      throw new BadRequestException("Unsupported image type (use JPEG, PNG, or WebP)");
+    }
+
+    let processed: Buffer;
+    try {
+      processed = await sharp(file.buffer)
+        .rotate()
+        .resize(COVER_OUTPUT_WIDTH, COVER_OUTPUT_HEIGHT, {
+          fit: "cover",
+          position: "centre",
+        })
+        .webp({ quality: 86 })
+        .toBuffer();
+    } catch {
+      throw new BadRequestException("Image could not be processed");
+    }
+
+    const key = `articles/${Date.now().toString(36)}-${randomBytes(6).toString("hex")}.webp`;
+    const stored = await this.storage.put({
+      key,
+      body: processed,
+      contentType: "image/webp",
+    });
+
+    return { url: stored.url };
   }
 
   private assertEnglishTranslation(translations: ArticleTranslationDto[]): void {

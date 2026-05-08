@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Button } from "@/components/Button/Button";
+import { ApiError, apiBaseUrl } from "@/lib/api";
 import type { ArticleLocale, Category } from "@/types/auth";
 
 const LOCALE_LABELS: Record<ArticleLocale, string> = {
@@ -37,7 +38,7 @@ const emptyTranslation = (): TranslationDraft => ({
 
 export function ArticleCreatePage() {
   const router = useRouter();
-  const { authedFetch } = useAuth();
+  const { authedFetch, accessToken } = useAuth();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
@@ -47,6 +48,9 @@ export function ArticleCreatePage() {
   const [minutes, setMinutes] = useState("5 min");
   const [image, setImage] = useState("");
   const [tags, setTags] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [translations, setTranslations] = useState<Record<ArticleLocale, TranslationDraft>>({
     en: emptyTranslation(),
@@ -127,6 +131,40 @@ export function ArticleCreatePage() {
       return next;
     });
     setActiveLocale("en");
+  };
+
+  const onCoverFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    setUploading(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const res = await fetch(`${apiBaseUrl}/articles/cover-image`, {
+        method: "POST",
+        body: form,
+        credentials: "include",
+        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        const message =
+          (data && typeof data === "object" && "message" in data
+            ? Array.isArray((data as { message: unknown }).message)
+              ? ((data as { message: string[] }).message.join(", ") as string)
+              : String((data as { message: unknown }).message)
+            : res.statusText) || `Upload failed (${res.status})`;
+        throw new ApiError(res.status, message, data);
+      }
+      const { url } = (await res.json()) as { url: string };
+      setImage(url);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -225,17 +263,64 @@ export function ArticleCreatePage() {
             />
           </label>
 
-          <label className="admin-field">
-            <span>Cover image URL</span>
-            <input
-              required
-              type="url"
-              maxLength={2048}
-              placeholder="https://images.unsplash.com/..."
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </label>
+          <div className="admin-field">
+            <span>Cover image</span>
+            <div className="cover-upload">
+              <div
+                className={`cover-upload__preview${image ? " has-image" : ""}`}
+                aria-hidden={!image}
+              >
+                {image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={image} alt="Cover preview" />
+                ) : (
+                  <span className="cover-upload__placeholder">No image</span>
+                )}
+              </div>
+              <div className="cover-upload__controls">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="cover-upload__file"
+                  onChange={onCoverFileChange}
+                />
+                <div className="cover-upload__buttons">
+                  <button
+                    type="button"
+                    className="admin-secondary-button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                  >
+                    {uploading ? "Uploading…" : image ? "Replace file" : "Upload file"}
+                  </button>
+                  {image ? (
+                    <button
+                      type="button"
+                      className="admin-secondary-button"
+                      onClick={() => {
+                        setImage("");
+                        setUploadError(null);
+                        if (fileInputRef.current) fileInputRef.current.value = "";
+                      }}
+                      disabled={uploading}
+                    >
+                      Clear
+                    </button>
+                  ) : null}
+                </div>
+                <input
+                  required
+                  type="url"
+                  maxLength={2048}
+                  placeholder="…or paste an image URL"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+                {uploadError ? <small className="admin-error">{uploadError}</small> : null}
+              </div>
+            </div>
+          </div>
 
           <label className="admin-field">
             <span>Tags (comma-separated)</span>

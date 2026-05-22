@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Clock as ClockIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { ClockIcon } from "@/components/Icons/Icons";
 import { useArticleContent } from "@/i18n/content";
 import type { Article } from "@/types/content";
 

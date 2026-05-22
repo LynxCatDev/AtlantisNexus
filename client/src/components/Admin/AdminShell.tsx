@@ -1,24 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import {
+  Bell as BellIcon,
+  FileText as FileTextIcon,
+  ImagePlus as MediaIcon,
+  LayoutDashboard as DashboardIcon,
+  LogOut as LogOutIcon,
+  MessageSquare as MessageIcon,
+  Plus as PlusIcon,
+  Search as SearchIcon,
+  Shield as ShieldIcon,
+  Tags as TagsIcon,
+  UserCircle as ProfileIcon,
+  Users as UsersIcon,
+  type LucideIcon,
+} from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
-import {
-  BellIcon,
-  DashboardIcon,
-  FileTextIcon,
-  MediaIcon,
-  MessageIcon,
-  PlusIcon,
-  ProfileIcon,
-  TagsIcon,
-  UsersIcon,
-} from "@/components/Admin/adminIcons";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
-import { SearchIcon } from "@/components/Icons/Icons";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 import "./Admin.scss";
@@ -35,7 +38,7 @@ type NavKey =
 type NavItem = {
   href: string;
   labelKey: NavKey;
-  icon: (props: { className?: string }) => React.ReactElement;
+  icon: LucideIcon;
   exact?: boolean;
   soon?: boolean;
   superadminOnly?: boolean;
@@ -180,6 +183,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
                 >
+                  <ProfileIcon aria-hidden="true" size={16} />
                   {t("menuProfile")}
                 </Link>
                 <Link
@@ -188,6 +192,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
                 >
+                  <ShieldIcon aria-hidden="true" size={16} />
                   {t("menuBackToSite")}
                 </Link>
                 <button
@@ -201,6 +206,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     router.refresh();
                   }}
                 >
+                  <LogOutIcon aria-hidden="true" size={16} />
                   {t("menuSignOut")}
                 </button>
               </div>

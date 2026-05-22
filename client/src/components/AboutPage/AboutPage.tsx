@@ -1,9 +1,13 @@
+import {
+  Code as CodeIcon,
+  FileText as FileTextIcon,
+  Sparkles as SparkleIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { CodeIcon, FileTextIcon, SparkleIcon } from "@/components/Icons/Icons";
 
 import "./AboutPage.scss";
 

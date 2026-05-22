@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import {
+  CirclePlay as YouTubeIcon,
+  CodeXml as GitHubIcon,
+  MessageCircle as TwitterIcon,
+  Rss as RssIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
-import {
-  GitHubIcon,
-  RssIcon,
-  TwitterIcon,
-  YouTubeIcon,
-} from "@/components/Icons/Icons";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher";
 import { footerLinkGroups, socialLinks } from "@/constants/navigation";
 

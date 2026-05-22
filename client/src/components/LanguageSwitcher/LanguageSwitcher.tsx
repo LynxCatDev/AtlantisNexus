@@ -1,5 +1,6 @@
 "use client";
 
+import { Check as CheckIcon, Globe as GlobeIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useTransition } from "react";
@@ -8,7 +9,6 @@ import { languages } from "@/constants/languages";
 import type { Locale } from "@/i18n/config";
 import { setLocale } from "@/i18n/locale";
 
-import { CheckIcon, GlobeIcon } from "../Icons/Icons";
 import "./LanguageSwitcher.scss";
 
 export function LanguageSwitcher() {

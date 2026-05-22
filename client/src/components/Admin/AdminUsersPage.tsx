@@ -1,5 +1,14 @@
 "use client";
 
+import {
+  AlertCircle as AlertCircleIcon,
+  BadgeCheck as BadgeCheckIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Inbox as InboxIcon,
+  ShieldCheck as ShieldCheckIcon,
+  ShieldOff as ShieldOffIcon,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -124,7 +133,10 @@ export function AdminUsersPage() {
   if (status === "loading" || !isSuperadmin) {
     return (
       <div className="admin-dashboard">
-        <div className="dashboard-empty">{t("usersCheckingPermissions")}</div>
+        <div className="dashboard-empty">
+          <InboxIcon aria-hidden="true" size={18} />
+          <p>{t("usersCheckingPermissions")}</p>
+        </div>
       </div>
     );
   }
@@ -238,6 +250,11 @@ export function AdminUsersPage() {
                               : "admin-user-pill admin-user-pill--unverified"
                           }
                         >
+                          {item.emailVerifiedAt ? (
+                            <BadgeCheckIcon aria-hidden="true" size={16} />
+                          ) : (
+                            <AlertCircleIcon aria-hidden="true" size={16} />
+                          )}
                           {item.emailVerifiedAt ? t("usersVerified") : t("usersUnverified")}
                         </span>
                       </td>
@@ -261,6 +278,7 @@ export function AdminUsersPage() {
                               type="button"
                               onClick={() => void updateRole(item, "ADMIN")}
                             >
+                              <ShieldCheckIcon aria-hidden="true" size={16} />
                               {updatingId === item.id ? t("usersSaving") : t("usersMakeAdmin")}
                             </button>
                           ) : null}
@@ -271,6 +289,7 @@ export function AdminUsersPage() {
                               type="button"
                               onClick={() => void updateRole(item, "USER")}
                             >
+                              <ShieldOffIcon aria-hidden="true" size={16} />
                               {updatingId === item.id ? t("usersSaving") : t("usersRemoveAdmin")}
                             </button>
                           ) : null}
@@ -294,6 +313,7 @@ export function AdminUsersPage() {
                 disabled={page <= 1}
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
               >
+                <ChevronLeftIcon aria-hidden="true" size={16} />
                 {t("usersPagePrev")}
               </button>
               <span>
@@ -306,11 +326,15 @@ export function AdminUsersPage() {
                 onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
               >
                 {t("usersPageNext")}
+                <ChevronRightIcon aria-hidden="true" size={16} />
               </button>
             </div>
           </>
         ) : (
-          <div className="dashboard-empty">{t("usersNone")}</div>
+          <div className="dashboard-empty">
+            <InboxIcon aria-hidden="true" size={18} />
+            <p>{t("usersNone")}</p>
+          </div>
         )}
       </section>
     </div>

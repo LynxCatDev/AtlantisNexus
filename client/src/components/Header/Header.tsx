@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { Search as SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { mainNavigation } from "@/constants/navigation";
 
 import { BrandLogo } from "../BrandLogo/BrandLogo";
-import { SearchIcon } from "../Icons/Icons";
 import { LanguageSwitcher } from "../LanguageSwitcher/LanguageSwitcher";
 import { UserMenu } from "./UserMenu";
 import "./Header.scss";

@@ -1,6 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import {
+  ArrowUpRight as ArrowUpRightIcon,
+  Braces as BracesIcon,
+  Calculator as CalculatorIcon,
+  FileText as FileTextIcon,
+  Hash as HashIcon,
+  Image as ImageIcon,
+  Palette as PaletteIcon,
+  Regex as RegexIcon,
+  Repeat as ConvertIcon,
+  Search as SearchIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -10,18 +22,6 @@ import { EmptyPanel } from "@/components/EmptyPanel/EmptyPanel";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import {
-  ArrowUpRightIcon,
-  BracesIcon,
-  CalculatorIcon,
-  ConvertIcon,
-  FileTextIcon,
-  HashIcon,
-  ImageIcon,
-  PaletteIcon,
-  RegexIcon,
-  SearchIcon,
-} from "@/components/Icons/Icons";
 import { articles } from "@/constants/articles";
 import { toolCatalog } from "@/constants/tools";
 import { useArticleContent, useToolContent } from "@/i18n/content";

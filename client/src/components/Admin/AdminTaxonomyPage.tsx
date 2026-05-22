@@ -1,9 +1,14 @@
 "use client";
 
+import {
+  Pencil as PencilIcon,
+  Plus as PlusIcon,
+  Tags as TagsIcon,
+  Trash2 as Trash2Icon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 
-import { PlusIcon, TagsIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { articles } from "@/constants/articles";
@@ -138,9 +143,11 @@ export function AdminTaxonomyPage() {
                     {category.isMain ? (
                       <>
                         <button disabled type="button">
+                          <PencilIcon aria-hidden="true" size={16} />
                           {t("taxonomyEdit")}
                         </button>
                         <button disabled type="button">
+                          <Trash2Icon aria-hidden="true" size={16} />
                           {t("taxonomyDelete")}
                         </button>
                       </>
@@ -198,6 +205,7 @@ export function AdminTaxonomyPage() {
               />
             </label>
             <button className="admin-cta" disabled={!isSuperadmin || submitting} type="submit">
+              <PlusIcon aria-hidden="true" size={16} />
               {submitting ? t("taxonomyCreating") : t("taxonomyCreate")}
             </button>
           </form>

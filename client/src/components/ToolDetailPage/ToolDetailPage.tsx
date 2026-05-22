@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { ArrowRight as ArrowRightIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/Button/Button";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { ArrowRightIcon } from "@/components/Icons/Icons";
 import { useToolContent } from "@/i18n/content";
 import type { ToolCatalogItem } from "@/types/content";
 

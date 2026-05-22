@@ -10,3 +10,9 @@ notices.
 Read the shared project instructions first:
 
 `../AGENTS.md`
+
+## Frontend Direction
+
+- Icons come from `lucide-react`, imported directly at the call site. Do not
+  create custom SVG icon components. Brand multicolor marks, such as Google,
+  are the only exception.

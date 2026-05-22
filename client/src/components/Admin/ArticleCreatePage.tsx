@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  Plus as PlusIcon,
+  RefreshCcw as RefreshCcwIcon,
+  Trash2 as Trash2Icon,
+  Upload as UploadIcon,
+  X as XIcon,
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -97,7 +104,7 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
     return () => {
       cancelled = true;
     };
-  }, [authedFetch, isEdit]);
+  }, [authedFetch, isEdit, t]);
 
   useEffect(() => {
     if (!editSlug) return;
@@ -416,6 +423,11 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
                     className="admin-secondary-button"
                     onClick={() => fileInputRef.current?.click()}
                   >
+                    {pendingFile ? (
+                      <RefreshCcwIcon aria-hidden="true" size={16} />
+                    ) : (
+                      <UploadIcon aria-hidden="true" size={16} />
+                    )}
                     {pendingFile ? t("formCoverReplace") : t("formCoverUpload")}
                   </button>
                   {pendingFile || image ? (
@@ -424,6 +436,7 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
                       className="admin-secondary-button"
                       onClick={clearCover}
                     >
+                      <XIcon aria-hidden="true" size={16} />
                       {t("formCoverClear")}
                     </button>
                   ) : null}
@@ -485,7 +498,7 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
                       }
                     }}
                   >
-                    ×
+                    <XIcon aria-hidden="true" size={13} />
                   </span>
                 ) : (
                   <span className="lang-tab-required" aria-label={t("formLocaleRequired")}>
@@ -589,6 +602,7 @@ function TranslationEditor({
         <div className="section-list-head">
           <h3>{t("formSections")}</h3>
           <button type="button" className="link-button" onClick={onAddSection}>
+            <PlusIcon aria-hidden="true" size={16} />
             {t("formAddSection")}
           </button>
         </div>
@@ -603,6 +617,7 @@ function TranslationEditor({
                   className="link-button danger"
                   onClick={() => onRemoveSection(idx)}
                 >
+                  <Trash2Icon aria-hidden="true" size={16} />
                   {t("formRemoveSection")}
                 </button>
               ) : null}

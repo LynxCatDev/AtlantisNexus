@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Mail as MailIcon, User as UserIcon, UserPlus as UserPlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
@@ -10,7 +11,6 @@ import { GoogleIcon } from "@/components/Auth/GoogleIcon";
 import { PasswordField } from "@/components/Auth/PasswordField";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { Button } from "@/components/Button/Button";
-import { MailIcon, UserIcon } from "@/components/Icons/Icons";
 
 import { getSignupErrors, isEmailLike, type SignupFieldErrors } from "./authErrors";
 import "./Auth.scss";
@@ -167,6 +167,7 @@ export function SignupPage() {
             {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
+              {!submitting ? <UserPlusIcon aria-hidden="true" size={16} /> : null}
               {submitting ? t("signupButtonLoading") : t("signupButton")}
             </Button>
 

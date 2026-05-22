@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LogIn as LogInIcon, Mail as MailIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
@@ -10,7 +11,6 @@ import { GoogleIcon } from "@/components/Auth/GoogleIcon";
 import { PasswordField } from "@/components/Auth/PasswordField";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { Button } from "@/components/Button/Button";
-import { MailIcon } from "@/components/Icons/Icons";
 
 import { getSigninErrors, isEmailLike, type SigninFieldErrors } from "./authErrors";
 import "./Auth.scss";
@@ -144,6 +144,7 @@ export function SigninPage() {
             {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
+              {!submitting ? <LogInIcon aria-hidden="true" size={16} /> : null}
               {submitting ? t("signinButtonLoading") : t("signinButton")}
             </Button>
           </form>

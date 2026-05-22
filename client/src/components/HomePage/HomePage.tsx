@@ -1,5 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  ArrowRight as ArrowRightIcon,
+  ArrowUpRight as ArrowUpRightIcon,
+  Brain as BrainIcon,
+  Braces as BracesIcon,
+  Calculator as CalculatorIcon,
+  Code as CodeIcon,
+  Gamepad2 as GamepadIcon,
+  Image as ImageIcon,
+  Palette as PaletteIcon,
+  Sparkles as SparkleIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
@@ -8,18 +20,6 @@ import { Button } from "@/components/Button/Button";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  BrainIcon,
-  BracesIcon,
-  CalculatorIcon,
-  CodeIcon,
-  GamepadIcon,
-  ImageIcon,
-  PaletteIcon,
-  SparkleIcon,
-} from "@/components/Icons/Icons";
 import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
 import { useArticleContent, useToolContent } from "@/i18n/content";
 import type { Article, ArticleCategory } from "@/types/content";

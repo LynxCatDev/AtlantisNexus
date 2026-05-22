@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  Check as CheckIcon,
+  KeyRound as KeyRoundIcon,
+  Mail as MailIcon,
+  X as XIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   useMemo,
@@ -181,6 +187,7 @@ export function DashboardProfilePage() {
             disabled={resending}
             onClick={onResend}
           >
+            <MailIcon aria-hidden="true" size={16} />
             {resending ? t("resending") : t("resend")}
           </button>
         </div>
@@ -271,6 +278,7 @@ export function DashboardProfilePage() {
             onClick={onCancel}
             disabled={!dirty || saving}
           >
+            <XIcon aria-hidden="true" size={16} />
             {t("cancel")}
           </button>
           <button
@@ -278,6 +286,7 @@ export function DashboardProfilePage() {
             className="dashboard-button dashboard-button--primary"
             disabled={!dirty || saving}
           >
+            <CheckIcon aria-hidden="true" size={16} />
             {saving ? t("saving") : t("save")}
           </button>
         </div>
@@ -341,6 +350,7 @@ export function DashboardProfilePage() {
             className="dashboard-button dashboard-button--primary"
             disabled={passwordSaving}
           >
+            <KeyRoundIcon aria-hidden="true" size={16} />
             {passwordSaving ? t("passwordSaving") : t("passwordSave")}
           </button>
         </div>

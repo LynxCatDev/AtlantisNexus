@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import {
+  Inbox as InboxIcon,
+  Pencil as PencilIcon,
+  Plus as PlusIcon,
+  Trash2 as Trash2Icon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { PencilIcon, PlusIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 
@@ -190,6 +195,7 @@ export function AdminArticlesPage() {
                           onClick={() => void deleteArticle(article)}
                           type="button"
                         >
+                          <Trash2Icon aria-hidden="true" size={16} />
                           {deletingSlug === article.slug ? t("articlesDeleting") : t("articlesDelete")}
                         </button>
                       </div>
@@ -201,6 +207,7 @@ export function AdminArticlesPage() {
           </div>
         ) : (
           <div className="dashboard-empty">
+            <InboxIcon aria-hidden="true" size={18} />
             {activeTab === "All" || activeTab === "Published"
               ? t("noArticles")
               : t("articlesNotWired", { tab: tabLabel(activeTab) })}

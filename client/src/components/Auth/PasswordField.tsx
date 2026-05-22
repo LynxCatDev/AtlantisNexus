@@ -1,8 +1,7 @@
 "use client";
 
+import { Eye as EyeIcon, EyeOff as EyeOffIcon, Lock as LockIcon } from "lucide-react";
 import { useState } from "react";
-
-import { EyeIcon, EyeOffIcon, LockIcon } from "@/components/Icons/Icons";
 
 type Props = {
   name: string;

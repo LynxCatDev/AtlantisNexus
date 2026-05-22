@@ -1,19 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import {
+  ArrowUpRight as ArrowUpRightIcon,
+  Eye as EyeIcon,
+  FileText as FileTextIcon,
+  Inbox as InboxIcon,
+  MessageSquare as MessageIcon,
+  Pencil as PencilIcon,
+  Plus as PlusIcon,
+  Sparkles as SparkleIcon,
+  TrendingUp as TrendUpIcon,
+  type LucideIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-import {
-  ArrowUpRightIcon,
-  EyeIcon,
-  FileTextIcon,
-  MessageIcon,
-  PencilIcon,
-  PlusIcon,
-  SparkleIcon,
-  TrendUpIcon,
-} from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 
@@ -36,7 +38,7 @@ type StatProps = {
   value: string;
   change: string;
   tone: Tone;
-  icon: (props: { className?: string }) => React.ReactElement;
+  icon: LucideIcon;
 };
 
 function StatCard({ label, value, change, tone, icon: Icon }: StatProps) {
@@ -147,6 +149,7 @@ export function AdminDashboard() {
 
           {!error && recentArticles.length === 0 ? (
             <div className="dashboard-empty">
+              <InboxIcon aria-hidden="true" size={18} />
               <p>{t("noArticles")}</p>
               <Link href="/admin/articles/new" className="link-cyan">
                 {t("publishFirst")}
@@ -196,6 +199,7 @@ export function AdminDashboard() {
           </header>
           <div className="recent-list recent-list-comments">
             <div className="dashboard-empty">
+              <InboxIcon aria-hidden="true" size={18} />
               <p>{t("moderationNotShipped")}</p>
               <p className="recent-meta">{t("moderationOnceReaders")}</p>
             </div>

@@ -1,9 +1,15 @@
 "use client";
 
+import {
+  Check as CheckIcon,
+  Sparkles as SparkleIcon,
+  Trash2 as Trash2Icon,
+  UserCircle as ProfileIcon,
+  X as XIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
-import { ProfileIcon, SparkleIcon } from "@/components/Admin/adminIcons";
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { AvatarUploadDialog } from "@/components/AvatarUpload/AvatarUploadDialog";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -122,6 +128,7 @@ export function AdminProfilePage() {
                 disabled={removingAvatar}
                 onClick={onRemoveAvatar}
               >
+                <Trash2Icon aria-hidden="true" size={16} />
                 {removingAvatar ? t("profileRemovingAvatar") : t("profileRemove")}
               </button>
             ) : null}
@@ -221,9 +228,11 @@ export function AdminProfilePage() {
 
           <div className="admin-form-footer">
             <button className="admin-secondary-button" onClick={resetForm} type="button">
+              <XIcon aria-hidden="true" size={16} />
               {t("profileCancel")}
             </button>
             <button className="admin-cta" type="submit">
+              <CheckIcon aria-hidden="true" size={16} />
               {t("profileSave")}
             </button>
           </div>

@@ -1,6 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import {
+  LayoutDashboard as DashboardIcon,
+  LogOut as LogOutIcon,
+  Shield as ShieldIcon,
+} from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -79,6 +84,7 @@ export function UserMenu() {
           </div>
           {isAdmin ? (
             <Link className="user-menu__item" href="/admin" role="menuitem" onClick={() => setOpen(false)}>
+              <ShieldIcon aria-hidden="true" size={16} />
               {t("adminDashboard")}
             </Link>
           ) : (
@@ -88,6 +94,7 @@ export function UserMenu() {
               role="menuitem"
               onClick={() => setOpen(false)}
             >
+              <DashboardIcon aria-hidden="true" size={16} />
               {t("dashboard")}
             </Link>
           )}
@@ -107,6 +114,7 @@ export function UserMenu() {
               router.refresh();
             }}
           >
+            <LogOutIcon aria-hidden="true" size={16} />
             {t("signOut")}
           </button>
         </div>

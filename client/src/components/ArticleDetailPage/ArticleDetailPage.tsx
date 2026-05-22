@@ -1,5 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Bookmark as BookmarkIcon,
+  Flame as FlameIcon,
+  Heart as HeartIcon,
+  Laugh as LaughIcon,
+  MessageSquare as MessageSquareIcon,
+  PartyPopper as PartyPopperIcon,
+  Send as SendIcon,
+  Share2 as Share2Icon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { ArticleCard } from "@/components/ArticleCard/ArticleCard";
@@ -148,8 +158,14 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                   </div>
                 </div>
                 <div className="article-detail__actions">
-                  <button type="button">{t("save")}</button>
-                  <button type="button">{t("share")}</button>
+                  <button type="button">
+                    <BookmarkIcon aria-hidden="true" size={16} />
+                    {t("save")}
+                  </button>
+                  <button type="button">
+                    <Share2Icon aria-hidden="true" size={16} />
+                    {t("share")}
+                  </button>
                 </div>
               </div>
             </div>
@@ -185,9 +201,25 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
 
             <div className="article-detail__reactions" aria-label={t("reactionsAriaLabel")}>
               <button type="button">
+                <PartyPopperIcon aria-hidden="true" size={16} />
+                {t("applause")}
+              </button>
+              <button type="button">
+                <LaughIcon aria-hidden="true" size={16} />
+                {t("funny")}
+              </button>
+              <button type="button">
+                <HeartIcon aria-hidden="true" size={16} />
                 {t("heart")} {detail.reactions.likes}
               </button>
-              <button type="button">{t("comments", { count: detail.reactions.comments })}</button>
+              <button type="button">
+                <FlameIcon aria-hidden="true" size={16} />
+                {t("fire")}
+              </button>
+              <button type="button">
+                <MessageSquareIcon aria-hidden="true" size={16} />
+                {t("comments", { count: detail.reactions.comments })}
+              </button>
             </div>
 
             <section className="article-detail__comments" aria-labelledby="comments-title">
@@ -197,7 +229,10 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                   aria-label={t("commentAriaLabel")}
                   placeholder={t("commentPlaceholder")}
                 />
-                <Button type="submit">{t("postComment")}</Button>
+                <Button type="submit">
+                  <SendIcon aria-hidden="true" size={16} />
+                  {t("postComment")}
+                </Button>
               </form>
 
               <div className="article-detail__comment-list">

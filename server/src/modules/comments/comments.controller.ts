@@ -9,6 +9,7 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { Role } from "@prisma/client";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
@@ -22,11 +23,14 @@ import type { AuthenticatedUser } from "../../common/types/authenticated-user.ty
 import { CommentsService } from "./comments.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 
+@ApiTags("Comments")
 @Controller()
 export class CommentsController {
   constructor(private readonly comments: CommentsService) {}
 
   @Get("articles/:slug/comments")
+  @ApiOperation({ summary: "List comments for an article" })
+  @ApiParam({ name: "slug" })
   list(@Param("slug") slug: string) {
     return this.comments.listForSlug(slug);
   }
@@ -34,6 +38,9 @@ export class CommentsController {
   @Post("articles/:slug/comments")
   @UseGuards(JwtAuthGuard, VerifiedEmailGuard)
   @RequiresVerifiedEmail()
+  @ApiBearerAuth("access-token")
+  @ApiOperation({ summary: "Create a comment on an article (verified email required)" })
+  @ApiParam({ name: "slug" })
   create(
     @Param("slug") slug: string,
     @Body() dto: CreateCommentDto,
@@ -46,6 +53,9 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.SUPERADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth("access-token")
+  @ApiOperation({ summary: "Delete a comment (admin)" })
+  @ApiParam({ name: "id" })
   remove(@Param("id") id: string) {
     return this.comments.remove(id);
   }

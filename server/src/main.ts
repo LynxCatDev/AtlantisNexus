@@ -4,6 +4,7 @@ import { ValidationPipe, RequestMethod } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
@@ -33,6 +34,21 @@ async function bootstrap() {
 
   app.setGlobalPrefix(apiPrefix, {
     exclude: [{ path: "/", method: RequestMethod.GET }],
+  });
+
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle("Atlantis Nexus API")
+    .setDescription("REST API for the Atlantis Nexus media hub.")
+    .setVersion("0.1.0")
+    .addBearerAuth(
+      { type: "http", scheme: "bearer", bearerFormat: "JWT" },
+      "access-token",
+    )
+    .addCookieAuth("refresh_token")
+    .build();
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup(`${apiPrefix}/docs`, app, swaggerDocument, {
+    swaggerOptions: { persistAuthorization: true },
   });
 
   if (config.get<string>("storage.driver", "local") === "local") {

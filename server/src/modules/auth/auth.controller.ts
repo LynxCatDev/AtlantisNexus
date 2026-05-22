@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import type { CookieOptions, Request, Response } from "express";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
@@ -28,6 +29,7 @@ type AuthResponse = {
   user: AuthenticatedUser;
 };
 
+@ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -37,6 +39,7 @@ export class AuthController {
 
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: "Register a new user and issue tokens" })
   async register(
     @Body() dto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
@@ -48,6 +51,7 @@ export class AuthController {
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Authenticate and issue tokens" })
   async login(
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) res: Response,
@@ -59,6 +63,7 @@ export class AuthController {
 
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Rotate the refresh cookie and return a new access token" })
   async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -72,6 +77,7 @@ export class AuthController {
 
   @Post("logout")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: "Revoke the refresh token and clear the cookie" })
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Promise<void> {
     const cookieName = this.cookieName();
     const raw = req.cookies?.[cookieName];
@@ -81,18 +87,22 @@ export class AuthController {
 
   @Post("verify-email")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: "Verify a user's email using the emailed token" })
   async verifyEmail(@Body() dto: VerifyEmailDto): Promise<void> {
     await this.auth.verifyEmail(dto.token);
   }
 
   @Post("resend-verification")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: "Resend the email verification link" })
   async resendVerification(@Body() dto: ResendVerificationDto): Promise<void> {
     await this.auth.resendVerification(dto.email);
   }
 
   @Get("session")
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth("access-token")
+  @ApiOperation({ summary: "Validate the current access token and return the user" })
   validateSession(@CurrentUser() user: AuthenticatedUser): { user: AuthenticatedUser } {
     return { user: this.auth.validateSession(user) };
   }

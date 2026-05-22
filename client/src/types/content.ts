@@ -6,6 +6,7 @@ export type Article = {
   excerpt: string;
   category: ArticleCategory;
   author: string;
+  authorAvatar?: string | null;
   publishedAt: string;
   minutes: string;
   image: string;

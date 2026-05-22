@@ -119,45 +119,53 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
       <Header activeLabel="Articles" />
       <main>
         <section className="article-detail__hero" aria-labelledby="article-title">
-          <div className="article-detail__hero-media">
-            <Image
-              alt={article.title}
-              fill
-              priority
-              sizes="100vw"
-              src={article.image}
-            />
-            <div className="article-detail__hero-overlay" />
-          </div>
-          <div className="article-detail__hero-content">
-            <div className="article-detail__hero-copy">
-              <Eyebrow>{tCat(article.category)}</Eyebrow>
-              <h1 id="article-title">{localizedTitle}</h1>
-              <p>{localizedExcerpt}</p>
-              <div className="article-detail__hero-footer">
-                <div className="article-detail__author">
-                  <span className="article-detail__avatar">{initials(article.author)}</span>
-                  <div>
-                    <strong>{article.author}</strong>
-                    <span>
-                      {article.publishedAt}
-                      <span aria-hidden="true"> &middot; </span>
-                      {article.minutes}
-                    </span>
-                  </div>
-                </div>
-                <div className="article-detail__actions">
-                  <button type="button">
-                    <BookmarkIcon aria-hidden="true" size={16} />
-                    {t("save")}
-                  </button>
-                  <button type="button">
-                    <Share2Icon aria-hidden="true" size={16} />
-                    {t("share")}
-                  </button>
+          <div className="article-detail__hero-glow" aria-hidden="true" />
+          <div className="article-detail__hero-inner">
+            <Eyebrow>{tCat(article.category)}</Eyebrow>
+            <h1 id="article-title">{localizedTitle}</h1>
+            <p className="article-detail__lede">{localizedExcerpt}</p>
+            <div className="article-detail__meta">
+              <div className="article-detail__author">
+                <span
+                  aria-hidden="true"
+                  className={`article-detail__avatar${article.authorAvatar ? " article-detail__avatar--image" : ""}`}
+                  style={
+                    article.authorAvatar ? { backgroundImage: `url(${article.authorAvatar})` } : undefined
+                  }
+                >
+                  {article.authorAvatar ? null : initials(article.author)}
+                </span>
+                <div>
+                  <strong>{article.author}</strong>
+                  <span>
+                    {article.publishedAt}
+                    <span aria-hidden="true"> &middot; </span>
+                    {article.minutes}
+                  </span>
                 </div>
               </div>
+              <div className="article-detail__actions">
+                <button type="button">
+                  <BookmarkIcon aria-hidden="true" size={16} />
+                  {t("save")}
+                </button>
+                <button type="button">
+                  <Share2Icon aria-hidden="true" size={16} />
+                  {t("share")}
+                </button>
+              </div>
             </div>
+            {article.image ? (
+              <figure className="article-detail__featured">
+                <Image
+                  alt={article.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  src={article.image}
+                />
+              </figure>
+            ) : null}
           </div>
         </section>
 

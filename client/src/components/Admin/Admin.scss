@@ -1395,6 +1395,44 @@
   background: var(--surface-strong);
 }
 
+.section-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px dashed var(--border-bright);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted-strong);
+  font-size: 13.6px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+
+  &:hover {
+    border-color: var(--cyan);
+    background: rgba(32, 230, 255, 0.06);
+    color: white;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+}
+
 .section-item-head {
   display: flex;
   align-items: center;

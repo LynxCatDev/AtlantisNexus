@@ -601,10 +601,6 @@ function TranslationEditor({
       <div className="section-list">
         <div className="section-list-head">
           <h3>{t("formSections")}</h3>
-          <button type="button" className="link-button" onClick={onAddSection}>
-            <PlusIcon aria-hidden="true" size={16} />
-            {t("formAddSection")}
-          </button>
         </div>
 
         {value.sections.map((section, idx) => (
@@ -642,6 +638,15 @@ function TranslationEditor({
             </label>
           </div>
         ))}
+
+        <button
+          type="button"
+          className="section-add-button"
+          onClick={onAddSection}
+        >
+          <PlusIcon aria-hidden="true" size={16} />
+          {t("formAddSection")}
+        </button>
       </div>
     </div>
   );

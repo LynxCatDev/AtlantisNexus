@@ -23,8 +23,8 @@ import { UpsertTranslationDto } from "./dto/upsert-translation.dto";
 const DEFAULT_LOCALE: Locale = Locale.en;
 
 const COVER_MAX_BYTES = 8 * 1024 * 1024;
-const COVER_OUTPUT_WIDTH = 1600;
-const COVER_OUTPUT_HEIGHT = 900;
+const COVER_MAX_WIDTH = 1600;
+const COVER_MAX_HEIGHT = 1600;
 const ALLOWED_COVER_MIMES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 type CategoryView = { slug: string; label: string; isMain: boolean };
@@ -41,7 +41,7 @@ export class ArticlesService {
     const articles = await this.prisma.article.findMany({
       orderBy: { publishedAt: "desc" },
       include: {
-        author: { select: { id: true, nickname: true } },
+        author: { select: { id: true, nickname: true, avatar: true } },
         category: { select: { slug: true, label: true, isMain: true } },
         translations: true,
         _count: { select: { comments: true, reactions: true } },
@@ -57,6 +57,7 @@ export class ArticlesService {
         excerpt: translation?.excerpt ?? "",
         category: article.category as CategoryView,
         author: article.author.nickname,
+        authorAvatar: article.author.avatar,
         authorId: article.author.id,
         publishedAt: article.publishedAt,
         minutes: article.minutes,
@@ -73,7 +74,7 @@ export class ArticlesService {
     const article = await this.prisma.article.findUnique({
       where: { slug },
       include: {
-        author: { select: { id: true, nickname: true } },
+        author: { select: { id: true, nickname: true, avatar: true } },
         category: { select: { slug: true, label: true, isMain: true } },
         translations: true,
         comments: {
@@ -109,6 +110,7 @@ export class ArticlesService {
       availableLocales: article.translations.map((t) => t.locale),
       category: article.category as CategoryView,
       author: article.author.nickname,
+      authorAvatar: article.author.avatar,
       authorId: article.authorId,
       publishedAt: article.publishedAt,
       minutes: article.minutes,
@@ -329,9 +331,9 @@ export class ArticlesService {
     try {
       processed = await sharp(file.buffer)
         .rotate()
-        .resize(COVER_OUTPUT_WIDTH, COVER_OUTPUT_HEIGHT, {
-          fit: "cover",
-          position: "centre",
+        .resize(COVER_MAX_WIDTH, COVER_MAX_HEIGHT, {
+          fit: "inside",
+          withoutEnlargement: true,
         })
         .webp({ quality: 86 })
         .toBuffer();

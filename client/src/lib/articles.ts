@@ -13,6 +13,7 @@ export type ApiArticleSummary = {
   excerpt: string;
   category: ApiCategory;
   author: string;
+  authorAvatar: string | null;
   authorId: string;
   publishedAt: string;
   minutes: string;

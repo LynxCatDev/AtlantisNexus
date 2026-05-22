@@ -319,6 +319,11 @@
     "formPublish": "Publică articolul",
     "formPublishing": "Se publică…",
     "formSubmitFailed": "Nu am putut crea articolul.",
+    "formEditTitle": "Editează articolul",
+    "formUpdate": "Actualizează articolul",
+    "formUpdating": "Se actualizează…",
+    "formLoading": "Se încarcă articolul…",
+    "formLoadFailed": "Nu am putut încărca articolul.",
 
     "articlesPageEyebrow": "Articole",
     "articlesPageTitle": "Bibliotecă editorială",

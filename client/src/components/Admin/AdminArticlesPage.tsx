@@ -180,7 +180,7 @@ export function AdminArticlesPage() {
                         <Link
                           aria-label={t("openArticle", { title: article.title || article.slug })}
                           className="admin-icon-button"
-                          href={`/article/${article.slug}`}
+                          href={`/admin/articles/${article.slug}/edit`}
                         >
                           <PencilIcon />
                         </Link>

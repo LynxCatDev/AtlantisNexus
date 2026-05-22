@@ -31,16 +31,31 @@ type TranslationDraft = {
   sections: SectionDraft[];
 };
 
+type EditArticleResponse = {
+  slug: string;
+  categorySlug: string;
+  minutes: string;
+  image: string;
+  tags: string[];
+  translations: Array<{
+    locale: ArticleLocale;
+    title: string;
+    excerpt: string;
+    sections: Array<{ id?: string; title: string; paragraphs: string[] }>;
+  }>;
+};
+
 const emptyTranslation = (): TranslationDraft => ({
   title: "",
   excerpt: "",
   sections: [{ title: "", body: "" }],
 });
 
-export function ArticleCreatePage() {
+export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
   const router = useRouter();
   const { authedFetch, accessToken } = useAuth();
   const t = useTranslations("admin");
+  const isEdit = Boolean(editSlug);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
@@ -61,6 +76,8 @@ export function ArticleCreatePage() {
   const [activeLocale, setActiveLocale] = useState<ArticleLocale>("en");
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [loadingArticle, setLoadingArticle] = useState(isEdit);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,7 +86,7 @@ export function ArticleCreatePage() {
         const data = await authedFetch<Category[]>("/categories");
         if (cancelled) return;
         setCategories(data);
-        if (data.length > 0) {
+        if (data.length > 0 && !isEdit) {
           setCategorySlug((current) => current || data[0].slug);
         }
       } catch (err) {
@@ -80,7 +97,54 @@ export function ArticleCreatePage() {
     return () => {
       cancelled = true;
     };
-  }, [authedFetch]);
+  }, [authedFetch, isEdit]);
+
+  useEffect(() => {
+    if (!editSlug) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await authedFetch<EditArticleResponse>(
+          `/articles/${encodeURIComponent(editSlug)}/edit`,
+        );
+        if (cancelled) return;
+        setSlug(data.slug);
+        setCategorySlug(data.categorySlug);
+        setMinutes(data.minutes);
+        setImage(data.image);
+        setTags(data.tags.join(", "));
+
+        const next: Record<ArticleLocale, TranslationDraft> = {} as Record<
+          ArticleLocale,
+          TranslationDraft
+        >;
+        for (const tr of data.translations) {
+          next[tr.locale] = {
+            title: tr.title,
+            excerpt: tr.excerpt,
+            sections:
+              tr.sections.length > 0
+                ? tr.sections.map((s) => ({
+                    title: s.title,
+                    body: s.paragraphs.join("\n\n"),
+                  }))
+                : [{ title: "", body: "" }],
+          };
+        }
+        if (!next.en) next.en = emptyTranslation();
+        setTranslations(next);
+        setActiveLocale("en");
+      } catch (err) {
+        if (cancelled) return;
+        setLoadError(err instanceof Error ? err.message : t("formLoadFailed"));
+      } finally {
+        if (!cancelled) setLoadingArticle(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [editSlug, authedFetch, t]);
 
   const activeLocales = useMemo(
     () => Object.keys(translations) as ArticleLocale[],
@@ -243,8 +307,15 @@ export function ArticleCreatePage() {
     };
 
     try {
-      await authedFetch("/articles", { method: "POST", body: payload });
-      router.push("/articles");
+      if (isEdit && editSlug) {
+        await authedFetch(`/articles/${encodeURIComponent(editSlug)}`, {
+          method: "PATCH",
+          body: payload,
+        });
+      } else {
+        await authedFetch("/articles", { method: "POST", body: payload });
+      }
+      router.push("/admin/articles");
       router.refresh();
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : t("formSubmitFailed"));
@@ -255,9 +326,20 @@ export function ArticleCreatePage() {
   return (
     <div className="admin-form-page">
       <header className="admin-page-head">
-        <h1>{t("formNewTitle")}</h1>
+        <h1>{isEdit ? t("formEditTitle") : t("formNewTitle")}</h1>
         <p>{t("formNewLede")}</p>
       </header>
+
+      {loadingArticle ? (
+        <p className="admin-notice" role="status">
+          {t("formLoading")}
+        </p>
+      ) : null}
+      {loadError ? (
+        <p className="admin-error" role="alert">
+          {loadError}
+        </p>
+      ) : null}
 
       <form className="admin-form" onSubmit={onSubmit} noValidate>
         <fieldset className="admin-fieldset">
@@ -444,8 +526,18 @@ export function ArticleCreatePage() {
         {submitError ? <p className="admin-error">{submitError}</p> : null}
 
         <div className="admin-form-actions">
-          <Button type="submit" className="admin-publish-button" disabled={submitting}>
-            {submitting ? t("formPublishing") : t("formPublish")}
+          <Button
+            type="submit"
+            className="admin-publish-button"
+            disabled={submitting || loadingArticle}
+          >
+            {submitting
+              ? isEdit
+                ? t("formUpdating")
+                : t("formPublishing")
+              : isEdit
+                ? t("formUpdate")
+                : t("formPublish")}
           </Button>
         </div>
       </form>

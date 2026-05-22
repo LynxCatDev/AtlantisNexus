@@ -44,6 +44,13 @@ export class ArticlesController {
     return this.articles.getBySlug(slug, parseLocale(locale));
   }
 
+  @Get(":slug/edit")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPERADMIN)
+  getForEdit(@Param("slug") slug: string) {
+    return this.articles.getForEdit(slug);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.SUPERADMIN)

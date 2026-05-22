@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-type AnyT = (key: string) => string;
+type AnyT = ((key: string) => string) & { has: (key: string) => boolean };
 
 export function useArticleContent() {
   const t = useTranslations("content.articles") as unknown as AnyT;
@@ -20,9 +20,5 @@ export function useToolContent() {
 }
 
 function safe(t: AnyT, key: string, fallback: string): string {
-  try {
-    return t(key);
-  } catch {
-    return fallback;
-  }
+  return t.has(key) ? t(key) : fallback;
 }

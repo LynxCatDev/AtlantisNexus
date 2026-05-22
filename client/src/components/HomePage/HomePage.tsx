@@ -20,10 +20,9 @@ import {
   PaletteIcon,
   SparkleIcon,
 } from "@/components/Icons/Icons";
-import { articles } from "@/constants/articles";
 import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
 import { useArticleContent, useToolContent } from "@/i18n/content";
-import type { ArticleCategory } from "@/types/content";
+import type { Article, ArticleCategory } from "@/types/content";
 
 const HERO_METRIC_KEYS: Record<string, "articles" | "freeTools" | "monthlyReaders"> = {
   Articles: "articles",
@@ -61,7 +60,7 @@ function HomeToolIcon({ slug }: { slug: string }) {
   return <BracesIcon />;
 }
 
-export function HomePage() {
+export function HomePage({ articles }: { articles: Article[] }) {
   const t = useTranslations("home");
   const tCat = useTranslations("categories");
   const tToolCat = useTranslations("toolCategories");

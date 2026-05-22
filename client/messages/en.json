@@ -319,6 +319,11 @@
     "formPublish": "Publish article",
     "formPublishing": "Publishing…",
     "formSubmitFailed": "Failed to create article.",
+    "formEditTitle": "Edit article",
+    "formUpdate": "Update article",
+    "formUpdating": "Updating…",
+    "formLoading": "Loading article…",
+    "formLoadFailed": "Failed to load article.",
 
     "articlesPageEyebrow": "Articles",
     "articlesPageTitle": "Editorial library",

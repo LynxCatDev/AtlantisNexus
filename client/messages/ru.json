@@ -319,6 +319,11 @@
     "formPublish": "Опубликовать статью",
     "formPublishing": "Публикация…",
     "formSubmitFailed": "Не удалось создать статью.",
+    "formEditTitle": "Изменить статью",
+    "formUpdate": "Сохранить статью",
+    "formUpdating": "Сохранение…",
+    "formLoading": "Загрузка статьи…",
+    "formLoadFailed": "Не удалось загрузить статью.",
 
     "articlesPageEyebrow": "Статьи",
     "articlesPageTitle": "Редакционная библиотека",

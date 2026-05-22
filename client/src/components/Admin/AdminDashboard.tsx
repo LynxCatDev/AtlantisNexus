@@ -178,7 +178,7 @@ export function AdminDashboard() {
                   <span className="status-pill status-published">{t("statusPublished")}</span>
                   <Link
                     className="recent-action"
-                    href={`/article/${article.slug}`}
+                    href={`/admin/articles/${article.slug}/edit`}
                     aria-label={t("openArticle", { title })}
                   >
                     <PencilIcon />

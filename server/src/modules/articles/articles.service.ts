@@ -128,6 +128,35 @@ export class ArticlesService {
     };
   }
 
+  async getForEdit(slug: string) {
+    const article = await this.prisma.article.findUnique({
+      where: { slug },
+      include: {
+        category: { select: { slug: true, label: true, isMain: true } },
+        translations: true,
+      },
+    });
+
+    if (!article) {
+      throw new NotFoundException("Article not found");
+    }
+
+    return {
+      id: article.id,
+      slug: article.slug,
+      categorySlug: article.category.slug,
+      minutes: article.minutes,
+      image: article.image,
+      tags: article.tags,
+      translations: article.translations.map((t) => ({
+        locale: t.locale,
+        title: t.title,
+        excerpt: t.excerpt,
+        sections: t.sections,
+      })),
+    };
+  }
+
   async create(dto: CreateArticleDto, authorId: string) {
     this.assertEnglishTranslation(dto.translations);
     this.assertUniqueLocales(dto.translations);

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 
 import { PlusIcon, TagsIcon } from "@/components/Admin/adminIcons";
@@ -10,6 +11,7 @@ import type { Category } from "@/types/auth";
 
 export function AdminTaxonomyPage() {
   const { authedFetch, user } = useAuth();
+  const t = useTranslations("admin");
   const [categories, setCategories] = useState<Category[]>([]);
   const [slug, setSlug] = useState("");
   const [label, setLabel] = useState("");
@@ -29,12 +31,12 @@ export function AdminTaxonomyPage() {
       if (!cancelled()) setCategories(data);
     } catch (err) {
       if (!cancelled()) {
-        setError(err instanceof Error ? err.message : "Failed to load categories.");
+        setError(err instanceof Error ? err.message : t("taxonomyFailedLoad"));
       }
     } finally {
       if (!cancelled()) setLoading(false);
     }
-  }, [authedFetch]);
+  }, [authedFetch, t]);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,7 +58,7 @@ export function AdminTaxonomyPage() {
   const onCreate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!isSuperadmin) {
-      setNotice("Only SUPERADMIN can create extra categories.");
+      setNotice(t("taxonomySuperadminOnly"));
       return;
     }
 
@@ -76,9 +78,9 @@ export function AdminTaxonomyPage() {
       setSlug("");
       setLabel("");
       setPosition("");
-      setNotice("Category created.");
+      setNotice(t("taxonomyCreated"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create category.");
+      setError(err instanceof Error ? err.message : t("taxonomyFailedCreate"));
     } finally {
       setSubmitting(false);
     }
@@ -88,9 +90,9 @@ export function AdminTaxonomyPage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <Eyebrow className="eyebrow-cyan">Taxonomy</Eyebrow>
-          <h1>Categories and tags</h1>
-          <p>Main categories are protected. Tags are derived from mocked articles for now.</p>
+          <Eyebrow className="eyebrow-cyan">{t("taxonomyEyebrow")}</Eyebrow>
+          <h1>{t("taxonomyTitle")}</h1>
+          <p>{t("taxonomyLede")}</p>
         </div>
       </header>
 
@@ -112,13 +114,13 @@ export function AdminTaxonomyPage() {
               <TagsIcon />
             </span>
             <div>
-              <h2 id="categories-title">Categories</h2>
-              <p>Main: dev, ai, gaming. Extras can appear in the nav dropdown later.</p>
+              <h2 id="categories-title">{t("taxonomyCategoriesTitle")}</h2>
+              <p>{t("taxonomyCategoriesDesc")}</p>
             </div>
           </div>
 
           {loading ? (
-            <div className="dashboard-empty">Loading categories...</div>
+            <div className="dashboard-empty">{t("taxonomyLoading")}</div>
           ) : (
             <div className="taxonomy-list">
               {categories.map((category) => (
@@ -126,20 +128,20 @@ export function AdminTaxonomyPage() {
                   <div>
                     <strong>{category.label}</strong>
                     <p className="taxonomy-meta">
-                      /category/{category.slug} - position {category.position}
+                      {t("taxonomyPositionMeta", { slug: category.slug, position: category.position })}
                     </p>
                   </div>
                   <div className="taxonomy-actions">
                     <span className={category.isMain ? "status-pill status-published" : "status-pill status-draft"}>
-                      {category.isMain ? "Main" : "Extra"}
+                      {category.isMain ? t("taxonomyMain") : t("taxonomyExtra")}
                     </span>
                     {category.isMain ? (
                       <>
                         <button disabled type="button">
-                          Edit
+                          {t("taxonomyEdit")}
                         </button>
                         <button disabled type="button">
-                          Delete
+                          {t("taxonomyDelete")}
                         </button>
                       </>
                     ) : null}
@@ -156,14 +158,14 @@ export function AdminTaxonomyPage() {
               <PlusIcon />
             </span>
             <div>
-              <h2 id="new-category-title">Add extra category</h2>
-              <p>Available only for SUPERADMIN accounts.</p>
+              <h2 id="new-category-title">{t("taxonomyAddTitle")}</h2>
+              <p>{t("taxonomyAddDesc")}</p>
             </div>
           </div>
 
           <form className="taxonomy-form" onSubmit={onCreate}>
             <label className="admin-field">
-              <span>Label</span>
+              <span>{t("taxonomyLabel")}</span>
               <input
                 disabled={!isSuperadmin}
                 onChange={(event) => {
@@ -176,7 +178,7 @@ export function AdminTaxonomyPage() {
               />
             </label>
             <label className="admin-field">
-              <span>Slug</span>
+              <span>{t("taxonomySlug")}</span>
               <input
                 disabled={!isSuperadmin}
                 onChange={(event) => setSlug(event.target.value)}
@@ -185,25 +187,25 @@ export function AdminTaxonomyPage() {
               />
             </label>
             <label className="admin-field">
-              <span>Position</span>
+              <span>{t("taxonomyPosition")}</span>
               <input
                 disabled={!isSuperadmin}
                 min="0"
                 onChange={(event) => setPosition(event.target.value)}
-                placeholder="Optional"
+                placeholder={t("taxonomyPositionPlaceholder")}
                 type="number"
                 value={position}
               />
             </label>
             <button className="admin-cta" disabled={!isSuperadmin || submitting} type="submit">
-              {submitting ? "Creating" : "Create category"}
+              {submitting ? t("taxonomyCreating") : t("taxonomyCreate")}
             </button>
           </form>
         </section>
 
         <section className="admin-card taxonomy-tags" aria-labelledby="tags-title">
-          <h2 id="tags-title">Tags from mock articles</h2>
-          <p>These will move to backend data once public pages stop using mocks.</p>
+          <h2 id="tags-title">{t("taxonomyTagsTitle")}</h2>
+          <p>{t("taxonomyTagsDesc")}</p>
           <div className="tag-cloud">
             {tags.map((tag) => (
               <span className="tag-chip" key={tag}>

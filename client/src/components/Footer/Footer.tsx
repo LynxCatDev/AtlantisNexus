@@ -40,7 +40,7 @@ export function Footer() {
 
   const resolveLinkLabel = (key: string | undefined, fallback: string): string => {
     if (!key) return fallback;
-    if (["articles", "gaming", "ai", "dev", "tools", "about"].includes(key)) {
+    if (["articles", "gaming", "ai", "dev", "movies", "tech", "tools", "about"].includes(key)) {
       return tNav(key as Parameters<typeof tNav>[0]);
     }
     return tFooter(key as Parameters<typeof tFooter>[0]);

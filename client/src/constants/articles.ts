@@ -1,11 +1,20 @@
 import type { Article, ArticleCategory, ArticleDetail } from "@/types/content";
 
-export const articleCategories: Array<ArticleCategory | "All"> = ["All", "Gaming", "AI", "Dev"];
+export const articleCategories: Array<ArticleCategory | "All"> = [
+  "All",
+  "Gaming",
+  "AI",
+  "Dev",
+  "Movies",
+  "Tech",
+];
 
 export const articleCategorySlugs: Record<ArticleCategory, string> = {
   Gaming: "gaming",
   AI: "ai",
   Dev: "dev",
+  Movies: "movies",
+  Tech: "tech",
 };
 
 export function getArticleCategoryBySlug(slug: string): ArticleCategory | undefined {

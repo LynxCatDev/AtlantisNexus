@@ -17,6 +17,8 @@ const MAIN_CATEGORIES: ReadonlyArray<{ slug: string; label: string; position: nu
   { slug: "dev", label: "Dev", position: 0 },
   { slug: "ai", label: "AI", position: 1 },
   { slug: "gaming", label: "Gaming", position: 2 },
+  { slug: "movies", label: "Movies", position: 3 },
+  { slug: "tech", label: "Tech", position: 4 },
 ];
 
 export const MAIN_CATEGORY_SLUGS: ReadonlySet<string> = new Set(

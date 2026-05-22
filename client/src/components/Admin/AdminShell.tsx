@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
@@ -18,12 +19,22 @@ import {
 } from "@/components/Admin/adminIcons";
 import { BrandLogo } from "@/components/BrandLogo/BrandLogo";
 import { SearchIcon } from "@/components/Icons/Icons";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 import "./Admin.scss";
 
+type NavKey =
+  | "dashboard"
+  | "articles"
+  | "comments"
+  | "taxonomy"
+  | "users"
+  | "media"
+  | "profile";
+
 type NavItem = {
   href: string;
-  label: string;
+  labelKey: NavKey;
   icon: (props: { className?: string }) => React.ReactElement;
   exact?: boolean;
   soon?: boolean;
@@ -31,19 +42,20 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  { href: "/admin", label: "Dashboard", icon: DashboardIcon, exact: true },
-  { href: "/admin/articles", label: "Articles", icon: FileTextIcon },
-  { href: "/admin/comments", label: "Comments", icon: MessageIcon, soon: true },
-  { href: "/admin/taxonomy", label: "Categories & Tags", icon: TagsIcon },
-  { href: "/admin/users", label: "Users", icon: UsersIcon, superadminOnly: true },
-  { href: "/admin/media", label: "Media library", icon: MediaIcon, soon: true },
-  { href: "/admin/profile", label: "Profile", icon: ProfileIcon },
+  { href: "/admin", labelKey: "dashboard", icon: DashboardIcon, exact: true },
+  { href: "/admin/articles", labelKey: "articles", icon: FileTextIcon },
+  { href: "/admin/comments", labelKey: "comments", icon: MessageIcon, soon: true },
+  { href: "/admin/taxonomy", labelKey: "taxonomy", icon: TagsIcon },
+  { href: "/admin/users", labelKey: "users", icon: UsersIcon, superadminOnly: true },
+  { href: "/admin/media", labelKey: "media", icon: MediaIcon, soon: true },
+  { href: "/admin/profile", labelKey: "profile", icon: ProfileIcon },
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const { user, status, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("admin");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +82,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   if (status === "loading" || !isAdmin) {
     return (
       <main className="admin-loading" aria-busy="true">
-        <p>Checking permissions…</p>
+        <p>{t("checkingPermissions")}</p>
       </main>
     );
   }
@@ -79,14 +91,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="admin-shell">
-      <aside className="admin-sidebar" aria-label="Admin navigation">
+      <aside className="admin-sidebar" aria-label={t("navAriaLabel")}>
         <div className="admin-sidebar-brand">
           <BrandLogo />
         </div>
 
         <nav className="admin-sidebar-nav">
           <Link href="/admin/articles/new" className="admin-cta">
-            <PlusIcon /> New article
+            <PlusIcon /> {t("newArticle")}
           </Link>
 
           <ul>
@@ -103,8 +115,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   <li key={item.href}>
                     <span className={className} aria-disabled="true">
                       <Icon />
-                      <span>{item.label}</span>
-                      <span className="admin-soon">soon</span>
+                      <span>{t(item.labelKey)}</span>
+                      <span className="admin-soon">{t("soon")}</span>
                     </span>
                   </li>
                 );
@@ -113,7 +125,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 <li key={item.href}>
                   <Link className={className} href={item.href}>
                     <Icon />
-                    <span>{item.label}</span>
+                    <span>{t(item.labelKey)}</span>
                   </Link>
                 </li>
               );
@@ -123,7 +135,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         <div className="admin-sidebar-foot">
           <Link href="/" className="admin-back">
-            ← Back to site
+            {t("backToSite")}
           </Link>
         </div>
       </aside>
@@ -132,18 +144,21 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <header className="admin-topbar">
           <label className="admin-search">
             <SearchIcon />
-            <input type="search" placeholder="Search articles, comments…" />
+            <input type="search" placeholder={t("searchPlaceholder")} />
           </label>
-          <button type="button" className="admin-bell" aria-label="Notifications">
+          <button type="button" className="admin-bell" aria-label={t("notifications")}>
             <BellIcon />
           </button>
+          <div className="admin-language">
+            <LanguageSwitcher />
+          </div>
           <div className="admin-user-menu" ref={menuRef}>
             <button
               type="button"
               className="admin-avatar"
               aria-haspopup="menu"
               aria-expanded={menuOpen}
-              aria-label="Account menu"
+              aria-label={t("accountMenu")}
               onClick={() => setMenuOpen((v) => !v)}
               style={
                 user?.avatar
@@ -165,7 +180,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Profile
+                  {t("menuProfile")}
                 </Link>
                 <Link
                   href="/"
@@ -173,7 +188,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Back to site
+                  {t("menuBackToSite")}
                 </Link>
                 <button
                   type="button"
@@ -186,7 +201,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     router.refresh();
                   }}
                 >
-                  Sign out
+                  {t("menuSignOut")}
                 </button>
               </div>
             ) : null}

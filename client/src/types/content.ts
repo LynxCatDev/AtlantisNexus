@@ -1,4 +1,4 @@
-export type ArticleCategory = "Gaming" | "AI" | "Dev";
+export type ArticleCategory = "Gaming" | "AI" | "Dev" | "Movies" | "Tech";
 
 export type Article = {
   slug: string;

@@ -170,6 +170,11 @@
   backdrop-filter: blur(8px);
 }
 
+.admin-language {
+  display: flex;
+  align-items: center;
+}
+
 .admin-search {
   position: relative;
   flex: 1;
@@ -743,6 +748,10 @@
 .admin-form-actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.button.admin-publish-button {
+  color: #ffffff;
 }
 
 .cover-upload {

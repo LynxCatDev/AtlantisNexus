@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Button } from "@/components/Button/Button";
@@ -39,6 +40,7 @@ const emptyTranslation = (): TranslationDraft => ({
 export function ArticleCreatePage() {
   const router = useRouter();
   const { authedFetch, accessToken } = useAuth();
+  const t = useTranslations("admin");
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
@@ -49,7 +51,8 @@ export function ArticleCreatePage() {
   const [image, setImage] = useState("");
   const [tags, setTags] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [pendingPreview, setPendingPreview] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [translations, setTranslations] = useState<Record<ArticleLocale, TranslationDraft>>({
@@ -71,7 +74,7 @@ export function ArticleCreatePage() {
         }
       } catch (err) {
         if (cancelled) return;
-        setCategoriesError(err instanceof Error ? err.message : "Failed to load categories.");
+        setCategoriesError(err instanceof Error ? err.message : t("formCategoryError"));
       }
     })();
     return () => {
@@ -133,49 +136,90 @@ export function ArticleCreatePage() {
     setActiveLocale("en");
   };
 
-  const onCoverFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (!pendingPreview) return;
+    return () => URL.revokeObjectURL(pendingPreview);
+  }, [pendingPreview]);
+
+  const onCoverFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     setUploadError(null);
-    setUploading(true);
-    try {
-      const form = new FormData();
-      form.append("file", file);
-      const res = await fetch(`${apiBaseUrl}/articles/cover-image`, {
-        method: "POST",
-        body: form,
-        credentials: "include",
-        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        const message =
-          (data && typeof data === "object" && "message" in data
-            ? Array.isArray((data as { message: unknown }).message)
-              ? ((data as { message: string[] }).message.join(", ") as string)
-              : String((data as { message: unknown }).message)
-            : res.statusText) || `Upload failed (${res.status})`;
-        throw new ApiError(res.status, message, data);
-      }
-      const { url } = (await res.json()) as { url: string };
-      setImage(url);
-    } catch (err) {
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
+    if (file.size > 8 * 1024 * 1024) {
+      setUploadError(t("formCoverTooLarge"));
       if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
     }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setUploadError(t("formCoverWrongType"));
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+    if (pendingPreview) URL.revokeObjectURL(pendingPreview);
+    setPendingFile(file);
+    setPendingPreview(URL.createObjectURL(file));
+    setImage("");
+  };
+
+  const clearCover = () => {
+    if (pendingPreview) URL.revokeObjectURL(pendingPreview);
+    setPendingFile(null);
+    setPendingPreview(null);
+    setImage("");
+    setUploadError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const uploadPendingCover = async (): Promise<string> => {
+    if (!pendingFile) throw new Error("No file selected");
+    const form = new FormData();
+    form.append("file", pendingFile);
+    const res = await fetch(`${apiBaseUrl}/articles/cover-image`, {
+      method: "POST",
+      body: form,
+      credentials: "include",
+      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      const message =
+        (data && typeof data === "object" && "message" in data
+          ? Array.isArray((data as { message: unknown }).message)
+            ? ((data as { message: string[] }).message.join(", ") as string)
+            : String((data as { message: unknown }).message)
+          : res.statusText) || `Upload failed (${res.status})`;
+      throw new ApiError(res.status, message, data);
+    }
+    const { url } = (await res.json()) as { url: string };
+    return url;
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitError(null);
 
+    if (!pendingFile && !image.trim()) {
+      setSubmitError(t("formCoverRequired"));
+      return;
+    }
+
+    setSubmitting(true);
+    let finalImage = image.trim();
+    if (pendingFile) {
+      try {
+        finalImage = await uploadPendingCover();
+      } catch (err) {
+        setUploadError(err instanceof Error ? err.message : t("formCoverUploadFailed"));
+        setSubmitting(false);
+        return;
+      }
+    }
+
     const payload = {
       slug: slug.trim(),
       categorySlug: categorySlug.trim(),
       minutes: minutes.trim(),
-      image: image.trim(),
+      image: finalImage,
       tags: tags
         .split(",")
         .map((t) => t.trim())
@@ -198,13 +242,12 @@ export function ArticleCreatePage() {
       }),
     };
 
-    setSubmitting(true);
     try {
       await authedFetch("/articles", { method: "POST", body: payload });
       router.push("/articles");
       router.refresh();
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Failed to create article.");
+      setSubmitError(err instanceof Error ? err.message : t("formSubmitFailed"));
       setSubmitting(false);
     }
   };
@@ -212,40 +255,40 @@ export function ArticleCreatePage() {
   return (
     <div className="admin-form-page">
       <header className="admin-page-head">
-        <h1>New article</h1>
-        <p>English is required. Add other locales as tabs — switch between them to edit.</p>
+        <h1>{t("formNewTitle")}</h1>
+        <p>{t("formNewLede")}</p>
       </header>
 
       <form className="admin-form" onSubmit={onSubmit} noValidate>
         <fieldset className="admin-fieldset">
-          <legend>Article basics</legend>
+          <legend>{t("formBasics")}</legend>
 
           <label className="admin-field">
-            <span>Slug</span>
+            <span>{t("formSlug")}</span>
             <input
               required
               minLength={2}
               maxLength={160}
-              placeholder="my-first-article"
+              placeholder={t("formSlugPlaceholder")}
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
             />
           </label>
 
           <label className="admin-field">
-            <span>Category</span>
+            <span>{t("formCategory")}</span>
             <select
               required
               value={categorySlug}
               onChange={(e) => setCategorySlug(e.target.value)}
             >
               <option value="" disabled>
-                Select a category…
+                {t("formCategoryPlaceholder")}
               </option>
               {categories.map((cat) => (
                 <option key={cat.slug} value={cat.slug}>
                   {cat.label}
-                  {cat.isMain ? "" : " (custom)"}
+                  {cat.isMain ? "" : ` ${t("formCategoryCustom")}`}
                 </option>
               ))}
             </select>
@@ -253,28 +296,28 @@ export function ArticleCreatePage() {
           </label>
 
           <label className="admin-field">
-            <span>Read time</span>
+            <span>{t("formReadTime")}</span>
             <input
               required
               maxLength={16}
-              placeholder="6 min"
+              placeholder={t("formReadTimePlaceholder")}
               value={minutes}
               onChange={(e) => setMinutes(e.target.value)}
             />
           </label>
 
           <div className="admin-field">
-            <span>Cover image</span>
+            <span>{t("formCover")}</span>
             <div className="cover-upload">
               <div
-                className={`cover-upload__preview${image ? " has-image" : ""}`}
-                aria-hidden={!image}
+                className={`cover-upload__preview${pendingPreview || image ? " has-image" : ""}`}
+                aria-hidden={!(pendingPreview || image)}
               >
-                {image ? (
+                {pendingPreview || image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={image} alt="Cover preview" />
+                  <img src={pendingPreview ?? image} alt={t("formCoverPreviewAlt")} />
                 ) : (
-                  <span className="cover-upload__placeholder">No image</span>
+                  <span className="cover-upload__placeholder">{t("formCoverNoImage")}</span>
                 )}
               </div>
               <div className="cover-upload__controls">
@@ -290,31 +333,25 @@ export function ArticleCreatePage() {
                     type="button"
                     className="admin-secondary-button"
                     onClick={() => fileInputRef.current?.click()}
-                    disabled={uploading}
                   >
-                    {uploading ? "Uploading…" : image ? "Replace file" : "Upload file"}
+                    {pendingFile ? t("formCoverReplace") : t("formCoverUpload")}
                   </button>
-                  {image ? (
+                  {pendingFile || image ? (
                     <button
                       type="button"
                       className="admin-secondary-button"
-                      onClick={() => {
-                        setImage("");
-                        setUploadError(null);
-                        if (fileInputRef.current) fileInputRef.current.value = "";
-                      }}
-                      disabled={uploading}
+                      onClick={clearCover}
                     >
-                      Clear
+                      {t("formCoverClear")}
                     </button>
                   ) : null}
                 </div>
                 <input
-                  required
                   type="url"
                   maxLength={2048}
-                  placeholder="…or paste an image URL"
+                  placeholder={t("formCoverUrlPlaceholder")}
                   value={image}
+                  disabled={!!pendingFile}
                   onChange={(e) => setImage(e.target.value)}
                 />
                 {uploadError ? <small className="admin-error">{uploadError}</small> : null}
@@ -323,10 +360,10 @@ export function ArticleCreatePage() {
           </div>
 
           <label className="admin-field">
-            <span>Tags (comma-separated)</span>
+            <span>{t("formTags")}</span>
             <input
               maxLength={400}
-              placeholder="ai, tooling, react"
+              placeholder={t("formTagsPlaceholder")}
               value={tags}
               onChange={(e) => setTags(e.target.value)}
             />
@@ -334,9 +371,9 @@ export function ArticleCreatePage() {
         </fieldset>
 
         <fieldset className="admin-fieldset">
-          <legend>Translations</legend>
+          <legend>{t("formTranslations")}</legend>
 
-          <div className="lang-tabs" role="tablist" aria-label="Article locale">
+          <div className="lang-tabs" role="tablist" aria-label={t("formLocaleAriaLabel")}>
             {activeLocales.map((locale) => (
               <button
                 key={locale}
@@ -353,7 +390,7 @@ export function ArticleCreatePage() {
                     className="lang-tab-remove"
                     role="button"
                     tabIndex={0}
-                    aria-label={`Remove ${LOCALE_LABELS[locale]}`}
+                    aria-label={t("formLocaleRemove", { locale: LOCALE_LABELS[locale] })}
                     onClick={(e) => {
                       e.stopPropagation();
                       removeLocale(locale);
@@ -369,7 +406,7 @@ export function ArticleCreatePage() {
                     ×
                   </span>
                 ) : (
-                  <span className="lang-tab-required" aria-label="Required">
+                  <span className="lang-tab-required" aria-label={t("formLocaleRequired")}>
                     ●
                   </span>
                 )}
@@ -378,7 +415,7 @@ export function ArticleCreatePage() {
 
             {availableLocales.length > 0 ? (
               <div className="lang-add">
-                <span>Add:</span>
+                <span>{t("formLocaleAdd")}</span>
                 {availableLocales.map((locale) => (
                   <button
                     key={locale}
@@ -407,8 +444,8 @@ export function ArticleCreatePage() {
         {submitError ? <p className="admin-error">{submitError}</p> : null}
 
         <div className="admin-form-actions">
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "Publishing…" : "Publish article"}
+          <Button type="submit" className="admin-publish-button" disabled={submitting}>
+            {submitting ? t("formPublishing") : t("formPublish")}
           </Button>
         </div>
       </form>
@@ -431,10 +468,11 @@ function TranslationEditor({
   onAddSection: () => void;
   onRemoveSection: (idx: number) => void;
 }) {
+  const t = useTranslations("admin");
   return (
     <div className="lang-panel" role="tabpanel" aria-label={LOCALE_LABELS[locale]}>
       <label className="admin-field">
-        <span>Title ({locale.toUpperCase()})</span>
+        <span>{t("formTitleLabel", { locale: locale.toUpperCase() })}</span>
         <input
           required
           minLength={2}
@@ -445,7 +483,7 @@ function TranslationEditor({
       </label>
 
       <label className="admin-field">
-        <span>Excerpt ({locale.toUpperCase()})</span>
+        <span>{t("formExcerptLabel", { locale: locale.toUpperCase() })}</span>
         <textarea
           required
           maxLength={500}
@@ -457,28 +495,28 @@ function TranslationEditor({
 
       <div className="section-list">
         <div className="section-list-head">
-          <h3>Sections</h3>
+          <h3>{t("formSections")}</h3>
           <button type="button" className="link-button" onClick={onAddSection}>
-            + Add section
+            {t("formAddSection")}
           </button>
         </div>
 
         {value.sections.map((section, idx) => (
           <div className="section-item" key={idx}>
             <div className="section-item-head">
-              <strong>Section {idx + 1}</strong>
+              <strong>{t("formSection", { n: idx + 1 })}</strong>
               {value.sections.length > 1 ? (
                 <button
                   type="button"
                   className="link-button danger"
                   onClick={() => onRemoveSection(idx)}
                 >
-                  Remove
+                  {t("formRemoveSection")}
                 </button>
               ) : null}
             </div>
             <label className="admin-field">
-              <span>Section title</span>
+              <span>{t("formSectionTitle")}</span>
               <input
                 required
                 maxLength={200}
@@ -487,7 +525,7 @@ function TranslationEditor({
               />
             </label>
             <label className="admin-field">
-              <span>Body (separate paragraphs with a blank line)</span>
+              <span>{t("formSectionBody")}</span>
               <textarea
                 required
                 rows={6}

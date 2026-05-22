@@ -5,6 +5,8 @@ export const mainNavigation: NavItem[] = [
   { label: "Gaming", labelKey: "gaming", href: "/category/gaming" },
   { label: "AI", labelKey: "ai", href: "/category/ai" },
   { label: "Dev", labelKey: "dev", href: "/category/dev" },
+  { label: "Movies", labelKey: "movies", href: "/category/movies" },
+  { label: "Tech", labelKey: "tech", href: "/category/tech" },
   { label: "Tools", labelKey: "tools", href: "/tools" },
   { label: "About", labelKey: "about", href: "/about" },
 ];
@@ -22,6 +24,8 @@ export const footerLinkGroups: FooterLinkKeyedGroup[] = [
       { label: "Gaming", footerKey: "gaming", href: "/category/gaming" },
       { label: "AI", footerKey: "ai", href: "/category/ai" },
       { label: "Dev", footerKey: "dev", href: "/category/dev" },
+      { label: "Movies", footerKey: "movies", href: "/category/movies" },
+      { label: "Tech", footerKey: "tech", href: "/category/tech" },
     ],
   },
   {

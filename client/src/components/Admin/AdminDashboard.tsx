@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import {
@@ -58,6 +59,7 @@ function StatCard({ label, value, change, tone, icon: Icon }: StatProps) {
 
 export function AdminDashboard() {
   const { user, authedFetch } = useAuth();
+  const t = useTranslations("admin");
   const [articles, setArticles] = useState<AdminArticle[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -84,39 +86,45 @@ export function AdminDashboard() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <Eyebrow className="eyebrow-cyan">Overview</Eyebrow>
-          <h1>Welcome back, {user?.nickname}</h1>
-          <p>Here&rsquo;s what&rsquo;s happening across the platform today.</p>
+          <Eyebrow className="eyebrow-cyan">{t("overview")}</Eyebrow>
+          <h1>{t("welcomeBack", { name: user?.nickname ?? "" })}</h1>
+          <p>{t("welcomeLede")}</p>
         </div>
         <Link href="/admin/articles/new" className="admin-cta admin-cta-pill">
-          <PlusIcon /> New article
+          <PlusIcon /> {t("newArticle")}
         </Link>
       </header>
 
       <div className="stat-grid">
         <StatCard
-          label="Published"
+          label={t("statPublished")}
           value={String(articles.length)}
-          change={articles.length === 0 ? "Awaiting first post" : "Live now"}
+          change={articles.length === 0 ? t("changeAwaitingPost") : t("changeLiveNow")}
           tone="primary"
           icon={FileTextIcon}
         />
-        <StatCard label="Pageviews" value="—" change="Analytics soon" tone="cyan" icon={EyeIcon} />
         <StatCard
-          label="Comments"
+          label={t("statPageviews")}
+          value="—"
+          change={t("changeAnalyticsSoon")}
+          tone="cyan"
+          icon={EyeIcon}
+        />
+        <StatCard
+          label={t("statComments")}
           value={String(
             articles.reduce((sum, a) => sum + (a.counts?.comments ?? 0), 0),
           )}
-          change="Across all articles"
+          change={t("changeAcrossArticles")}
           tone="violet"
           icon={MessageIcon}
         />
         <StatCard
-          label="Reactions"
+          label={t("statReactions")}
           value={String(
             articles.reduce((sum, a) => sum + (a.counts?.reactions ?? 0), 0),
           )}
-          change="Likes & emotions"
+          change={t("changeLikesEmotions")}
           tone="gold"
           icon={SparkleIcon}
         />
@@ -125,9 +133,9 @@ export function AdminDashboard() {
       <div className="dashboard-grid">
         <section className="dashboard-card dashboard-card-wide">
           <header className="dashboard-card-head">
-            <h3>Recent articles</h3>
+            <h3>{t("recentArticles")}</h3>
             <Link className="link-cyan" href="/admin/articles/new">
-              New article <ArrowUpRightIcon />
+              {t("newArticle")} <ArrowUpRightIcon />
             </Link>
           </header>
 
@@ -139,9 +147,9 @@ export function AdminDashboard() {
 
           {!error && recentArticles.length === 0 ? (
             <div className="dashboard-empty">
-              <p>No articles yet.</p>
+              <p>{t("noArticles")}</p>
               <Link href="/admin/articles/new" className="link-cyan">
-                Publish your first article →
+                {t("publishFirst")}
               </Link>
             </div>
           ) : null}
@@ -167,11 +175,11 @@ export function AdminDashboard() {
                       {new Date(article.publishedAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <span className="status-pill status-published">Published</span>
+                  <span className="status-pill status-published">{t("statusPublished")}</span>
                   <Link
                     className="recent-action"
                     href={`/article/${article.slug}`}
-                    aria-label={`Open ${title}`}
+                    aria-label={t("openArticle", { title })}
                   >
                     <PencilIcon />
                   </Link>
@@ -183,13 +191,13 @@ export function AdminDashboard() {
 
         <section className="dashboard-card">
           <header className="dashboard-card-head">
-            <h3>Recent comments</h3>
-            <span className="link-cyan link-cyan-muted">Moderation soon</span>
+            <h3>{t("recentComments")}</h3>
+            <span className="link-cyan link-cyan-muted">{t("moderationSoon")}</span>
           </header>
           <div className="recent-list recent-list-comments">
             <div className="dashboard-empty">
-              <p>Comment moderation hasn&rsquo;t shipped yet.</p>
-              <p className="recent-meta">Once readers start commenting they&rsquo;ll show up here.</p>
+              <p>{t("moderationNotShipped")}</p>
+              <p className="recent-meta">{t("moderationOnceReaders")}</p>
             </div>
           </div>
         </section>

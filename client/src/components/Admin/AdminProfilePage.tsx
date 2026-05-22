@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { ProfileIcon, SparkleIcon } from "@/components/Admin/adminIcons";
@@ -10,6 +11,7 @@ import type { AuthUser } from "@/types/auth";
 
 export function AdminProfilePage() {
   const { user, setUser, authedFetch } = useAuth();
+  const t = useTranslations("admin");
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState(user?.nickname ?? "");
@@ -45,7 +47,7 @@ export function AdminProfilePage() {
   const onUploaded = (updated: AuthUser) => {
     setUser(updated);
     setPickedImage(null);
-    setNotice("Avatar updated.");
+    setNotice(t("profileAvatarUpdated"));
   };
 
   const onRemoveAvatar = async () => {
@@ -54,9 +56,9 @@ export function AdminProfilePage() {
     try {
       const updated = await authedFetch<AuthUser>("/users/me/avatar", { method: "DELETE" });
       setUser(updated);
-      setNotice("Avatar removed.");
+      setNotice(t("profileAvatarRemoved"));
     } catch (err) {
-      setNotice(err instanceof Error ? err.message : "Failed to remove avatar");
+      setNotice(err instanceof Error ? err.message : t("profileAvatarRemoveFailed"));
     } finally {
       setRemovingAvatar(false);
     }
@@ -64,7 +66,7 @@ export function AdminProfilePage() {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNotice("Profile field saving will be wired up next.");
+    setNotice(t("profileSavedSoon"));
   };
 
   const initials = (user?.nickname || "?").slice(0, 2).toUpperCase();
@@ -73,9 +75,9 @@ export function AdminProfilePage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <Eyebrow className="eyebrow-cyan">Profile</Eyebrow>
-          <h1>Account settings</h1>
-          <p>Update your avatar and public profile.</p>
+          <Eyebrow className="eyebrow-cyan">{t("profileEyebrow")}</Eyebrow>
+          <h1>{t("profileTitle")}</h1>
+          <p>{t("profileLede")}</p>
         </div>
       </header>
 
@@ -95,8 +97,8 @@ export function AdminProfilePage() {
             )}
           </span>
           <div>
-            <h2 id="avatar-title">Avatar</h2>
-            <p>Upload an image (JPEG, PNG, or WebP up to 5 MB). You can crop it before saving.</p>
+            <h2 id="avatar-title">{t("profileAvatarTitle")}</h2>
+            <p>{t("profileAvatarDesc")}</p>
           </div>
           <input
             ref={fileRef}
@@ -111,7 +113,7 @@ export function AdminProfilePage() {
               className="admin-cta admin-cta-pill"
               onClick={() => fileRef.current?.click()}
             >
-              {user?.avatar ? "Change avatar" : "Upload avatar"}
+              {user?.avatar ? t("profileChangeAvatar") : t("profileUploadAvatar")}
             </button>
             {user?.avatar ? (
               <button
@@ -120,7 +122,7 @@ export function AdminProfilePage() {
                 disabled={removingAvatar}
                 onClick={onRemoveAvatar}
               >
-                {removingAvatar ? "Removing…" : "Remove"}
+                {removingAvatar ? t("profileRemovingAvatar") : t("profileRemove")}
               </button>
             ) : null}
           </div>
@@ -133,14 +135,14 @@ export function AdminProfilePage() {
                 <ProfileIcon />
               </span>
               <div>
-                <h2 id="public-profile-title">Public profile</h2>
-                <p>Visible on authored articles and comments.</p>
+                <h2 id="public-profile-title">{t("profilePublicTitle")}</h2>
+                <p>{t("profilePublicDesc")}</p>
               </div>
             </div>
 
             <div className="admin-form-grid">
               <label className="admin-field">
-                <span>Display name</span>
+                <span>{t("profileDisplayName")}</span>
                 <input
                   onChange={(event) => setDisplayName(event.target.value)}
                   required
@@ -148,7 +150,7 @@ export function AdminProfilePage() {
                 />
               </label>
               <label className="admin-field">
-                <span>Username</span>
+                <span>{t("profileUsername")}</span>
                 <input
                   onChange={(event) => setUsername(event.target.value)}
                   required
@@ -156,10 +158,10 @@ export function AdminProfilePage() {
                 />
               </label>
               <label className="admin-field admin-field-wide">
-                <span>Bio</span>
+                <span>{t("profileBio")}</span>
                 <textarea
                   onChange={(event) => setBio(event.target.value)}
-                  placeholder="A short public bio."
+                  placeholder={t("profileBioPlaceholder")}
                   rows={4}
                   value={bio}
                 />
@@ -173,14 +175,14 @@ export function AdminProfilePage() {
                 <SparkleIcon />
               </span>
               <div>
-                <h2 id="account-title">Account</h2>
-                <p>Email is required. Password changes will be added later.</p>
+                <h2 id="account-title">{t("profileAccountTitle")}</h2>
+                <p>{t("profileAccountDesc")}</p>
               </div>
             </div>
 
             <div className="admin-form-grid">
               <label className="admin-field admin-field-wide">
-                <span>Email</span>
+                <span>{t("profileEmail")}</span>
                 <input
                   onChange={(event) => setEmail(event.target.value)}
                   required
@@ -189,40 +191,40 @@ export function AdminProfilePage() {
                 />
               </label>
               <label className="admin-field">
-                <span>New password</span>
-                <input disabled placeholder="Coming soon" type="password" />
+                <span>{t("profileNewPassword")}</span>
+                <input disabled placeholder={t("profileComingSoon")} type="password" />
               </label>
               <label className="admin-field">
-                <span>Confirm password</span>
-                <input disabled placeholder="Coming soon" type="password" />
+                <span>{t("profileConfirmPassword")}</span>
+                <input disabled placeholder={t("profileComingSoon")} type="password" />
               </label>
             </div>
           </section>
 
           <section className="admin-card" aria-labelledby="preferences-title">
-            <h2 id="preferences-title">Preferences</h2>
+            <h2 id="preferences-title">{t("profilePreferences")}</h2>
             <div className="admin-toggle-list">
               <label className="admin-toggle">
                 <input defaultChecked type="checkbox" />
-                <span>Weekly editorial digest</span>
+                <span>{t("profilePrefDigest")}</span>
               </label>
               <label className="admin-toggle">
                 <input defaultChecked type="checkbox" />
-                <span>Product updates</span>
+                <span>{t("profilePrefUpdates")}</span>
               </label>
               <label className="admin-toggle">
                 <input type="checkbox" />
-                <span>Comment moderation alerts</span>
+                <span>{t("profilePrefModeration")}</span>
               </label>
             </div>
           </section>
 
           <div className="admin-form-footer">
             <button className="admin-secondary-button" onClick={resetForm} type="button">
-              Cancel
+              {t("profileCancel")}
             </button>
             <button className="admin-cta" type="submit">
-              Save changes
+              {t("profileSave")}
             </button>
           </div>
         </div>

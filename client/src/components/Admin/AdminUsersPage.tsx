@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -34,6 +35,7 @@ const roleFilters: RoleFilter[] = ["ALL", "USER", "ADMIN", "SUPERADMIN"];
 export function AdminUsersPage() {
   const { authedFetch, user, status } = useAuth();
   const router = useRouter();
+  const t = useTranslations("admin");
   const [query, setQuery] = useState("");
   const [role, setRole] = useState<RoleFilter>("ALL");
   const [page, setPage] = useState(1);
@@ -80,13 +82,13 @@ export function AdminUsersPage() {
         if (!cancelled()) setData(next);
       } catch (err) {
         if (!cancelled()) {
-          setError(err instanceof Error ? err.message : "Failed to load users.");
+          setError(err instanceof Error ? err.message : t("usersFailedLoad"));
         }
       } finally {
         if (!cancelled()) setLoading(false);
       }
     },
-    [authedFetch, isSuperadmin, page, query, role],
+    [authedFetch, isSuperadmin, page, query, role, t],
   );
 
   useEffect(() => {
@@ -110,10 +112,10 @@ export function AdminUsersPage() {
         method: "PATCH",
         body: { role: nextRole },
       });
-      setNotice(`${target.nickname} is now ${nextRole}.`);
+      setNotice(t("usersRoleChanged", { nickname: target.nickname, role: nextRole }));
       await loadUsers(() => false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update role.");
+      setError(err instanceof Error ? err.message : t("usersFailedRole"));
     } finally {
       setUpdatingId(null);
     }
@@ -122,7 +124,7 @@ export function AdminUsersPage() {
   if (status === "loading" || !isSuperadmin) {
     return (
       <div className="admin-dashboard">
-        <div className="dashboard-empty">Checking permissions...</div>
+        <div className="dashboard-empty">{t("usersCheckingPermissions")}</div>
       </div>
     );
   }
@@ -131,18 +133,18 @@ export function AdminUsersPage() {
     <div className="admin-dashboard admin-users-page">
       <header className="admin-page-head">
         <div>
-          <Eyebrow className="eyebrow-cyan">Users</Eyebrow>
-          <h1>User access</h1>
-          <p>Promote verified users to admin and keep role changes explicit.</p>
+          <Eyebrow className="eyebrow-cyan">{t("usersEyebrow")}</Eyebrow>
+          <h1>{t("usersTitle")}</h1>
+          <p>{t("usersLede")}</p>
         </div>
       </header>
 
-      <section className="admin-users-toolbar" aria-label="User filters">
+      <section className="admin-users-toolbar" aria-label={t("usersFiltersAriaLabel")}>
         <label className="admin-users-search">
-          <span>Search</span>
+          <span>{t("usersSearch")}</span>
           <input
             type="search"
-            placeholder="Email or nickname"
+            placeholder={t("usersSearchPlaceholder")}
             value={query}
             onChange={(event) => {
               setQuery(event.target.value);
@@ -151,7 +153,7 @@ export function AdminUsersPage() {
           />
         </label>
         <label className="admin-users-filter">
-          <span>Role</span>
+          <span>{t("usersRole")}</span>
           <select
             value={role}
             onChange={(event) => {
@@ -161,7 +163,7 @@ export function AdminUsersPage() {
           >
             {roleFilters.map((item) => (
               <option key={item} value={item}>
-                {item === "ALL" ? "All roles" : item}
+                {item === "ALL" ? t("usersAllRoles") : item}
               </option>
             ))}
           </select>
@@ -181,26 +183,26 @@ export function AdminUsersPage() {
 
       <section className="admin-table-card" aria-busy={loading}>
         <div className="admin-table-head">
-          <h2>Users</h2>
+          <h2>{t("usersHeading")}</h2>
           <span>
-            {data.total} total - page {data.page} of {totalPages}
+            {t("usersStats", { total: data.total, page: data.page, totalPages })}
           </span>
         </div>
 
         {loading ? (
-          <div className="dashboard-empty">Loading users...</div>
+          <div className="dashboard-empty">{t("usersLoading")}</div>
         ) : data.items.length > 0 ? (
           <>
             <div className="admin-table-scroll">
               <table className="admin-table admin-users-table">
                 <thead>
                   <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Verified</th>
-                    <th>Role</th>
-                    <th>Joined</th>
-                    <th aria-label="Actions" />
+                    <th>{t("usersColUser")}</th>
+                    <th>{t("usersColEmail")}</th>
+                    <th>{t("usersColVerified")}</th>
+                    <th>{t("usersColRole")}</th>
+                    <th>{t("usersColJoined")}</th>
+                    <th aria-label={t("usersColActions")} />
                   </tr>
                 </thead>
                 <tbody>
@@ -236,7 +238,7 @@ export function AdminUsersPage() {
                               : "admin-user-pill admin-user-pill--unverified"
                           }
                         >
-                          {item.emailVerifiedAt ? "Verified" : "Unverified"}
+                          {item.emailVerifiedAt ? t("usersVerified") : t("usersUnverified")}
                         </span>
                       </td>
                       <td>
@@ -244,7 +246,7 @@ export function AdminUsersPage() {
                           {item.role}
                         </span>
                       </td>
-                      <td>{formatDate(item.createdAt)}</td>
+                      <td>{formatDate(item.createdAt, t("usersUnknownDate"))}</td>
                       <td>
                         <div className="admin-actions">
                           {item.role === "USER" ? (
@@ -253,13 +255,13 @@ export function AdminUsersPage() {
                               disabled={!item.emailVerifiedAt || updatingId === item.id}
                               title={
                                 item.emailVerifiedAt
-                                  ? "Promote to admin"
-                                  : "Email must be verified before promotion"
+                                  ? t("usersPromoteTitle")
+                                  : t("usersPromoteBlocked")
                               }
                               type="button"
                               onClick={() => void updateRole(item, "ADMIN")}
                             >
-                              {updatingId === item.id ? "Saving" : "Make admin"}
+                              {updatingId === item.id ? t("usersSaving") : t("usersMakeAdmin")}
                             </button>
                           ) : null}
                           {item.role === "ADMIN" ? (
@@ -269,15 +271,15 @@ export function AdminUsersPage() {
                               type="button"
                               onClick={() => void updateRole(item, "USER")}
                             >
-                              {updatingId === item.id ? "Saving" : "Remove admin"}
+                              {updatingId === item.id ? t("usersSaving") : t("usersRemoveAdmin")}
                             </button>
                           ) : null}
                           {item.role === "SUPERADMIN" ? (
-                            <span className="admin-users-static-action">Protected</span>
+                            <span className="admin-users-static-action">{t("usersProtected")}</span>
                           ) : null}
                         </div>
                         {item.role === "USER" && !item.emailVerifiedAt ? (
-                          <p className="admin-users-row-note">Verify email before promotion.</p>
+                          <p className="admin-users-row-note">{t("usersVerifyFirst")}</p>
                         ) : null}
                       </td>
                     </tr>
@@ -292,10 +294,10 @@ export function AdminUsersPage() {
                 disabled={page <= 1}
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
               >
-                Previous
+                {t("usersPagePrev")}
               </button>
               <span>
-                Page {data.page} of {totalPages}
+                {t("usersPageOf", { page: data.page, totalPages })}
               </span>
               <button
                 type="button"
@@ -303,12 +305,12 @@ export function AdminUsersPage() {
                 disabled={page >= totalPages}
                 onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
               >
-                Next
+                {t("usersPageNext")}
               </button>
             </div>
           </>
         ) : (
-          <div className="dashboard-empty">No users found.</div>
+          <div className="dashboard-empty">{t("usersNone")}</div>
         )}
       </section>
     </div>
@@ -319,10 +321,10 @@ function initials(value: string): string {
   return (value || "?").slice(0, 2).toUpperCase();
 }
 
-function formatDate(value: string): string {
+function formatDate(value: string, fallback: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    return "Unknown";
+    return fallback;
   }
 
   return date.toLocaleDateString();

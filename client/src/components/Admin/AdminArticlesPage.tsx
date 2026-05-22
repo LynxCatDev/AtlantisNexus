@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { PencilIcon, PlusIcon } from "@/components/Admin/adminIcons";
@@ -27,11 +28,25 @@ const tabs: ArticleTab[] = ["All", "Published", "Drafts", "Scheduled"];
 
 export function AdminArticlesPage() {
   const { authedFetch } = useAuth();
+  const t = useTranslations("admin");
   const [articles, setArticles] = useState<AdminArticle[]>([]);
   const [activeTab, setActiveTab] = useState<ArticleTab>("All");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [deletingSlug, setDeletingSlug] = useState<string | null>(null);
+
+  const tabLabel = (tab: ArticleTab) => {
+    switch (tab) {
+      case "All":
+        return t("articlesTabAll");
+      case "Published":
+        return t("articlesTabPublished");
+      case "Drafts":
+        return t("articlesTabDrafts");
+      case "Scheduled":
+        return t("articlesTabScheduled");
+    }
+  };
 
   const loadArticles = useCallback(async () => {
     setLoading(true);
@@ -40,11 +55,11 @@ export function AdminArticlesPage() {
       const data = await authedFetch<AdminArticle[]>("/articles?locale=en");
       setArticles(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load articles.");
+      setError(err instanceof Error ? err.message : t("articlesFailedLoad"));
     } finally {
       setLoading(false);
     }
-  }, [authedFetch]);
+  }, [authedFetch, t]);
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -65,7 +80,9 @@ export function AdminArticlesPage() {
   }, [activeTab, articles]);
 
   const deleteArticle = async (article: AdminArticle) => {
-    const confirmed = window.confirm(`Delete "${article.title || article.slug}"?`);
+    const confirmed = window.confirm(
+      t("articlesConfirmDelete", { title: article.title || article.slug }),
+    );
     if (!confirmed) return;
 
     setDeletingSlug(article.slug);
@@ -76,7 +93,7 @@ export function AdminArticlesPage() {
       });
       setArticles((current) => current.filter((item) => item.slug !== article.slug));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete article.");
+      setError(err instanceof Error ? err.message : t("articlesFailedDelete"));
     } finally {
       setDeletingSlug(null);
     }
@@ -86,16 +103,16 @@ export function AdminArticlesPage() {
     <div className="admin-dashboard">
       <header className="admin-page-head">
         <div>
-          <Eyebrow className="eyebrow-cyan">Articles</Eyebrow>
-          <h1>Editorial library</h1>
-          <p>Manage published stories while drafts and scheduling are still being added.</p>
+          <Eyebrow className="eyebrow-cyan">{t("articlesPageEyebrow")}</Eyebrow>
+          <h1>{t("articlesPageTitle")}</h1>
+          <p>{t("articlesPageLede")}</p>
         </div>
         <Link href="/admin/articles/new" className="admin-cta admin-cta-pill">
-          <PlusIcon /> New article
+          <PlusIcon /> {t("newArticle")}
         </Link>
       </header>
 
-      <div className="admin-tabs" aria-label="Article status">
+      <div className="admin-tabs" aria-label={t("articlesStatusAriaLabel")}>
         {tabs.map((tab) => (
           <button
             aria-pressed={activeTab === tab}
@@ -104,7 +121,7 @@ export function AdminArticlesPage() {
             onClick={() => setActiveTab(tab)}
             type="button"
           >
-            {tab}
+            {tabLabel(tab)}
           </button>
         ))}
       </div>
@@ -117,23 +134,23 @@ export function AdminArticlesPage() {
 
       <section className="admin-table-card" aria-busy={loading}>
         <div className="admin-table-head">
-          <h2>{activeTab} articles</h2>
-          <span>{visibleArticles.length} items</span>
+          <h2>{t("articlesHeading", { tab: tabLabel(activeTab) })}</h2>
+          <span>{t("articlesItems", { count: visibleArticles.length })}</span>
         </div>
 
         {loading ? (
-          <div className="dashboard-empty">Loading articles...</div>
+          <div className="dashboard-empty">{t("articlesLoading")}</div>
         ) : visibleArticles.length > 0 ? (
           <div className="admin-table-scroll">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Article</th>
-                  <th>Category</th>
-                  <th>Author</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th aria-label="Actions" />
+                  <th>{t("articlesColArticle")}</th>
+                  <th>{t("articlesColCategory")}</th>
+                  <th>{t("articlesColAuthor")}</th>
+                  <th>{t("articlesColDate")}</th>
+                  <th>{t("articlesColStatus")}</th>
+                  <th aria-label={t("articlesColActions")} />
                 </tr>
               </thead>
               <tbody>
@@ -154,14 +171,14 @@ export function AdminArticlesPage() {
                     </td>
                     <td>{article.category.label}</td>
                     <td>{article.author}</td>
-                    <td>{formatDate(article.publishedAt)}</td>
+                    <td>{formatDate(article.publishedAt, t("articlesUnknownDate"))}</td>
                     <td>
-                      <span className="status-pill status-published">Published</span>
+                      <span className="status-pill status-published">{t("statusPublished")}</span>
                     </td>
                     <td>
                       <div className="admin-actions">
                         <Link
-                          aria-label={`Open ${article.title || article.slug}`}
+                          aria-label={t("openArticle", { title: article.title || article.slug })}
                           className="admin-icon-button"
                           href={`/article/${article.slug}`}
                         >
@@ -173,7 +190,7 @@ export function AdminArticlesPage() {
                           onClick={() => void deleteArticle(article)}
                           type="button"
                         >
-                          {deletingSlug === article.slug ? "Deleting" : "Delete"}
+                          {deletingSlug === article.slug ? t("articlesDeleting") : t("articlesDelete")}
                         </button>
                       </div>
                     </td>
@@ -185,8 +202,8 @@ export function AdminArticlesPage() {
         ) : (
           <div className="dashboard-empty">
             {activeTab === "All" || activeTab === "Published"
-              ? "No articles yet."
-              : `${activeTab} articles are not wired yet.`}
+              ? t("noArticles")
+              : t("articlesNotWired", { tab: tabLabel(activeTab) })}
           </div>
         )}
       </section>
@@ -194,10 +211,10 @@ export function AdminArticlesPage() {
   );
 }
 
-function formatDate(value: string): string {
+function formatDate(value: string, fallback: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    return "Unknown";
+    return fallback;
   }
 
   return date.toLocaleDateString();

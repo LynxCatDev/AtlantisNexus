@@ -31,8 +31,8 @@ agents. Read it before changing either app.
    Use `next-intl` for frontend internationalization.
 6. A superadmin can grant admin permission to other users, for example the
    owner's wife.
-7. Main categories are `dev`, `ai`, `gaming` (slugs). They are seeded on boot
-   and cannot be edited or deleted via the API.
+7. Main categories are `dev`, `ai`, `gaming`, `movies`, `tech` (slugs). They
+   are seeded on boot and cannot be edited or deleted via the API.
 8. SUPERADMIN can add extra categories (`isMain: false`). Extra categories must
    not collide with main slugs. Extras are not top-level nav items; the
    frontend renders them in a dropdown placed between `Dev` and `Tools`.
@@ -64,6 +64,19 @@ agents. Read it before changing either app.
 - Keep public content readable without requiring signup.
 - Use `px` for every CSS length, spacing, radius, typography, and breakpoint
   value. Do not use root-relative or font-relative length units.
+- **Translations are mandatory for every user-visible label.** When adding or
+  renaming a category, nav item, filter chip, button, footer link, or any other
+  text the user sees, update **every** locale file in `client/messages/`
+  (`en.json`, `ro.json`, `ru.json`, and any future locales) in the same change.
+  Also extend any whitelist that gates which translation namespace a key resolves
+  to (e.g. `Footer.tsx`'s `resolveLinkLabel`). Missing keys throw
+  `IntlError: MISSING_MESSAGE` at runtime.
+- **Categories are referenced in multiple places.** When adding a main
+  category, update all of: backend `MAIN_CATEGORIES` seed, `ArticleCategory`
+  union in `client/src/types/content.ts`, `articleCategories` +
+  `articleCategorySlugs` in `client/src/constants/articles.ts`,
+  `mainNavigation` + `footerLinkGroups` in `client/src/constants/navigation.ts`,
+  and the `nav.*` + `categories.*` keys in every locale file.
 
 ## Current Design Direction
 

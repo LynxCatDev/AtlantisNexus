@@ -230,8 +230,8 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                   placeholder={t("commentPlaceholder")}
                 />
                 <Button type="submit">
-                  <SendIcon aria-hidden="true" size={16} />
                   {t("postComment")}
+                  <SendIcon aria-hidden="true" size={16} style={{ marginLeft: 4 }} />
                 </Button>
               </form>
 

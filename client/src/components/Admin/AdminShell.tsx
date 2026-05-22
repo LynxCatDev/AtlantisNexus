@@ -4,13 +4,13 @@ import Link from "next/link";
 import {
   Bell as BellIcon,
   FileText as FileTextIcon,
+  Home as HomeIcon,
   ImagePlus as MediaIcon,
   LayoutDashboard as DashboardIcon,
   LogOut as LogOutIcon,
   MessageSquare as MessageIcon,
   Plus as PlusIcon,
   Search as SearchIcon,
-  Shield as ShieldIcon,
   Tags as TagsIcon,
   UserCircle as ProfileIcon,
   Users as UsersIcon,
@@ -47,7 +47,7 @@ type NavItem = {
 const NAV: NavItem[] = [
   { href: "/admin", labelKey: "dashboard", icon: DashboardIcon, exact: true },
   { href: "/admin/articles", labelKey: "articles", icon: FileTextIcon },
-  { href: "/admin/comments", labelKey: "comments", icon: MessageIcon, soon: true },
+  { href: "/admin/comments", labelKey: "comments", icon: MessageIcon },
   { href: "/admin/taxonomy", labelKey: "taxonomy", icon: TagsIcon },
   { href: "/admin/users", labelKey: "users", icon: UsersIcon, superadminOnly: true },
   { href: "/admin/media", labelKey: "media", icon: MediaIcon, soon: true },
@@ -192,7 +192,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <ShieldIcon aria-hidden="true" size={16} />
+                  <HomeIcon aria-hidden="true" size={16} />
                   {t("menuBackToSite")}
                 </Link>
                 <button

@@ -7,7 +7,6 @@ import {
   Laugh as LaughIcon,
   MessageSquare as MessageSquareIcon,
   PartyPopper as PartyPopperIcon,
-  Send as SendIcon,
   Share2 as Share2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -20,6 +19,7 @@ import { Header } from "@/components/Header/Header";
 import { useArticleContent } from "@/i18n/content";
 import type { ArticleDetail } from "@/types/content";
 
+import { CommentSection } from "./CommentSection";
 import "./ArticleDetailPage.scss";
 
 type ArticleDetailPageProps = {
@@ -32,7 +32,6 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
   const tSection = useTranslations("content.sectionTitles");
   const tElden = useTranslations("content.eldenDetail");
   const tGeneric = useTranslations("content.genericDetail");
-  const tComments = useTranslations("content.comments");
   const ac = useArticleContent();
   const { article } = detail;
   const localizedTitle = ac.title(article.slug, article.title);
@@ -114,16 +113,6 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
       quote: section.quote,
     };
   });
-
-  const commentSet = isElden ? "elden" : "default";
-  const localizedComments = (tComments.raw(commentSet) as Array<{ author: string; postedAt: string; body: string }>).map(
-    (raw, index) => ({
-      author: raw.author,
-      postedAt: raw.postedAt,
-      body: raw.body,
-      initials: detail.comments[index]?.initials ?? raw.author.slice(0, 2).toUpperCase(),
-    }),
-  );
 
   return (
     <div className="app-frame article-detail">
@@ -222,37 +211,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               </button>
             </div>
 
-            <section className="article-detail__comments" aria-labelledby="comments-title">
-              <h2 id="comments-title">{t("commentsHeading")}</h2>
-              <form className="article-detail__comment-form">
-                <textarea
-                  aria-label={t("commentAriaLabel")}
-                  placeholder={t("commentPlaceholder")}
-                />
-                <Button type="submit">
-                  {t("postComment")}
-                  <SendIcon aria-hidden="true" size={16} style={{ marginLeft: 4 }} />
-                </Button>
-              </form>
-
-              <div className="article-detail__comment-list">
-                {localizedComments.map((comment, idx) => (
-                  <article
-                    className="article-detail__comment"
-                    key={`comment-${idx}`}
-                  >
-                    <span className="article-detail__avatar">{comment.initials}</span>
-                    <div>
-                      <p>
-                        <strong>{comment.author}</strong>
-                        <span>{comment.postedAt}</span>
-                      </p>
-                      <p>{comment.body}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
+            <CommentSection slug={article.slug} />
           </article>
 
           <aside className="article-detail__sidebar" aria-label={t("sidebarAriaLabel")}>

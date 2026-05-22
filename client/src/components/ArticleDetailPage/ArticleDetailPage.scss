@@ -328,6 +328,30 @@
     margin-top: 22.4px;
   }
 
+  &__role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11.2px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    line-height: 1.4;
+
+    &--admin {
+      background: rgba(89, 143, 255, 0.16);
+      color: #8eb6ff;
+      border: 1px solid rgba(89, 143, 255, 0.4);
+    }
+
+    &--superadmin {
+      background: rgba(255, 184, 70, 0.16);
+      color: #ffcc7a;
+      border: 1px solid rgba(255, 184, 70, 0.4);
+    }
+  }
+
   &__comment {
     display: grid;
     grid-template-columns: 40.8px 1fr;

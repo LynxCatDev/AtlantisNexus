@@ -273,7 +273,9 @@
   }
 
   &__item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     padding: 9.6px 12px;
     border: 0;
@@ -659,17 +661,22 @@
 }
 
 .dashboard-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6.4px;
   padding: 28px 20px;
   text-align: center;
   color: var(--muted);
   font-size: 14px;
 
-  p {
-    margin: 0 0 8px;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+  p {
+    margin: 0;
   }
 }
 
@@ -835,6 +842,10 @@
 .admin-icon-button,
 .admin-danger-button,
 .taxonomy-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.4px;
   border: 1px solid var(--border);
   border-radius: 8.8px;
   background: rgba(18, 28, 47, 0.45);
@@ -843,6 +854,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.admin-secondary-button svg,
+.admin-danger-button svg,
+.taxonomy-actions button svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .admin-tab {
@@ -960,6 +979,7 @@
     color: var(--foreground);
     font-size: 14.4px;
     font-weight: 700;
+    transition: color 0.15s ease;
   }
 
   span:not(.admin-table-thumb) {
@@ -971,6 +991,28 @@
     font-size: 12.48px;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+}
+
+.admin-article-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover .admin-article-cell strong,
+  &:focus-visible .admin-article-cell strong {
+    color: var(--primary);
+  }
+
+  &:hover .admin-table-thumb,
+  &:focus-visible .admin-table-thumb {
+    border-color: rgba(90, 137, 255, 0.45);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 8px;
   }
 }
 
@@ -986,6 +1028,7 @@
     var(--surface-strong);
   background-position: center;
   background-size: cover;
+  transition: border-color 0.15s ease;
 }
 
 .admin-actions {
@@ -1447,5 +1490,25 @@
 
   .taxonomy-actions {
     justify-content: flex-start;
+  }
+}
+
+.admin-comment-body {
+  max-width: 360px;
+  color: var(--foreground);
+  font-size: 13.6px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.admin-comment-article-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4.8px;
+  color: var(--primary);
+
+  &:hover {
+    color: var(--cyan);
   }
 }

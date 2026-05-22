@@ -7,7 +7,7 @@ import {
   Trash2 as Trash2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -28,32 +28,27 @@ export function AdminTaxonomyPage() {
 
   const isSuperadmin = user?.role === "SUPERADMIN";
 
-  const loadCategories = useCallback(async (cancelled: () => boolean) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await authedFetch<Category[]>("/categories");
-      if (!cancelled()) setCategories(data);
-    } catch (err) {
-      if (!cancelled()) {
-        setError(err instanceof Error ? err.message : t("taxonomyFailedLoad"));
-      }
-    } finally {
-      if (!cancelled()) setLoading(false);
-    }
-  }, [authedFetch, t]);
-
   useEffect(() => {
     let cancelled = false;
-    const id = window.setTimeout(() => {
-      void loadCategories(() => cancelled);
-    }, 0);
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await authedFetch<Category[]>("/categories");
+        if (!cancelled) setCategories(data);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : t("taxonomyFailedLoad"));
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
 
     return () => {
       cancelled = true;
-      window.clearTimeout(id);
     };
-  }, [loadCategories]);
+  }, [authedFetch, t]);
 
   const tags = useMemo(
     () => Array.from(new Set(articles.flatMap((article) => article.tags))).sort(),

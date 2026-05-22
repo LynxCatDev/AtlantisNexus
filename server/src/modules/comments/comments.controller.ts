@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
@@ -22,11 +23,21 @@ import type { AuthenticatedUser } from "../../common/types/authenticated-user.ty
 
 import { CommentsService } from "./comments.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
+import { ListCommentsQueryDto } from "./dto/list-comments-query.dto";
 
 @ApiTags("Comments")
 @Controller()
 export class CommentsController {
   constructor(private readonly comments: CommentsService) {}
+
+  @Get("comments")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPERADMIN)
+  @ApiBearerAuth("access-token")
+  @ApiOperation({ summary: "List all comments across articles (admin)" })
+  listAll(@Query() query: ListCommentsQueryDto) {
+    return this.comments.listAll(query);
+  }
 
   @Get("articles/:slug/comments")
   @ApiOperation({ summary: "List comments for an article" })

@@ -8,7 +8,7 @@ import {
   Trash2 as Trash2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
@@ -53,28 +53,26 @@ export function AdminArticlesPage() {
     }
   };
 
-  const loadArticles = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await authedFetch<AdminArticle[]>("/articles?locale=en");
-      setArticles(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("articlesFailedLoad"));
-    } finally {
-      setLoading(false);
-    }
-  }, [authedFetch, t]);
-
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      void loadArticles();
-    }, 0);
-
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await authedFetch<AdminArticle[]>("/articles?locale=en");
+        if (!cancelled) setArticles(data);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : t("articlesFailedLoad"));
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
     return () => {
-      window.clearTimeout(id);
+      cancelled = true;
     };
-  }, [loadArticles]);
+  }, [authedFetch, t]);
 
   const visibleArticles = useMemo(() => {
     if (activeTab === "All" || activeTab === "Published") {
@@ -162,17 +160,25 @@ export function AdminArticlesPage() {
                 {visibleArticles.map((article) => (
                   <tr key={article.id}>
                     <td>
-                      <div className="admin-article-cell">
-                        <span
-                          aria-hidden="true"
-                          className="admin-table-thumb"
-                          style={{ backgroundImage: article.image ? `url(${article.image})` : undefined }}
-                        />
-                        <div>
-                          <strong>{article.title || article.slug}</strong>
-                          <span>{article.excerpt || article.slug}</span>
+                      <Link
+                        className="admin-article-link"
+                        href={`/article/${article.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={t("articlesOpenPublic", { title: article.title || article.slug })}
+                      >
+                        <div className="admin-article-cell">
+                          <span
+                            aria-hidden="true"
+                            className="admin-table-thumb"
+                            style={{ backgroundImage: article.image ? `url(${article.image})` : undefined }}
+                          />
+                          <div>
+                            <strong>{article.title || article.slug}</strong>
+                            <span>{article.excerpt || article.slug}</span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     </td>
                     <td>{article.category.label}</td>
                     <td>{article.author}</td>

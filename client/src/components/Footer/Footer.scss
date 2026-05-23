@@ -28,15 +28,15 @@
     h3 {
       margin: 0 0 20px;
       color: white;
-      font-size: 13.44px;
+      font-size: 13px;
     }
 
     > div:not(.footer__brand) a {
       display: block;
       width: fit-content;
-      margin: 11.2px 0 0;
+      margin: 11px 0 0;
       color: var(--muted);
-      font-size: 14.08px;
+      font-size: 14px;
 
       &:hover {
         color: white;
@@ -52,7 +52,7 @@
       max-width: 416px;
       margin: 16px 0;
       color: var(--muted-strong);
-      font-size: 14.72px;
+      font-size: 15px;
       line-height: 1.55;
     }
   }
@@ -87,7 +87,7 @@
 
   &__language {
     display: flex;
-    margin-top: 23.2px;
+    margin-top: 23px;
 
     .language-switch__trigger {
       min-height: 32px;
@@ -98,7 +98,7 @@
     .language-switch__menu {
       top: auto;
       right: auto;
-      bottom: calc(100% + 7.2px);
+      bottom: calc(100% + 7px);
       left: 0;
     }
   }
@@ -113,11 +113,11 @@
     padding: 20px 16px;
     border-top: 1px solid rgba(33, 48, 74, 0.6);
     color: var(--muted);
-    font-size: 12.8px;
+    font-size: 13px;
 
     span:last-child {
       display: flex;
-      gap: 22.4px;
+      gap: 22px;
     }
 
     a:hover {

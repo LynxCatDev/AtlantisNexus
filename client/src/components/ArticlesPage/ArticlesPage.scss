@@ -9,7 +9,7 @@
     max-width: 1536px;
     min-height: 72vh;
     margin: 0 auto;
-    padding: 100px 16px 192px;
+    padding: 32px 16px;
   }
 
   &__hero {
@@ -21,14 +21,14 @@
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 700;
       line-height: 1.05;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
     }
 
     > p:last-of-type {
       max-width: 576px;
-      margin: 13.6px 0 0;
+      margin: 14px 0 0;
       color: var(--muted);
-      font-size: 15.2px;
+      font-size: 15px;
       line-height: 1.55;
     }
   }
@@ -36,9 +36,6 @@
 
 @include respond-to('mobile') {
   .articles-page__main {
-    padding-top: 56px;
-    padding-bottom: 96px;
-    padding-right: 16px;
-    padding-left: 16px;
+    padding: 32px 16px;
   }
 }

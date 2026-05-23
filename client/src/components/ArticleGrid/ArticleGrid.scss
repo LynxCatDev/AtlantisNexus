@@ -3,7 +3,7 @@
 .article-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28.8px;
+  gap: 29px;
   margin-top: 52px;
 
   @include respond-to('laptop') {

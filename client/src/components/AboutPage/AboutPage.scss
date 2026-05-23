@@ -8,7 +8,7 @@
     max-width: 1536px;
     min-height: 72vh;
     margin: 0 auto;
-    padding: 100px 16px 128px;
+    padding: 32px 16px;
   }
 
   &__hero {
@@ -17,9 +17,9 @@
     h1 {
       margin: 0;
       color: var(--foreground);
-      font-size: clamp(44.8px, 6vw, 72px);
+      font-size: clamp(45px, 6vw, 72px);
       font-weight: 700;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
       line-height: 1.04;
 
       span {
@@ -34,7 +34,7 @@
       max-width: 640px;
       margin: 16px 0 0;
       color: var(--muted-strong);
-      font-size: 16.8px;
+      font-size: 17px;
       line-height: 1.6;
     }
   }
@@ -50,12 +50,12 @@
     border: 1px solid rgba(33, 48, 74, 0.7);
     border-radius: 16px;
     background: var(--gradient-card);
-    padding: 22.4px;
+    padding: 22px;
 
     h2 {
-      margin: 17.6px 0 7.2px;
+      margin: 18px 0 7px;
       color: white;
-      font-size: 18.4px;
+      font-size: 18px;
       font-weight: 700;
     }
 
@@ -85,7 +85,7 @@
   &__belief {
     max-width: 864px;
     margin-top: 64px;
-    padding: clamp(24px, 4vw, 43.2px);
+    padding: clamp(24px, 4vw, 43px);
     border: 1px solid rgba(33, 48, 74, 0.7);
     border-radius: 16px;
     background: var(--gradient-card);
@@ -93,16 +93,16 @@
     h2 {
       margin: 0;
       color: white;
-      font-size: clamp(27.2px, 3vw, 39.2px);
+      font-size: clamp(27px, 3vw, 39px);
       font-weight: 700;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
       line-height: 1.08;
     }
 
     p {
       margin: 16px 0 0;
       color: #dbe7ff;
-      font-size: 16.8px;
+      font-size: 17px;
       line-height: 1.75;
     }
   }
@@ -116,14 +116,11 @@
 
 @include respond-to('mobile') {
   .about-page__main {
-    padding-top: 56px;
-    padding-bottom: 96px;
-    padding-right: 16px;
-    padding-left: 16px;
+    padding: 32px 16px;
   }
 
   .about-page__hero h1 {
-    font-size: clamp(37.6px, 13vw, 52px);
+    font-size: clamp(38px, 13vw, 52px);
   }
 
   .about-page__pillars {

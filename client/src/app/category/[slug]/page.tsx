@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 import { CategoryPage } from "@/components/CategoryPage/CategoryPage";
-import { articleCategorySlugs, articles, getArticleCategoryBySlug } from "@/constants/articles";
+import { articleCategorySlugs, articles as mockArticles, getArticleCategoryBySlug } from "@/constants/articles";
+import { fetchArticles, toFrontendArticle } from "@/lib/articles";
+import type { Article } from "@/types/content";
 
 type CategoryRouteProps = {
   params: Promise<{
@@ -20,6 +23,18 @@ export default async function CategoryRoute({ params }: CategoryRouteProps) {
   if (!category) {
     notFound();
   }
+
+  const locale = await getLocale();
+  const apiArticles = await fetchArticles(locale);
+  const backendArticles = apiArticles
+    .map((article) => toFrontendArticle(article))
+    .filter((article): article is Article => article !== null);
+
+  const seen = new Set(backendArticles.map((article) => article.slug));
+  const articles: Article[] = [
+    ...backendArticles,
+    ...mockArticles.filter((article) => !seen.has(article.slug)),
+  ];
 
   return (
     <CategoryPage

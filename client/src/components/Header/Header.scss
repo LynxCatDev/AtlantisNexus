@@ -27,17 +27,17 @@
   &__nav-links {
     display: flex;
     align-items: center;
-    gap: 2.88px;
-    margin-left: 10.4px;
+    gap: 3px;
+    margin-left: 10px;
   }
 
   &__nav-link {
     position: relative;
     min-height: 32px;
     padding: 8px 12px;
-    border-radius: 6.08px;
+    border-radius: 6px;
     color: var(--muted);
-    font-size: 14.08px;
+    font-size: 14px;
     font-weight: 700;
 
     &:hover {
@@ -65,7 +65,7 @@
   &__search {
     display: flex;
     align-items: center;
-    gap: 8.8px;
+    gap: 9px;
     width: min(256px, 24vw);
     min-height: 36px;
     margin-left: auto;
@@ -90,7 +90,7 @@
       outline: 0;
       background: transparent;
       color: white;
-      font-size: 13.76px;
+      font-size: 14px;
 
       &::placeholder {
         color: #8492ad;
@@ -102,7 +102,7 @@
       min-width: 0;
       overflow: hidden;
       color: #9aa9c4;
-      font-size: 13.76px;
+      font-size: 14px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -110,11 +110,11 @@
     kbd {
       flex: 0 0 auto;
       border: 1px solid rgba(50, 70, 108, 0.86);
-      border-radius: 5.6px;
-      padding: 1.6px 5.44px;
+      border-radius: 6px;
+      padding: 2px 5px;
       background: rgba(6, 11, 22, 0.72);
       color: #c6d3eb;
-      font-size: 10.72px;
+      font-size: 11px;
     }
   }
 
@@ -123,10 +123,10 @@
     align-items: center;
     justify-content: center;
     min-height: 32px;
-    border-radius: 6.08px;
+    border-radius: 6px;
     padding: 0 12px;
     color: white;
-    font-size: 13.28px;
+    font-size: 13px;
     font-weight: 800;
     white-space: nowrap;
 
@@ -149,7 +149,7 @@
     width: 100%;
     margin-left: 0;
     overflow-x: auto;
-    padding-bottom: 1.6px;
+    padding-bottom: 2px;
   }
 
   .header__search {
@@ -200,13 +200,13 @@
   &__trigger {
     display: inline-flex;
     align-items: center;
-    gap: 8.8px;
-    padding: 5.6px 12px 5.6px 5.6px;
+    gap: 9px;
+    padding: 6px 12px 6px 6px;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: rgba(18, 28, 47, 0.7);
     color: var(--foreground);
-    font-size: 14.08px;
+    font-size: 14px;
     transition: border-color 0.2s ease, background 0.2s ease;
 
     &:hover {
@@ -218,13 +218,13 @@
   &__avatar {
     display: grid;
     place-items: center;
-    width: 29.6px;
-    height: 29.6px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: var(--gradient-primary);
     color: var(--primary-foreground);
     font-weight: 700;
-    font-size: 13.6px;
+    font-size: 14px;
   }
 
   &__name {
@@ -241,7 +241,7 @@
     min-width: 224px;
     padding: 8px;
     border: 1px solid var(--border);
-    border-radius: 13.6px;
+    border-radius: 14px;
     background: var(--surface);
     box-shadow: var(--shadow-elegant);
     z-index: 30;
@@ -249,18 +249,18 @@
 
   &__head {
     display: grid;
-    gap: 3.2px;
-    padding: 10.4px 12px 13.6px;
+    gap: 3px;
+    padding: 10px 12px 14px;
     border-bottom: 1px solid var(--border);
 
     strong {
       color: var(--foreground);
-      font-size: 15.2px;
+      font-size: 15px;
     }
 
     span {
       color: var(--muted);
-      font-size: 12.8px;
+      font-size: 13px;
     }
   }
 
@@ -269,13 +269,13 @@
     align-items: center;
     gap: 8px;
     width: 100%;
-    padding: 9.6px 12px;
+    padding: 10px 12px;
     border: 0;
     border-radius: 8px;
     background: transparent;
     color: var(--foreground);
     text-align: left;
-    font-size: 14.08px;
+    font-size: 14px;
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
 
@@ -297,14 +297,14 @@
 // originated alongside the user identity UI).
 .role-pill {
   align-self: start;
-  margin-top: 5.6px;
-  padding: 2.4px 8.8px;
+  margin-top: 6px;
+  padding: 2px 9px;
   border-radius: 999px;
   background: rgba(154, 87, 255, 0.12);
   color: var(--violet);
-  font-size: 11.2px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   text-transform: uppercase;
 
   &--superadmin {

@@ -6,18 +6,19 @@ import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { FilterPill, FilterRow } from "@/components/FilterRow/FilterRow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { articleCategories, articles, getArticleCategoryHref } from "@/constants/articles";
-import type { ArticleCategory } from "@/types/content";
+import { articleCategories, getArticleCategoryHref } from "@/constants/articles";
+import type { Article, ArticleCategory } from "@/types/content";
 
 import "./ArticlesPage.scss";
 
 type ArticleFilter = ArticleCategory | "All";
 
 type ArticlesPageProps = {
+  articles: Article[];
   activeCategory?: ArticleFilter;
 };
 
-export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
+export function ArticlesPage({ articles, activeCategory = "All" }: ArticlesPageProps) {
   const t = useTranslations("articlesPage");
   const tCat = useTranslations("categories");
 
@@ -55,7 +56,7 @@ export function ArticlesPage({ activeCategory = "All" }: ArticlesPageProps) {
 
         <ArticleGrid as="section" id="articles" aria-label={t("latestAriaLabel")}>
           {filteredArticles.map((article, index) => (
-            <ArticleCard article={article} eager={index < 3} key={article.title} />
+            <ArticleCard article={article} eager={index < 3} key={article.slug} />
           ))}
         </ArticleGrid>
       </main>

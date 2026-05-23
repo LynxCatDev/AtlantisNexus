@@ -3,21 +3,13 @@ import { getLocale } from "next-intl/server";
 
 import { ArticleDetailPage } from "@/components/ArticleDetailPage/ArticleDetailPage";
 import { articleDetails, articles as mockArticles, getArticleDetail } from "@/constants/articles";
-import { fetchArticleBySlug, fetchArticles, formatPublishedDate, type ApiArticleDetail } from "@/lib/articles";
-import type { Article, ArticleCategory, ArticleDetail } from "@/types/content";
+import { fetchArticleBySlug, fetchArticles, formatPublishedDate, toFrontendArticle, type ApiArticleDetail } from "@/lib/articles";
+import type { Article, ArticleDetail } from "@/types/content";
 
 type ArticleRouteProps = {
   params: Promise<{
     slug: string;
   }>;
-};
-
-const SLUG_TO_CATEGORY: Record<string, ArticleCategory> = {
-  gaming: "Gaming",
-  ai: "AI",
-  dev: "Dev",
-  movies: "Movies",
-  tech: "Tech",
 };
 
 export function generateStaticParams() {
@@ -42,19 +34,10 @@ export default async function ArticleRoute({ params }: ArticleRouteProps) {
 }
 
 async function toArticleDetail(api: ApiArticleDetail, locale: string): Promise<ArticleDetail> {
-  const category = SLUG_TO_CATEGORY[api.category.slug] ?? "Dev";
-  const article: Article = {
-    slug: api.slug,
-    title: api.title,
-    excerpt: api.excerpt,
-    category,
-    author: api.author,
-    authorAvatar: api.authorAvatar,
-    publishedAt: formatPublishedDate(api.publishedAt),
-    minutes: api.minutes,
-    image: api.image,
-    tags: api.tags,
-  };
+  const article = toFrontendArticle(api, "Dev");
+  if (!article) {
+    throw new Error("Unable to map article");
+  }
 
   const related = await fetchRelated(api.slug, locale);
 
@@ -87,20 +70,9 @@ async function fetchRelated(currentSlug: string, locale: string): Promise<Articl
   const others: Article[] = [];
   for (const a of apiArticles) {
     if (a.slug === currentSlug) continue;
-    const category = SLUG_TO_CATEGORY[a.category.slug];
-    if (!category) continue;
-    others.push({
-      slug: a.slug,
-      title: a.title,
-      excerpt: a.excerpt,
-      category,
-      author: a.author,
-      authorAvatar: a.authorAvatar,
-      publishedAt: formatPublishedDate(a.publishedAt),
-      minutes: a.minutes,
-      image: a.image,
-      tags: a.tags,
-    });
+    const article = toFrontendArticle(a);
+    if (!article) continue;
+    others.push(article);
     if (others.length >= 3) break;
   }
   if (others.length === 0) {

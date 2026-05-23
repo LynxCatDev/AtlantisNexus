@@ -1,4 +1,5 @@
 import { apiBaseUrl } from "@/lib/api";
+import type { Article, ArticleCategory } from "@/types/content";
 
 export type ApiCategory = {
   slug: string;
@@ -49,6 +50,14 @@ const SERVER_BASE_URL =
   process.env.API_BASE_URL?.replace(/\/$/, "") ||
   apiBaseUrl;
 
+const SLUG_TO_CATEGORY: Record<string, ArticleCategory> = {
+  gaming: "Gaming",
+  ai: "AI",
+  dev: "Dev",
+  movies: "Movies",
+  tech: "Tech",
+};
+
 export async function fetchArticles(locale: string = "en"): Promise<ApiArticleSummary[]> {
   try {
     const res = await fetch(`${SERVER_BASE_URL}/articles?locale=${locale}`, {
@@ -87,4 +96,24 @@ export function formatPublishedDate(iso: string): string {
   } catch {
     return "";
   }
+}
+
+export function toFrontendArticle(
+  api: ApiArticleSummary,
+  fallbackCategory?: ArticleCategory,
+): Article | null {
+  const category = SLUG_TO_CATEGORY[api.category.slug] ?? fallbackCategory;
+  if (!category) return null;
+
+  return {
+    slug: api.slug,
+    title: api.title,
+    excerpt: api.excerpt,
+    category,
+    author: api.author,
+    publishedAt: formatPublishedDate(api.publishedAt),
+    minutes: api.minutes,
+    image: api.image,
+    tags: api.tags,
+  };
 }

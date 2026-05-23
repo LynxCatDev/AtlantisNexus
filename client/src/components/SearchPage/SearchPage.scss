@@ -10,7 +10,7 @@
     max-width: 1536px;
     min-height: 72vh;
     margin: 0 auto;
-    padding: 100px 16px 128px;
+    padding: 32px 16px;
   }
 
   &__hero {
@@ -19,9 +19,9 @@
     h1 {
       margin: 0;
       color: var(--foreground);
-      font-size: clamp(44.8px, 6vw, 72px);
+      font-size: clamp(45px, 6vw, 72px);
       font-weight: 700;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
       line-height: 1.04;
     }
 
@@ -29,7 +29,7 @@
       max-width: 640px;
       margin: 16px 0 0;
       color: var(--muted-strong);
-      font-size: 16.8px;
+      font-size: 17px;
       line-height: 1.6;
     }
   }
@@ -43,9 +43,9 @@
     svg {
       position: absolute;
       top: 50%;
-      left: 17.6px;
-      width: 18.4px;
-      height: 18.4px;
+      left: 18px;
+      width: 18px;
+      height: 18px;
       color: var(--muted);
       transform: translateY(-50%);
     }
@@ -54,8 +54,8 @@
       width: 100%;
       min-height: 56px;
       border: 1px solid var(--border);
-      border-radius: 13.6px;
-      padding: 0 17.6px 0 49.6px;
+      border-radius: 14px;
+      padding: 0 18px 0 50px;
       outline: 0;
       background: rgba(18, 28, 47, 0.7);
       color: white;
@@ -79,11 +79,11 @@
     margin-top: 64px;
 
     h2 {
-      margin: 0 0 21.6px;
+      margin: 0 0 22px;
       color: white;
-      font-size: 24.8px;
+      font-size: 25px;
       font-weight: 700;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
     }
   }
 
@@ -97,14 +97,14 @@
 .tools-page__catalog {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 19.2px;
+  gap: 19px;
   margin-top: 28px;
 }
 
 .tools-page__card {
   position: relative;
   display: flex;
-  min-height: 193.6px;
+  min-height: 194px;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(33, 48, 74, 0.6);
@@ -120,7 +120,7 @@
   }
 
   h3 {
-    margin: 18.4px 0 7.2px;
+    margin: 18px 0 7px;
     color: white;
     font-size: 16px;
     line-height: 1.25;
@@ -137,7 +137,7 @@
     -webkit-line-clamp: 2;
     margin: 0;
     color: var(--muted-strong);
-    font-size: 14.4px;
+    font-size: 14px;
     line-height: 1.45;
   }
 }
@@ -154,21 +154,21 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 10.56px;
+  border-radius: 11px;
   background: var(--gradient-primary);
   color: var(--primary-foreground);
   box-shadow: 0 0 28px rgba(138, 109, 255, 0.26);
   transition: var(--transition-smooth);
 
   svg {
-    width: 19.2px;
-    height: 19.2px;
+    width: 19px;
+    height: 19px;
   }
 }
 
 .tools-page__card-arrow {
-  width: 14.4px;
-  height: 14.4px;
+  width: 14px;
+  height: 14px;
   color: #8190ad;
   transition: var(--transition-smooth);
 }
@@ -182,11 +182,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 11.2px;
+  gap: 11px;
   margin-top: auto;
-  padding-top: 21.6px;
+  padding-top: 22px;
   color: var(--muted);
-  font-size: 12.16px;
+  font-size: 12px;
 
   strong {
     color: var(--cyan);
@@ -216,13 +216,10 @@
 
 @include respond-to('mobile') {
   .search-page__main {
-    padding-top: 56px;
-    padding-bottom: 96px;
-    padding-right: 16px;
-    padding-left: 16px;
+    padding: 32px 16px;
   }
 
   .search-page__hero h1 {
-    font-size: clamp(37.6px, 13vw, 52px);
+    font-size: clamp(38px, 13vw, 52px);
   }
 }

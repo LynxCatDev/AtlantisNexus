@@ -6,7 +6,7 @@
   justify-content: center;
   min-height: 36px;
   border: 0;
-  border-radius: 9.6px;
+  border-radius: 10px;
   background: linear-gradient(135deg, #4c8bff 0%, #8b6cff 62%, #b553ff 100%);
   color: #060913;
   font-weight: 800;
@@ -27,10 +27,10 @@
 
   &--small {
     min-height: 32px;
-    border-radius: 6.08px;
+    border-radius: 6px;
     padding: 0 12px;
     color: white;
-    font-size: 12.8px;
+    font-size: 13px;
 
     @include respond-to('mobile-sm') {
       width: 100%;

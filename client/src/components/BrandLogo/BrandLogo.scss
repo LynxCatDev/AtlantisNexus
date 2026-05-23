@@ -3,10 +3,10 @@
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 9.6px;
+  gap: 10px;
   flex: 0 0 auto;
   color: var(--foreground);
-  font-size: 15.04px;
+  font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
 
@@ -24,10 +24,10 @@
     place-items: center;
     width: 28px;
     height: 28px;
-    border-radius: 8.8px;
+    border-radius: 9px;
     background: linear-gradient(135deg, #5a89ff, var(--violet) 58%, #b653ff);
     color: white;
-    font-size: 12.48px;
+    font-size: 12px;
     font-weight: 900;
     box-shadow: 0 0 24px rgba(138, 109, 255, 0.35);
   }

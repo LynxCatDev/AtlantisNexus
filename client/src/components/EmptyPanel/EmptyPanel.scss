@@ -12,7 +12,7 @@
 
   h2 {
     color: white;
-    font-size: 21.6px;
+    font-size: 22px;
     font-weight: 700;
   }
 
@@ -22,11 +22,11 @@
   }
 
   h2 + p {
-    margin-top: 10.4px;
+    margin-top: 10px;
   }
 
   &--compact {
     margin-top: 16px;
-    padding: 21.6px;
+    padding: 22px;
   }
 }

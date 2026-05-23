@@ -39,7 +39,7 @@
       color: white;
       font-size: clamp(32px, 4vw, 54px);
       font-weight: 800;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
       line-height: 1.08;
     }
   }
@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 19.2px;
+    gap: 19px;
     margin-top: 32px;
     padding-bottom: 28px;
     border-bottom: 1px solid rgba(33, 48, 74, 0.6);
@@ -84,19 +84,19 @@
   &__author {
     display: flex;
     align-items: center;
-    gap: 13.6px;
+    gap: 14px;
 
     strong {
       display: block;
       color: white;
-      font-size: 14.88px;
+      font-size: 15px;
     }
 
     > div > span {
       display: block;
-      margin-top: 2.88px;
+      margin-top: 3px;
       color: var(--muted);
-      font-size: 13.12px;
+      font-size: 13px;
     }
   }
 
@@ -104,12 +104,12 @@
     display: inline-grid;
     place-items: center;
     flex: 0 0 auto;
-    width: 40.8px;
-    height: 40.8px;
+    width: 41px;
+    height: 41px;
     border-radius: 999px;
     background: linear-gradient(135deg, #5a89ff, #8b6cff);
     color: white;
-    font-size: 13.12px;
+    font-size: 13px;
     font-weight: 900;
     background-size: cover;
     background-position: center;
@@ -122,7 +122,7 @@
 
   &__actions {
     display: flex;
-    gap: 9.6px;
+    gap: 10px;
 
     button {
       display: inline-flex;
@@ -135,7 +135,7 @@
       padding: 0 12px;
       background: rgba(9, 15, 27, 0.72);
       color: white;
-      font-size: 12.48px;
+      font-size: 12px;
       font-weight: 850;
 
       &:hover {
@@ -168,7 +168,7 @@
 
     section {
       scroll-margin-top: 112px;
-      margin-top: 57.6px;
+      margin-top: 58px;
 
       &:first-child {
         margin-top: 0;
@@ -176,16 +176,16 @@
     }
 
     h2 {
-      margin: 0 0 21.6px;
+      margin: 0 0 22px;
       color: white;
-      font-size: clamp(23.2px, 2.4vw, 28px);
+      font-size: clamp(23px, 2.4vw, 28px);
       line-height: 1.12;
     }
 
     p,
     li {
       color: #dbe7ff;
-      font-size: 16.96px;
+      font-size: 17px;
       line-height: 1.8;
     }
 
@@ -195,7 +195,7 @@
 
     ul {
       display: grid;
-      gap: 13.6px;
+      gap: 14px;
       margin: 0;
       padding-left: 20px;
     }
@@ -205,11 +205,11 @@
     }
 
     blockquote {
-      margin: 27.2px 0;
+      margin: 27px 0;
       border-left: 2px solid #4f8cff;
       padding: 4px 0 4px 28px;
       color: var(--muted-strong);
-      font-size: 17.6px;
+      font-size: 18px;
       font-style: italic;
       line-height: 1.65;
     }
@@ -218,17 +218,17 @@
   &__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 10.4px;
-    margin-top: 57.6px;
+    gap: 10px;
+    margin-top: 58px;
     padding-top: 32px;
     border-top: 1px solid rgba(33, 48, 74, 0.76);
 
     a {
       border-radius: 999px;
-      padding: 8.8px 12.8px;
+      padding: 9px 13px;
       background: #111b2e;
       color: var(--muted-strong);
-      font-size: 13.76px;
+      font-size: 14px;
       font-weight: 850;
 
       &:hover {
@@ -298,15 +298,15 @@
   }
 
   &__comments {
-    margin-top: 70.4px;
+    margin-top: 70px;
   }
 
   &__comment-form {
     display: grid;
-    gap: 13.6px;
+    gap: 14px;
     border: 1px solid var(--border);
-    border-radius: 14.4px;
-    padding: 21.6px;
+    border-radius: 14px;
+    padding: 22px;
     background: var(--surface);
 
     textarea {
@@ -314,8 +314,8 @@
       min-height: 112px;
       resize: vertical;
       border: 1px solid var(--border);
-      border-radius: 10.4px;
-      padding: 14.4px;
+      border-radius: 10px;
+      padding: 14px;
       outline: 0;
       background: #081020;
       color: white;
@@ -338,7 +338,7 @@
   &__comment-list {
     display: grid;
     gap: 16px;
-    margin-top: 22.4px;
+    margin-top: 22px;
   }
 
   &__role-pill {
@@ -346,9 +346,9 @@
     align-items: center;
     padding: 2px 8px;
     border-radius: 999px;
-    font-size: 11.2px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.4px;
+    letter-spacing: 0px;
     text-transform: uppercase;
     line-height: 1.4;
 
@@ -367,13 +367,13 @@
 
   &__comment {
     display: grid;
-    grid-template-columns: 40.8px 1fr;
+    grid-template-columns: 41px 1fr;
     gap: 16px;
 
     > div {
       border: 1px solid var(--border);
-      border-radius: 14.4px;
-      padding: 16px 17.6px;
+      border-radius: 14px;
+      padding: 16px 18px;
       background: var(--surface);
     }
 
@@ -385,14 +385,14 @@
     p {
       margin: 0;
       color: white;
-      font-size: 15.2px;
+      font-size: 15px;
       line-height: 1.5;
 
       &:first-child {
         display: flex;
-        gap: 9.6px;
+        gap: 10px;
         align-items: center;
-        margin-bottom: 5.6px;
+        margin-bottom: 6px;
       }
     }
 
@@ -433,15 +433,15 @@
 
     nav {
       display: grid;
-      gap: 3.2px;
+      gap: 3px;
     }
 
     a {
       display: block;
       border-left: 2px solid var(--border);
-      padding: 5.6px 0 5.6px 12px;
+      padding: 6px 0 6px 12px;
       color: var(--muted);
-      font-size: 14.08px;
+      font-size: 14px;
       font-weight: 800;
       transition:
         border-color 160ms ease,
@@ -465,10 +465,10 @@
     gap: 12px;
 
     input {
-      min-height: 41.6px;
+      min-height: 42px;
       border: 1px solid var(--border);
-      border-radius: 10.4px;
-      padding: 0 13.6px;
+      border-radius: 10px;
+      padding: 0 14px;
       outline: 0;
       background: #081020;
       color: white;
@@ -481,7 +481,7 @@
     }
 
     button {
-      min-height: 41.6px;
+      min-height: 42px;
       color: white;
     }
   }
@@ -494,7 +494,7 @@
     > h2 {
       margin: 0 0 24px;
       color: white;
-      font-size: 24.8px;
+      font-size: 25px;
     }
   }
 

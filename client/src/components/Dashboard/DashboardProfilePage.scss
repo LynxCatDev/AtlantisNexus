@@ -13,7 +13,7 @@
     h1 {
       font-size: 28px;
       font-weight: 700;
-      letter-spacing: -0.16px;
+      letter-spacing: 0px;
       color: var(--foreground);
     }
 
@@ -172,7 +172,7 @@
     color: var(--muted);
     font-size: 28px;
     font-weight: 600;
-    letter-spacing: 0.8px;
+    letter-spacing: 1px;
   }
 
   &__copy {
@@ -229,7 +229,7 @@
   span {
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.96px;
+    letter-spacing: 1px;
     color: var(--muted);
   }
 

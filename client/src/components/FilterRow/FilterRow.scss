@@ -1,7 +1,7 @@
 .filter-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8.8px;
+  gap: 9px;
   margin-top: 32px;
 }
 
@@ -10,12 +10,12 @@
   align-items: center;
   justify-content: center;
   min-height: 36px;
-  padding: 0 15.2px;
+  padding: 0 15px;
   border: 1px solid var(--border);
-  border-radius: 8.8px;
+  border-radius: 9px;
   background: rgba(18, 28, 47, 0.4);
   color: var(--muted-strong);
-  font-size: 13.12px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1;
   text-align: center;

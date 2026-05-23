@@ -12,6 +12,11 @@
   "header": {
     "searchPlaceholder": "Поиск статей, инструментов..."
   },
+  "siteSeo": {
+    "title": "Atlantis Nexus",
+    "description": "Премиальный медиа-хаб об играх, ИИ, веб-разработке и инструментах — глубокие статьи, гайды и небольшие утилиты для любознательных.",
+    "keywords": "atlantis nexus, игры, ии, разработка, веб-разработка, react, typescript, технологии, инструменты"
+  },
   "userMenu": {
     "signIn": "Войти",
     "getStarted": "Начать",
@@ -164,6 +169,7 @@
     "share": "Поделиться",
     "tagsAriaLabel": "Теги статьи",
     "reactionsAriaLabel": "Реакции",
+    "reactionSignInHint": "Войдите, чтобы поставить реакцию",
     "applause": "Аплодисменты",
     "funny": "Смешно",
     "heart": "Сердце",
@@ -177,6 +183,8 @@
     "postError": "Не удалось отправить комментарий. Попробуйте ещё раз.",
     "signInToComment": "Войдите, чтобы оставить комментарий.",
     "noComments": "Комментариев пока нет. Будьте первым, кто поделится мыслями.",
+    "commentFiltersAriaLabel": "Фильтр комментариев по языку",
+    "commentFilterAll": "Все",
     "roleAdmin": "Админ",
     "roleSuperadmin": "Владелец",
     "sidebarAriaLabel": "Боковая панель статьи",
@@ -320,6 +328,14 @@
     "formTitleLabel": "Заголовок ({locale})",
     "formExcerptLabel": "Краткое описание ({locale})",
     "formSections": "Разделы",
+    "formSeoHeading": "SEO",
+    "formSeoHint": "Необязательно. Если оставить пусто, для поисковиков и соцсетей будут использоваться заголовок и краткое описание статьи.",
+    "formSeoMetaTitle": "Meta-заголовок",
+    "formSeoMetaTitlePlaceholder": "По умолчанию — заголовок статьи",
+    "formSeoMetaDescription": "Meta-описание",
+    "formSeoMetaDescriptionPlaceholder": "По умолчанию — краткое описание (до ~160 символов)",
+    "formSeoKeywords": "Ключевые слова (через запятую)",
+    "formSeoKeywordsPlaceholder": "react, производительность, серверные компоненты",
     "formAddSection": "+ Добавить раздел",
     "formSection": "Раздел {n}",
     "formRemoveSection": "Удалить",

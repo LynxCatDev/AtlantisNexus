@@ -167,8 +167,8 @@ export function SignupPage() {
             {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
-              {!submitting ? <UserPlusIcon aria-hidden="true" size={16} /> : null}
               {submitting ? t("signupButtonLoading") : t("signupButton")}
+              {!submitting ? <UserPlusIcon aria-hidden="true" size={16} /> : null}
             </Button>
 
             <p className="legal-copy">

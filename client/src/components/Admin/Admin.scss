@@ -1433,6 +1433,32 @@
   }
 }
 
+.seo-block {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 28px;
+  padding: 18px 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(14, 22, 38, 0.6);
+
+  h3 {
+    margin: 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+
+  .seo-block-hint {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+}
+
 .section-item-head {
   display: flex;
   align-items: center;

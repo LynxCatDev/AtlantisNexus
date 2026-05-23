@@ -144,8 +144,8 @@ export function SigninPage() {
             {errors.form ? <p className="auth-error" role="alert">{errors.form}</p> : null}
 
             <Button className="auth-submit" type="submit" disabled={submitting}>
-              {!submitting ? <LogInIcon aria-hidden="true" size={16} /> : null}
               {submitting ? t("signinButtonLoading") : t("signinButton")}
+              {!submitting ? <LogInIcon aria-hidden="true" size={16} /> : null}
             </Button>
           </form>
 

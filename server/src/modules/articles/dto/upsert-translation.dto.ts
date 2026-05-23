@@ -1,8 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
+  ArrayMaxSize,
   ArrayMinSize,
   IsArray,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -29,4 +31,23 @@ export class UpsertTranslationDto {
   @ValidateNested({ each: true })
   @Type(() => ArticleSectionDto)
   sections!: ArticleSectionDto[];
+
+  @ApiPropertyOptional({ maxLength: 200 })
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  metaTitle?: string;
+
+  @ApiPropertyOptional({ maxLength: 300 })
+  @IsOptional()
+  @IsString()
+  @MaxLength(300)
+  metaDescription?: string;
+
+  @ApiPropertyOptional({ type: [String], maxItems: 30 })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(30)
+  @IsString({ each: true })
+  keywords?: string[];
 }

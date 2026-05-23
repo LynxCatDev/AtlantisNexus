@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger"
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { RequiresVerifiedEmail } from "../../common/decorators/requires-verified-email.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
+import { OptionalJwtAuthGuard } from "../../common/guards/optional-jwt-auth.guard";
 import { VerifiedEmailGuard } from "../../common/guards/verified-email.guard";
 import type { AuthenticatedUser } from "../../common/types/authenticated-user.type";
 
@@ -17,9 +18,10 @@ export class ReactionsController {
   constructor(private readonly reactions: ReactionsService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get the reaction counts for an article" })
-  summary(@Param("slug") slug: string) {
-    return this.reactions.summary(slug, null);
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiOperation({ summary: "Get the reaction counts for an article (includes your reactions if signed in)" })
+  summary(@Param("slug") slug: string, @CurrentUser() user: AuthenticatedUser | null) {
+    return this.reactions.summary(slug, user?.id ?? null);
   }
 
   @Post()

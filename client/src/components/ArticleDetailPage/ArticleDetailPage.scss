@@ -239,62 +239,105 @@
     }
   }
 
+  &__reaction-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
   &__reactions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 32px;
+  }
 
-    button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      min-height: 34px;
-      border: 1px solid rgba(50, 70, 108, 0.9);
-      border-radius: 999px;
-      padding: 0 13px;
-      background: rgba(17, 27, 46, 0.82);
-      color: #e9f0ff;
-      font-size: 13px;
-      font-weight: 850;
-      line-height: 1;
-      white-space: nowrap;
+  &__reaction,
+  &__comment-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    border: 1px solid rgba(50, 70, 108, 0.9);
+    border-radius: 999px;
+    padding: 0 13px;
+    background: rgba(17, 27, 46, 0.82);
+    color: #e9f0ff;
+    font-size: 13px;
+    font-weight: 850;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      border-color 140ms ease,
+      background 140ms ease,
+      color 140ms ease,
+      transform 140ms ease;
 
-      &:hover {
-        border-color: var(--cyan);
-        background: rgba(32, 230, 255, 0.09);
-        color: white;
-        transform: translateY(-1px);
-      }
-
-      svg {
-        width: 16px;
-        height: 16px;
-        flex: 0 0 16px;
-        stroke-width: 2.15;
-      }
-
-      &:nth-child(1) svg {
-        color: #f6c768;
-      }
-
-      &:nth-child(2) svg {
-        color: #20e6ff;
-      }
-
-      &:nth-child(3) svg {
-        color: #ff6b9a;
-      }
-
-      &:nth-child(4) svg {
-        color: #ff9f43;
-      }
-
-      &:nth-child(5) svg {
-        color: #8fb0e6;
-      }
+    &:hover:not(:disabled) {
+      border-color: var(--cyan);
+      background: rgba(32, 230, 255, 0.09);
+      color: white;
+      transform: translateY(-1px);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+      stroke-width: 2.15;
+    }
+  }
+
+  &__reaction {
+    &[data-type] svg {
+      color: inherit;
+    }
+
+    &:nth-of-type(1) svg {
+      color: #f6c768;
+    }
+
+    &:nth-of-type(2) svg {
+      color: #20e6ff;
+    }
+
+    &:nth-of-type(3) svg {
+      color: #ff6b9a;
+    }
+
+    &:nth-of-type(4) svg {
+      color: #ff9f43;
+    }
+
+    &.is-active {
+      border-color: #5a89ff;
+      background: rgba(89, 143, 255, 0.16);
+      color: white;
+    }
+  }
+
+  &__reaction-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(89, 143, 255, 0.18);
+    color: #cdd9f5;
+    font-size: 11.2px;
+    line-height: 1;
+  }
+
+  &__comment-count svg {
+    color: #8fb0e6;
   }
 
   &__comments {
@@ -335,10 +378,56 @@
     }
   }
 
+  &__comment-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  &__comment-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0 12px;
+    background: rgba(17, 27, 46, 0.6);
+    color: var(--muted-strong);
+    font-size: 12.48px;
+    font-weight: 850;
+    letter-spacing: 0.4px;
+
+    &:hover {
+      border-color: var(--cyan);
+      color: white;
+    }
+
+    &.is-active {
+      border-color: #5a89ff;
+      background: rgba(89, 143, 255, 0.16);
+      color: white;
+    }
+  }
+
+  &__comment-filter-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(89, 143, 255, 0.18);
+    color: #cdd9f5;
+    font-size: 11.2px;
+    line-height: 1;
+  }
+
   &__comment-list {
     display: grid;
     gap: 16px;
-    margin-top: 22px;
+    margin-top: 16px;
   }
 
   &__role-pill {

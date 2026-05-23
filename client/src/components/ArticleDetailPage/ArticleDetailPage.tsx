@@ -2,11 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Bookmark as BookmarkIcon,
-  Flame as FlameIcon,
-  Heart as HeartIcon,
-  Laugh as LaughIcon,
   MessageSquare as MessageSquareIcon,
-  PartyPopper as PartyPopperIcon,
   Share2 as Share2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,6 +15,7 @@ import { Header } from "@/components/Header/Header";
 import type { ArticleDetail } from "@/types/content";
 
 import { CommentSection } from "./CommentSection";
+import { ReactionBar } from "./ReactionBar";
 import "./ArticleDetailPage.scss";
 
 type ArticleDetailPageProps = {
@@ -77,7 +74,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                   alt={article.title}
                   fill
                   priority
-                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1168px"
                   src={article.image}
                 />
               </figure>
@@ -112,24 +109,9 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
               ))}
             </div>
 
-            <div className="article-detail__reactions" aria-label={t("reactionsAriaLabel")}>
-              <button type="button">
-                <PartyPopperIcon aria-hidden="true" size={16} />
-                {t("applause")}
-              </button>
-              <button type="button">
-                <LaughIcon aria-hidden="true" size={16} />
-                {t("funny")}
-              </button>
-              <button type="button">
-                <HeartIcon aria-hidden="true" size={16} />
-                {t("heart")} {detail.reactions.likes}
-              </button>
-              <button type="button">
-                <FlameIcon aria-hidden="true" size={16} />
-                {t("fire")}
-              </button>
-              <button type="button">
+            <div className="article-detail__reaction-row">
+              <ReactionBar slug={article.slug} initialCounts={{}} />
+              <button type="button" className="article-detail__comment-count">
                 <MessageSquareIcon aria-hidden="true" size={16} />
                 {t("comments", { count: detail.reactions.comments })}
               </button>

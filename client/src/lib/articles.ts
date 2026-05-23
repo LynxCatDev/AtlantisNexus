@@ -33,6 +33,9 @@ export type ApiArticleDetail = ApiArticleSummary & {
     bullets?: string[];
     quote?: string;
   }[];
+  metaTitle: string | null;
+  metaDescription: string | null;
+  keywords: string[];
   reactions: {
     counts: Record<string, number>;
     total: number;

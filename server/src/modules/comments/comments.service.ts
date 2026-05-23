@@ -56,6 +56,7 @@ export class CommentsService {
       items: comments.map((c) => ({
         id: c.id,
         body: c.body,
+        locale: c.locale,
         createdAt: c.createdAt,
         author: c.user.nickname,
         avatar: c.user.avatar,
@@ -86,6 +87,7 @@ export class CommentsService {
     return comments.map((c) => ({
       id: c.id,
       body: c.body,
+      locale: c.locale,
       author: c.user.nickname,
       avatar: c.user.avatar,
       role: c.user.role,
@@ -109,6 +111,7 @@ export class CommentsService {
         articleId: article.id,
         userId,
         body: dto.body,
+        locale: dto.locale,
       },
       include: { user: { select: { id: true, nickname: true, avatar: true, role: true } } },
     });
@@ -116,6 +119,7 @@ export class CommentsService {
     return {
       id: created.id,
       body: created.body,
+      locale: created.locale,
       author: created.user.nickname,
       avatar: created.user.avatar,
       role: created.user.role,

@@ -36,6 +36,9 @@ type TranslationDraft = {
   title: string;
   excerpt: string;
   sections: SectionDraft[];
+  metaTitle: string;
+  metaDescription: string;
+  keywords: string;
 };
 
 type EditArticleResponse = {
@@ -49,6 +52,9 @@ type EditArticleResponse = {
     title: string;
     excerpt: string;
     sections: Array<{ id?: string; title: string; paragraphs: string[] }>;
+    metaTitle: string | null;
+    metaDescription: string | null;
+    keywords: string[];
   }>;
 };
 
@@ -56,6 +62,9 @@ const emptyTranslation = (): TranslationDraft => ({
   title: "",
   excerpt: "",
   sections: [{ title: "", body: "" }],
+  metaTitle: "",
+  metaDescription: "",
+  keywords: "",
 });
 
 export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
@@ -136,6 +145,9 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
                     body: s.paragraphs.join("\n\n"),
                   }))
                 : [{ title: "", body: "" }],
+            metaTitle: tr.metaTitle ?? "",
+            metaDescription: tr.metaDescription ?? "",
+            keywords: (tr.keywords ?? []).join(", "),
           };
         }
         if (!next.en) next.en = emptyTranslation();
@@ -297,6 +309,10 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
         .filter(Boolean),
       translations: activeLocales.map((locale) => {
         const t = translations[locale];
+        const keywords = t.keywords
+          .split(",")
+          .map((k) => k.trim())
+          .filter(Boolean);
         return {
           locale,
           title: t.title.trim(),
@@ -309,6 +325,9 @@ export function ArticleCreatePage({ editSlug }: { editSlug?: string } = {}) {
               .map((p) => p.trim())
               .filter(Boolean),
           })),
+          metaTitle: t.metaTitle.trim() || undefined,
+          metaDescription: t.metaDescription.trim() || undefined,
+          keywords: keywords.length > 0 ? keywords : undefined,
         };
       }),
     };
@@ -597,6 +616,42 @@ function TranslationEditor({
           onChange={(e) => onChange({ excerpt: e.target.value })}
         />
       </label>
+
+      <div className="seo-block">
+        <h3>{t("formSeoHeading")}</h3>
+        <p className="seo-block-hint">{t("formSeoHint")}</p>
+
+        <label className="admin-field">
+          <span>{t("formSeoMetaTitle")}</span>
+          <input
+            maxLength={200}
+            placeholder={t("formSeoMetaTitlePlaceholder")}
+            value={value.metaTitle}
+            onChange={(e) => onChange({ metaTitle: e.target.value })}
+          />
+        </label>
+
+        <label className="admin-field">
+          <span>{t("formSeoMetaDescription")}</span>
+          <textarea
+            maxLength={300}
+            rows={2}
+            placeholder={t("formSeoMetaDescriptionPlaceholder")}
+            value={value.metaDescription}
+            onChange={(e) => onChange({ metaDescription: e.target.value })}
+          />
+        </label>
+
+        <label className="admin-field">
+          <span>{t("formSeoKeywords")}</span>
+          <input
+            maxLength={500}
+            placeholder={t("formSeoKeywordsPlaceholder")}
+            value={value.keywords}
+            onChange={(e) => onChange({ keywords: e.target.value })}
+          />
+        </label>
+      </div>
 
       <div className="section-list">
         <div className="section-list-head">

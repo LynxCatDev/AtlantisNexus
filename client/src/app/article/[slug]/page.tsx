@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
@@ -10,6 +11,38 @@ type ArticleRouteProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({ params }: ArticleRouteProps): Promise<Metadata> {
+  const { slug } = await params;
+  const locale = await getLocale();
+  const api = await fetchArticleBySlug(slug, locale);
+  if (!api) {
+    return {};
+  }
+
+  const title = api.metaTitle?.trim() || api.title;
+  const description = api.metaDescription?.trim() || api.excerpt;
+  const keywords = api.keywords && api.keywords.length > 0 ? api.keywords : api.tags;
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      locale,
+      images: api.image ? [{ url: api.image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: api.image ? [api.image] : undefined,
+    },
+  };
+}
 
 export default async function ArticleRoute({ params }: ArticleRouteProps) {
   const { slug } = await params;

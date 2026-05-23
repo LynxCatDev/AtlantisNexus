@@ -1,15 +1,40 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 
 import "./globals.scss";
 
 import { Providers } from "@/components/Providers";
 
-export const metadata: Metadata = {
-  title: "Atlantis Nexus",
-  description: "A premium media hub for gaming, AI, development, and tools.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("siteSeo");
+  const title = t("title");
+  const description = t("description");
+  const keywords = t("keywords")
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
+
+  return {
+    title: {
+      default: title,
+      template: `%s · ${title}`,
+    },
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      siteName: title,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function RootLayout({
   children,

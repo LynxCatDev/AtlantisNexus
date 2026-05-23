@@ -14,8 +14,8 @@
   },
   "siteSeo": {
     "title": "Atlantis Nexus",
-    "description": "A premium media hub for gaming, AI, development, and tools — long reads, deep guides, and small utilities for the curious.",
-    "keywords": "atlantis nexus, gaming, ai, development, web development, react, typescript, tech, tools"
+    "description": "Un hub média premium pour le gaming, l'IA, le développement et les outils — longs formats, guides approfondis et petites utilités pour les curieux.",
+    "keywords": "atlantis nexus, gaming, jeu vidéo, ia, ai, développement, développement web, react, typescript, tech, outils"
   },
   "userMenu": {
     "signIn": "Sign in",
@@ -82,8 +82,8 @@
     "toSignin": "Sign in"
   },
   "languageSwitcher": {
-    "heading": "Language",
-    "ariaLabel": "Choose language"
+    "heading": "Langue",
+    "ariaLabel": "Choisir la langue"
   },
   "categories": {
     "Gaming": "Gaming",
@@ -169,7 +169,7 @@
     "share": "Share",
     "tagsAriaLabel": "Article tags",
     "reactionsAriaLabel": "Article reactions",
-    "reactionSignInHint": "Sign in to react",
+    "reactionSignInHint": "Connectez-vous pour réagir",
     "applause": "Applause",
     "funny": "Funny",
     "heart": "Heart",

@@ -1,17 +1,19 @@
 "use client";
 
 import { Send as SendIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Button } from "@/components/Button/Button";
+import { locales, type Locale } from "@/i18n/config";
 import { apiFetch } from "@/lib/api";
 import type { Role } from "@/types/auth";
 
 type BackendComment = {
   id: string;
   body: string;
+  locale: Locale;
   author: string;
   avatar: string | null;
   role: Role;
@@ -19,17 +21,25 @@ type BackendComment = {
   createdAt: string;
 };
 
+type Filter = "all" | Locale;
+
 type Props = {
   slug: string;
 };
 
 export function CommentSection({ slug }: Props) {
   const t = useTranslations("articleDetail");
+  const locale = useLocale() as Locale;
   const { user, authedFetch } = useAuth();
   const [comments, setComments] = useState<BackendComment[]>([]);
   const [body, setBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>(locale);
+
+  useEffect(() => {
+    setFilter(locale);
+  }, [locale]);
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +58,24 @@ export function CommentSection({ slug }: Props) {
     };
   }, [slug]);
 
+  const counts = useMemo(() => {
+    const map: Record<Locale, number> = locales.reduce(
+      (acc, l) => ({ ...acc, [l]: 0 }),
+      {} as Record<Locale, number>,
+    );
+    for (const c of comments) {
+      if ((locales as readonly string[]).includes(c.locale)) {
+        map[c.locale] += 1;
+      }
+    }
+    return map;
+  }, [comments]);
+
+  const visible = useMemo(
+    () => (filter === "all" ? comments : comments.filter((c) => c.locale === filter)),
+    [comments, filter],
+  );
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmed = body.trim();
@@ -57,7 +85,7 @@ export function CommentSection({ slug }: Props) {
     try {
       const created = await authedFetch<BackendComment>(
         `/articles/${encodeURIComponent(slug)}/comments`,
-        { method: "POST", body: { body: trimmed } },
+        { method: "POST", body: { body: trimmed, locale } },
       );
       setComments((prev) => [created, ...prev]);
       setBody("");
@@ -95,11 +123,41 @@ export function CommentSection({ slug }: Props) {
         <p className="article-detail__comment-signin">{t("signInToComment")}</p>
       )}
 
+      <div
+        className="article-detail__comment-filters"
+        role="tablist"
+        aria-label={t("commentFiltersAriaLabel")}
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={filter === "all"}
+          className={`article-detail__comment-filter${filter === "all" ? " is-active" : ""}`}
+          onClick={() => setFilter("all")}
+        >
+          {t("commentFilterAll")}
+          <span className="article-detail__comment-filter-count">{comments.length}</span>
+        </button>
+        {locales.map((l) => (
+          <button
+            key={l}
+            type="button"
+            role="tab"
+            aria-selected={filter === l}
+            className={`article-detail__comment-filter${filter === l ? " is-active" : ""}`}
+            onClick={() => setFilter(l)}
+          >
+            {l.toUpperCase()}
+            <span className="article-detail__comment-filter-count">{counts[l]}</span>
+          </button>
+        ))}
+      </div>
+
       <div className="article-detail__comment-list">
-        {comments.length === 0 ? (
+        {visible.length === 0 ? (
           <p className="article-detail__comment-empty">{t("noComments")}</p>
         ) : (
-          comments.map((comment) => (
+          visible.map((comment) => (
             <article className="article-detail__comment" key={comment.id}>
               <span
                 className="article-detail__avatar"

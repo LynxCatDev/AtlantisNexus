@@ -12,6 +12,11 @@
   "header": {
     "searchPlaceholder": "Caută articole, unelte..."
   },
+  "siteSeo": {
+    "title": "Atlantis Nexus",
+    "description": "Un hub media premium despre jocuri, AI, dezvoltare web și unelte — articole de profunzime, ghiduri și utilitare mici pentru cei curioși.",
+    "keywords": "atlantis nexus, jocuri, ai, dezvoltare, web development, react, typescript, tehnologie, unelte"
+  },
   "userMenu": {
     "signIn": "Conectare",
     "getStarted": "Începe",
@@ -164,6 +169,7 @@
     "share": "Distribuie",
     "tagsAriaLabel": "Etichete articol",
     "reactionsAriaLabel": "Reacții articol",
+    "reactionSignInHint": "Autentifică-te pentru a reacționa",
     "applause": "Aplauze",
     "funny": "Amuzant",
     "heart": "Inimă",
@@ -177,6 +183,8 @@
     "postError": "Comentariul nu a putut fi trimis. Încearcă din nou.",
     "signInToComment": "Autentifică-te pentru a lăsa un comentariu.",
     "noComments": "Încă nu există comentarii. Fii primul care împărtășește gândurile.",
+    "commentFiltersAriaLabel": "Filtrează comentariile după limbă",
+    "commentFilterAll": "Toate",
     "roleAdmin": "Admin",
     "roleSuperadmin": "Proprietar",
     "sidebarAriaLabel": "Panou lateral articol",
@@ -320,6 +328,14 @@
     "formTitleLabel": "Titlu ({locale})",
     "formExcerptLabel": "Rezumat ({locale})",
     "formSections": "Secțiuni",
+    "formSeoHeading": "SEO",
+    "formSeoHint": "Opțional. Dacă rămân goale, motoarele de căutare și previzualizările sociale folosesc titlul și rezumatul articolului.",
+    "formSeoMetaTitle": "Meta titlu",
+    "formSeoMetaTitlePlaceholder": "Implicit — titlul articolului",
+    "formSeoMetaDescription": "Meta descriere",
+    "formSeoMetaDescriptionPlaceholder": "Implicit — rezumatul (păstrează sub ~160 caractere)",
+    "formSeoKeywords": "Cuvinte cheie (separate prin virgulă)",
+    "formSeoKeywordsPlaceholder": "react, performanță, server components",
     "formAddSection": "+ Adaugă secțiune",
     "formSection": "Secțiunea {n}",
     "formRemoveSection": "Elimină",

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mkdir \"f:\\\\Github Repository Projects\\\\AtlantisNexus\\\\client\\\\src\\\\app\\\\admin\\\\articles\\\\[slug]\\\\edit\")",
-      "Bash(mkdir -p \"f:/Github Repository Projects/AtlantisNexus/client/src/app/admin/articles/[slug]/edit\")"
+      "Bash(mkdir -p \"f:/Github Repository Projects/AtlantisNexus/client/src/app/admin/articles/[slug]/edit\")",
+      "Bash(2>&1)"
     ],
     "additionalDirectories": [
       "f:\\Github Repository Projects\\AtlantisNexus\\client\\src\\app\\admin\\articles\\[slug]"

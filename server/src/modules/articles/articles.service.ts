@@ -106,6 +106,9 @@ export class ArticlesService {
       title: translation.title,
       excerpt: translation.excerpt,
       sections: translation.sections,
+      metaTitle: translation.metaTitle,
+      metaDescription: translation.metaDescription,
+      keywords: translation.keywords,
       locale: translation.locale,
       availableLocales: article.translations.map((t) => t.locale),
       category: article.category as CategoryView,
@@ -155,6 +158,9 @@ export class ArticlesService {
         title: t.title,
         excerpt: t.excerpt,
         sections: t.sections,
+        metaTitle: t.metaTitle,
+        metaDescription: t.metaDescription,
+        keywords: t.keywords,
       })),
     };
   }
@@ -188,6 +194,9 @@ export class ArticlesService {
             title: t.title,
             excerpt: t.excerpt,
             sections: t.sections as unknown as Prisma.InputJsonValue,
+            metaTitle: t.metaTitle,
+            metaDescription: t.metaDescription,
+            keywords: t.keywords ?? [],
           })),
         },
       },
@@ -237,11 +246,17 @@ export class ArticlesService {
               title: t.title,
               excerpt: t.excerpt,
               sections: t.sections as unknown as Prisma.InputJsonValue,
+              metaTitle: t.metaTitle,
+              metaDescription: t.metaDescription,
+              keywords: t.keywords ?? [],
             },
             update: {
               title: t.title,
               excerpt: t.excerpt,
               sections: t.sections as unknown as Prisma.InputJsonValue,
+              metaTitle: t.metaTitle,
+              metaDescription: t.metaDescription,
+              keywords: t.keywords ?? [],
             },
           });
         }
@@ -282,11 +297,17 @@ export class ArticlesService {
         title: dto.title,
         excerpt: dto.excerpt,
         sections: dto.sections as unknown as Prisma.InputJsonValue,
+        metaTitle: dto.metaTitle,
+        metaDescription: dto.metaDescription,
+        keywords: dto.keywords ?? [],
       },
       update: {
         title: dto.title,
         excerpt: dto.excerpt,
         sections: dto.sections as unknown as Prisma.InputJsonValue,
+        metaTitle: dto.metaTitle,
+        metaDescription: dto.metaDescription,
+        keywords: dto.keywords ?? [],
       },
     });
   }

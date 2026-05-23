@@ -1,21 +1,11 @@
 @use '../../app/mixins.scss' as *;
 
-// HomePage styles. Originally `.landing-main`, `.landing-hero`, `.release-pill`,
-// `.hero-actions`, `.hero-primary`, `.hero-secondary`, `.hero-metrics`,
-// `.feature-strip`, `.feature-card`, `.feature-icon`, `.feature-ai`,
-// `.feature-dev`, `.home-section`, `.section-heading`, `.editors-layout`,
-// `.editor-card`, `.editor-image`, `.editor-body`, `.side-picks`, `.side-pick`,
-// `.side-pick-image`, `.tool-grid`, `.tool-card`, `.tool-glow`, `.tool-icon`,
-// `.tool-card-top`, `.tool-card-arrow`, `.tool-card-meta`, `.topic-panel`,
-// `.newsletter-panel`, `.newsletter-form`, `.home-empty`, `.home-main`,
-// `.home-article-grid`, plus the editor-card `.tag` markup and `.article-meta`.
-
 .home {
   &__main {
     max-width: 1536px;
     min-height: 72vh;
     margin: 0 auto;
-    padding: 100px 16px 192px;
+    padding: 32px 16px;
   }
 
   &__hero {
@@ -23,7 +13,7 @@
     justify-items: center;
     max-width: 896px;
     margin: 0 auto;
-    padding: 67.2px 0 32px;
+    padding: 24px 0 24px;
     text-align: center;
 
     h1 {
@@ -223,7 +213,7 @@
   }
 
   &__section {
-    margin-top: 67.2px;
+    margin-top: 24px;
   }
 
   &__section-heading {
@@ -609,7 +599,7 @@
   &__newsletter {
     position: relative;
     overflow: hidden;
-    margin-top: 73.6px;
+    margin-top: 24px;
     border: 1px solid rgba(33, 48, 74, 0.6);
     border-radius: 24px;
     padding: 56px;

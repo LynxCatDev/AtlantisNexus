@@ -92,7 +92,7 @@
       font-size: 14.88px;
     }
 
-    span:not(.article-detail__avatar) {
+    > div > span {
       display: block;
       margin-top: 2.88px;
       color: var(--muted);
@@ -157,7 +157,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) 280px;
     gap: 48px;
-    width: min(100%, 1536px);
+    width: min(100%, 1200px);
     margin: 0 auto;
     padding: 48px 16px 32px;
   }
@@ -487,7 +487,7 @@
   }
 
   &__keep-reading {
-    width: min(100%, 1536px);
+    width: min(100%, 1200px);
     margin: 80px auto 96px;
     padding: 0 16px;
 

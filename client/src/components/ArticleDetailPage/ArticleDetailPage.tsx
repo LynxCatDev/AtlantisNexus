@@ -16,7 +16,6 @@ import { Button } from "@/components/Button/Button";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { useArticleContent } from "@/i18n/content";
 import type { ArticleDetail } from "@/types/content";
 
 import { CommentSection } from "./CommentSection";
@@ -29,90 +28,7 @@ type ArticleDetailPageProps = {
 export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
   const t = useTranslations("articleDetail");
   const tCat = useTranslations("categories");
-  const tSection = useTranslations("content.sectionTitles");
-  const tElden = useTranslations("content.eldenDetail");
-  const tGeneric = useTranslations("content.genericDetail");
-  const ac = useArticleContent();
   const { article } = detail;
-  const localizedTitle = ac.title(article.slug, article.title);
-  const localizedExcerpt = ac.excerpt(article.slug, article.excerpt);
-  const isElden = article.slug === "elden-ring-nightreign-co-op-souls-era";
-
-  type LocalSection = {
-    id: string;
-    title: string;
-    paragraphs?: string[];
-    bullets?: string[];
-    quote?: string;
-  };
-
-  const sectionTitleKeyMap: Record<string, "introduction" | "keyTakeaways" | "deepDive" | "verdict"> = {
-    introduction: "introduction",
-    "key-takeaways": "keyTakeaways",
-    "deep-dive": "deepDive",
-    verdict: "verdict",
-  };
-
-  const localizedSections: LocalSection[] = detail.sections.map((section) => {
-    const titleKey = sectionTitleKeyMap[section.id];
-    const localTitle = titleKey ? tSection(titleKey) : section.title;
-    if (isElden) {
-      if (section.id === "introduction") {
-        return { id: section.id, title: localTitle, paragraphs: [tElden("intro")] };
-      }
-      if (section.id === "key-takeaways") {
-        return {
-          id: section.id,
-          title: localTitle,
-          bullets: [tElden("bullet1"), tElden("bullet2"), tElden("bullet3")],
-        };
-      }
-      if (section.id === "deep-dive") {
-        return {
-          id: section.id,
-          title: localTitle,
-          paragraphs: [tElden("deep1"), tElden("deep2")],
-          quote: tElden("quote"),
-        };
-      }
-      if (section.id === "verdict") {
-        return { id: section.id, title: localTitle, paragraphs: [tElden("verdict")] };
-      }
-    } else {
-      if (section.id === "introduction") {
-        return {
-          id: section.id,
-          title: localTitle,
-          paragraphs: [tGeneric("intro", { title: localizedTitle })],
-        };
-      }
-      if (section.id === "key-takeaways") {
-        return {
-          id: section.id,
-          title: localTitle,
-          bullets: [tGeneric("bullet1"), tGeneric("bullet2"), tGeneric("bullet3")],
-        };
-      }
-      if (section.id === "deep-dive") {
-        return {
-          id: section.id,
-          title: localTitle,
-          paragraphs: [localizedExcerpt, tGeneric("deep1Suffix")],
-          quote: tGeneric("quote"),
-        };
-      }
-      if (section.id === "verdict") {
-        return { id: section.id, title: localTitle, paragraphs: [tGeneric("verdict")] };
-      }
-    }
-    return {
-      id: section.id,
-      title: localTitle,
-      paragraphs: section.paragraphs,
-      bullets: section.bullets,
-      quote: section.quote,
-    };
-  });
 
   return (
     <div className="app-frame article-detail">
@@ -122,8 +38,8 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
           <div className="article-detail__hero-glow" aria-hidden="true" />
           <div className="article-detail__hero-inner">
             <Eyebrow>{tCat(article.category)}</Eyebrow>
-            <h1 id="article-title">{localizedTitle}</h1>
-            <p className="article-detail__lede">{localizedExcerpt}</p>
+            <h1 id="article-title">{article.title}</h1>
+            <p className="article-detail__lede">{article.excerpt}</p>
             <div className="article-detail__meta">
               <div className="article-detail__author">
                 <span
@@ -171,7 +87,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
 
         <div className="article-detail__layout">
           <article className="article-detail__content">
-            {localizedSections.map((section) => (
+            {detail.sections.map((section) => (
               <section id={section.id} key={section.id}>
                 <h2>{section.title}</h2>
                 {section.paragraphs?.map((paragraph, idx) => (
@@ -226,7 +142,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
             <section className="article-detail__side-card">
               <Eyebrow>{t("onThisPage")}</Eyebrow>
               <nav>
-                {localizedSections.map((section) => (
+                {detail.sections.map((section) => (
                   <a href={`#${section.id}`} key={section.id}>
                     {section.title}
                   </a>

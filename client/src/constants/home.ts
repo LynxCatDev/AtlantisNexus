@@ -1,37 +1,10 @@
-import { articles } from "@/constants/articles";
-import type { FeatureCard, Metric, ToolCard } from "@/types/content";
+import type { Metric, ToolCard } from "@/types/content";
 
 export const heroMetrics: Metric[] = [
   { value: "430+", label: "Articles" },
   { value: "24", label: "Free tools" },
   { value: "180K", label: "Monthly readers" },
 ];
-
-export const homeFeatures: FeatureCard[] = [
-  {
-    title: "Gaming",
-    description: "News, RPG guides and analysis without the clickbait.",
-    accent: "Gaming",
-  },
-  {
-    title: "AI",
-    description: "Practical AI for builders, tools, agents and systems that ship.",
-    accent: "AI",
-  },
-  {
-    title: "Dev",
-    description: "React, TypeScript, edge runtimes and architecture that scales.",
-    accent: "Dev",
-  },
-];
-
-export const editorPick = articles[0];
-
-export const sidePicks = [articles[1], articles[2], articles[3]];
-
-export const arenaArticles = [articles[0], articles[3]];
-
-export const builderArticles = [articles[1], articles[2], articles[4]];
 
 export const freeTools: ToolCard[] = [
   {

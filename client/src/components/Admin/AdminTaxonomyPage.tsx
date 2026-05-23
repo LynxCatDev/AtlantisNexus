@@ -7,12 +7,15 @@ import {
   Trash2 as Trash2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 import { useAuth } from "@/components/Auth/AuthProvider";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
-import { articles } from "@/constants/articles";
 import type { Category } from "@/types/auth";
+
+type ArticleTagsPayload = {
+  tags?: string[];
+};
 
 export function AdminTaxonomyPage() {
   const { authedFetch, user } = useAuth();
@@ -21,6 +24,7 @@ export function AdminTaxonomyPage() {
   const [slug, setSlug] = useState("");
   const [label, setLabel] = useState("");
   const [position, setPosition] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,8 +38,16 @@ export function AdminTaxonomyPage() {
       setLoading(true);
       setError(null);
       try {
-        const data = await authedFetch<Category[]>("/categories");
-        if (!cancelled) setCategories(data);
+        const [categoryData, articleData] = await Promise.all([
+          authedFetch<Category[]>("/categories"),
+          authedFetch<ArticleTagsPayload[]>("/articles?locale=en"),
+        ]);
+        if (!cancelled) {
+          setCategories(categoryData);
+          setTags(
+            Array.from(new Set(articleData.flatMap((article) => article.tags ?? []))).sort(),
+          );
+        }
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : t("taxonomyFailedLoad"));
@@ -49,11 +61,6 @@ export function AdminTaxonomyPage() {
       cancelled = true;
     };
   }, [authedFetch, t]);
-
-  const tags = useMemo(
-    () => Array.from(new Set(articles.flatMap((article) => article.tags))).sort(),
-    [],
-  );
 
   const onCreate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

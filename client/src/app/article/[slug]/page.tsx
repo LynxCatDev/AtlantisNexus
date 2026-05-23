@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
 import { ArticleDetailPage } from "@/components/ArticleDetailPage/ArticleDetailPage";
-import { articleDetails, articles as mockArticles, getArticleDetail } from "@/constants/articles";
 import { fetchArticleBySlug, fetchArticles, formatPublishedDate, toFrontendArticle, type ApiArticleDetail } from "@/lib/articles";
 import type { Article, ArticleDetail } from "@/types/content";
 
@@ -12,17 +11,8 @@ type ArticleRouteProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return Object.keys(articleDetails).map((slug) => ({ slug }));
-}
-
 export default async function ArticleRoute({ params }: ArticleRouteProps) {
   const { slug } = await params;
-  const mockDetail = getArticleDetail(slug);
-  if (mockDetail) {
-    return <ArticleDetailPage detail={mockDetail} />;
-  }
-
   const locale = await getLocale();
   const apiDetail = await fetchArticleBySlug(slug, locale);
   if (!apiDetail) {
@@ -74,9 +64,6 @@ async function fetchRelated(currentSlug: string, locale: string): Promise<Articl
     if (!article) continue;
     others.push(article);
     if (others.length >= 3) break;
-  }
-  if (others.length === 0) {
-    return mockArticles.filter((m) => m.slug !== currentSlug).slice(0, 1);
   }
   return others;
 }

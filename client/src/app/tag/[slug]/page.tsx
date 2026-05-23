@@ -1,5 +1,8 @@
+import { getLocale } from "next-intl/server";
+
 import { TagPage } from "@/components/TagPage/TagPage";
-import { articles } from "@/constants/articles";
+import { fetchArticles, toFrontendArticle } from "@/lib/articles";
+import type { Article } from "@/types/content";
 
 type TagRouteProps = {
   params: Promise<{
@@ -7,15 +10,14 @@ type TagRouteProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return Array.from(new Set(articles.flatMap((article) => article.tags))).map((slug) => ({
-    slug,
-  }));
-}
-
 export default async function TagRoute({ params }: TagRouteProps) {
   const { slug } = await params;
   const tag = slug.toLowerCase();
+  const locale = await getLocale();
+  const apiArticles = await fetchArticles(locale);
+  const articles = apiArticles
+    .map((article) => toFrontendArticle(article))
+    .filter((article): article is Article => article !== null);
 
   return (
     <TagPage

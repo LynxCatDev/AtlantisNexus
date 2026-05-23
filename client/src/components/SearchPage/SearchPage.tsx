@@ -22,10 +22,9 @@ import { EmptyPanel } from "@/components/EmptyPanel/EmptyPanel";
 import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { articles } from "@/constants/articles";
 import { toolCatalog } from "@/constants/tools";
-import { useArticleContent, useToolContent } from "@/i18n/content";
-import type { ToolIconName } from "@/types/content";
+import { useToolContent } from "@/i18n/content";
+import type { Article, ToolIconName } from "@/types/content";
 
 import "./SearchPage.scss";
 
@@ -41,11 +40,14 @@ function ToolIcon({ name }: { name: ToolIconName }) {
   return <RegexIcon />;
 }
 
-export function SearchPage() {
+type SearchPageProps = {
+  articles: Article[];
+};
+
+export function SearchPage({ articles }: SearchPageProps) {
   const t = useTranslations("searchPage");
   const tToolCat = useTranslations("toolCategories");
   const tContent = useTranslations("content");
-  const ac = useArticleContent();
   const tc = useToolContent();
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
@@ -58,9 +60,7 @@ export function SearchPage() {
 
     return {
       articles: articles.filter((article) => {
-        const title = ac.title(article.slug, article.title);
-        const excerpt = ac.excerpt(article.slug, article.excerpt);
-        return `${title} ${excerpt} ${article.title} ${article.excerpt} ${article.tags.join(" ")}`
+        return `${article.title} ${article.excerpt} ${article.tags.join(" ")}`
           .toLowerCase()
           .includes(normalizedQuery);
       }),
@@ -72,8 +72,7 @@ export function SearchPage() {
           .includes(normalizedQuery);
       }),
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [normalizedQuery]);
+  }, [articles, normalizedQuery, tc]);
 
   return (
     <div className="app-frame">

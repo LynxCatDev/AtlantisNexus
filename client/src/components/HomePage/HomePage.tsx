@@ -21,7 +21,7 @@ import { Eyebrow } from "@/components/Eyebrow/Eyebrow";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { freeTools, heroMetrics, trendingTopics } from "@/constants/home";
-import { useArticleContent, useToolContent } from "@/i18n/content";
+import { useToolContent } from "@/i18n/content";
 import type { Article, ArticleCategory } from "@/types/content";
 
 const HERO_METRIC_KEYS: Record<string, "articles" | "freeTools" | "monthlyReaders"> = {
@@ -67,7 +67,6 @@ export function HomePage({ articles }: { articles: Article[] }) {
   const tMetrics = useTranslations("content.metrics");
   const tTrending = useTranslations("content.trendingTopics");
   const tContent = useTranslations("content");
-  const ac = useArticleContent();
   const tc = useToolContent();
   const featured = articles[0];
   const sidePicks = articles.slice(1, 4);
@@ -144,107 +143,110 @@ export function HomePage({ articles }: { articles: Article[] }) {
           ))}
         </section>
 
-        <section className="home__section" id="articles" aria-labelledby="featured-title">
-          <div className="home__section-heading">
-            <div>
-              <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
-              <h2 id="featured-title">{t("featuredTitle")}</h2>
+        {featured ? (
+          <section className="home__section" id="articles" aria-labelledby="featured-title">
+            <div className="home__section-heading">
+              <div>
+                <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
+                <h2 id="featured-title">{t("featuredTitle")}</h2>
+              </div>
+              <Link href="/articles">
+                {t("viewAll")}
+                <ArrowRightIcon />
+              </Link>
             </div>
-            <Link href="/articles">
-              {t("viewAll")}
-              <ArrowRightIcon />
-            </Link>
-          </div>
-          <div className="home__editors-layout">
-            <Link className="home__editor-card" href={`/article/${featured.slug}`}>
-              <article>
-                <div className="home__editor-image">
-                  <Image
-                    alt={featured.title}
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 66vw"
-                    src={featured.image}
-                  />
-                  <span
-                    className={`home__editor-tag home__editor-tag--${featured.category.toLowerCase()}`}
-                  >
-                    {tCat(featured.category)}
-                  </span>
-                </div>
-                <div className="home__editor-body">
-                  <h2>{ac.title(featured.slug, featured.title)}</h2>
-                  <p>{ac.excerpt(featured.slug, featured.excerpt)}</p>
-                  <div className="home__editor-meta">
-                    <strong>{featured.author}</strong>
-                    <span aria-hidden="true">&middot;</span>
-                    <span>{featured.publishedAt}</span>
-                    <span aria-hidden="true">&middot;</span>
-                    <span>{featured.minutes}</span>
+            <div className="home__editors-layout">
+              <Link className="home__editor-card" href={`/article/${featured.slug}`}>
+                <article>
+                  <div className="home__editor-image">
+                    <Image
+                      alt={featured.title}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      src={featured.image}
+                    />
+                    <span
+                      className={`home__editor-tag home__editor-tag--${featured.category.toLowerCase()}`}
+                    >
+                      {tCat(featured.category)}
+                    </span>
                   </div>
-                </div>
-              </article>
-            </Link>
-            <div className="home__side-picks" aria-label={t("moreFeaturedAriaLabel")}>
-              {sidePicks.map((article) => {
-                const title = ac.title(article.slug, article.title);
-                return (
+                  <div className="home__editor-body">
+                    <h2>{featured.title}</h2>
+                    <p>{featured.excerpt}</p>
+                    <div className="home__editor-meta">
+                      <strong>{featured.author}</strong>
+                      <span aria-hidden="true">&middot;</span>
+                      <span>{featured.publishedAt}</span>
+                      <span aria-hidden="true">&middot;</span>
+                      <span>{featured.minutes}</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+              <div className="home__side-picks" aria-label={t("moreFeaturedAriaLabel")}>
+                {sidePicks.map((article) => (
                   <Link
-                    aria-label={`${t("readPrefix")} ${title}`}
+                    aria-label={`${t("readPrefix")} ${article.title}`}
                     className="home__side-pick"
                     href={`/article/${article.slug}`}
                     key={article.slug}
                   >
                     <div className="home__side-pick-image">
-                      <Image alt={title} fill sizes="180px" src={article.image} />
+                      <Image alt={article.title} fill sizes="180px" src={article.image} />
                     </div>
                     <div>
                       <span>{tCat(article.category)}</span>
-                      <h3>{title}</h3>
+                      <h3>{article.title}</h3>
                       <p>{article.minutes} {t("readSuffix")}</p>
                     </div>
                   </Link>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
-        <section className="home__section" id="gaming" aria-labelledby="arena-title">
-          <div className="home__section-heading">
-            <div>
-              <Eyebrow>{t("gamingEyebrow")}</Eyebrow>
-              <h2 id="arena-title">{t("gamingTitle")}</h2>
+        {gamingArticles.length > 0 ? (
+          <section className="home__section" id="gaming" aria-labelledby="arena-title">
+            <div className="home__section-heading">
+              <div>
+                <Eyebrow>{t("gamingEyebrow")}</Eyebrow>
+                <h2 id="arena-title">{t("gamingTitle")}</h2>
+              </div>
+              <Link href="/category/gaming">
+                {t("viewAll")}
+                <ArrowRightIcon />
+              </Link>
             </div>
-            <Link href="/category/gaming">
-              {t("viewAll")}
-              <ArrowRightIcon />
-            </Link>
-          </div>
-          <ArticleGrid className="home__article-grid">
-            {gamingArticles.map((article, index) => (
-              <ArticleCard article={article} eager={index === 0} key={article.slug} />
-            ))}
-          </ArticleGrid>
-        </section>
+            <ArticleGrid className="home__article-grid">
+              {gamingArticles.map((article, index) => (
+                <ArticleCard article={article} eager={index === 0} key={article.slug} />
+              ))}
+            </ArticleGrid>
+          </section>
+        ) : null}
 
-        <section className="home__section" id="ai" aria-labelledby="builder-title">
-          <div className="home__section-heading">
-            <div>
-              <Eyebrow>{t("aiDevEyebrow")}</Eyebrow>
-              <h2 id="builder-title">{t("aiDevTitle")}</h2>
+        {aiDevArticles.length > 0 ? (
+          <section className="home__section" id="ai" aria-labelledby="builder-title">
+            <div className="home__section-heading">
+              <div>
+                <Eyebrow>{t("aiDevEyebrow")}</Eyebrow>
+                <h2 id="builder-title">{t("aiDevTitle")}</h2>
+              </div>
+              <Link href="/articles">
+                {t("viewAll")}
+                <ArrowRightIcon />
+              </Link>
             </div>
-            <Link href="/articles">
-              {t("viewAll")}
-              <ArrowRightIcon />
-            </Link>
-          </div>
-          <ArticleGrid className="home__article-grid">
-            {aiDevArticles.map((article, index) => (
-              <ArticleCard article={article} eager={index === 0} key={article.slug} />
-            ))}
-          </ArticleGrid>
-        </section>
+            <ArticleGrid className="home__article-grid">
+              {aiDevArticles.map((article, index) => (
+                <ArticleCard article={article} eager={index === 0} key={article.slug} />
+              ))}
+            </ArticleGrid>
+          </section>
+        ) : null}
 
         <section className="home__section" id="tools" aria-labelledby="tools-title">
           <div className="home__section-heading">

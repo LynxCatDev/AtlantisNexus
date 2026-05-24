@@ -85,6 +85,9 @@
     "heading": "Langue",
     "ariaLabel": "Choisir la langue"
   },
+  "presence": {
+    "tooltip": "{count, plural, =0 {Personne en ligne} one {# utilisateur en ligne} other {# utilisateurs en ligne}}"
+  },
   "categories": {
     "Gaming": "Gaming",
     "AI": "AI",

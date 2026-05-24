@@ -6,6 +6,7 @@ import { mainNavigation } from "@/constants/navigation";
 
 import { BrandLogo } from "../BrandLogo/BrandLogo";
 import { LanguageSwitcher } from "../LanguageSwitcher/LanguageSwitcher";
+import { OnlineIndicator } from "../OnlineIndicator/OnlineIndicator";
 import { UserMenu } from "./UserMenu";
 import "./Header.scss";
 
@@ -47,6 +48,7 @@ export function Header({ activeLabel }: HeaderProps) {
           <kbd>{"⌘K"}</kbd>
         </Link>
         <LanguageSwitcher />
+        <OnlineIndicator />
         <UserMenu />
       </nav>
     </header>

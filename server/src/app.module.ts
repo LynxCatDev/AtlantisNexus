@@ -10,6 +10,7 @@ import { CategoriesModule } from "./modules/categories/categories.module";
 import { CommentsModule } from "./modules/comments/comments.module";
 import { HealthModule } from "./modules/health/health.module";
 import { MailModule } from "./modules/mail/mail.module";
+import { PresenceModule } from "./modules/presence/presence.module";
 import { ReactionsModule } from "./modules/reactions/reactions.module";
 import { UsersModule } from "./modules/users/users.module";
 
@@ -29,6 +30,7 @@ import { UsersModule } from "./modules/users/users.module";
     ArticlesModule,
     CommentsModule,
     ReactionsModule,
+    PresenceModule,
   ],
 })
 export class AppModule {}

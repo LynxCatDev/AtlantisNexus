@@ -115,6 +115,7 @@ export function toFrontendArticle(
     excerpt: api.excerpt,
     category,
     author: api.author,
+    authorAvatar: api.authorAvatar,
     publishedAt: formatPublishedDate(api.publishedAt),
     minutes: api.minutes,
     image: api.image,

@@ -63,6 +63,7 @@ export class ArticlesService {
         minutes: article.minutes,
         image: article.image,
         tags: article.tags,
+        views: article.views,
         locale: translation?.locale ?? null,
         availableLocales: article.translations.map((t) => t.locale),
         counts: article._count,
@@ -95,6 +96,8 @@ export class ArticlesService {
       throw new NotFoundException("No translations available for this article");
     }
 
+    const views = article.views;
+
     const reactionCounts: Record<string, number> = {};
     for (const r of article.reactions) {
       reactionCounts[r.type] = (reactionCounts[r.type] ?? 0) + 1;
@@ -119,6 +122,7 @@ export class ArticlesService {
       minutes: article.minutes,
       image: article.image,
       tags: article.tags,
+      views,
       reactions: {
         counts: reactionCounts,
         total: article.reactions.length,
@@ -264,6 +268,25 @@ export class ArticlesService {
 
       return updated;
     });
+  }
+
+  async incrementView(slug: string): Promise<{ views: number }> {
+    const article = await this.prisma.article.findUnique({
+      where: { slug },
+      select: { id: true },
+    });
+
+    if (!article) {
+      throw new NotFoundException("Article not found");
+    }
+
+    const updated = await this.prisma.article.update({
+      where: { id: article.id },
+      data: { views: { increment: 1 } },
+      select: { views: true },
+    });
+
+    return { views: updated.views };
   }
 
   async remove(slug: string): Promise<void> {

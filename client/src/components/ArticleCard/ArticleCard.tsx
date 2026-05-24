@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock as ClockIcon } from "lucide-react";
+import { Clock as ClockIcon, Eye as EyeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import type { Article } from "@/types/content";
@@ -14,6 +14,7 @@ type ArticleCardProps = {
 
 export function ArticleCard({ article, eager = false }: ArticleCardProps) {
   const tCat = useTranslations("categories");
+  const tDetail = useTranslations("articleDetail");
 
   return (
     <Link className="article-card" href={`/article/${article.slug}`}>
@@ -42,6 +43,15 @@ export function ArticleCard({ article, eager = false }: ArticleCardProps) {
               <ClockIcon />
               {article.minutes}
             </span>
+            {typeof article.views === "number" ? (
+              <>
+                <span aria-hidden="true">&middot;</span>
+                <span className="article-card__views">
+                  <EyeIcon />
+                  {tDetail("views", { count: article.views })}
+                </span>
+              </>
+            ) : null}
           </div>
         </div>
       </article>

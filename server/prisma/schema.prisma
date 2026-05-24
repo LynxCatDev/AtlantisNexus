@@ -114,6 +114,7 @@ model Article {
   minutes     String
   image       String
   tags        String[]
+  views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

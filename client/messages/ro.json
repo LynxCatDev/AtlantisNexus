@@ -175,6 +175,7 @@
     "heart": "Inimă",
     "fire": "Foc",
     "comments": "{count} comentarii",
+    "views": "{count, plural, =0 {Nicio vizualizare} one {# vizualizare} other {# vizualizări}}",
     "commentsHeading": "Comentarii",
     "commentPlaceholder": "Împărtășește gândurile tale...",
     "commentAriaLabel": "Comentariu",

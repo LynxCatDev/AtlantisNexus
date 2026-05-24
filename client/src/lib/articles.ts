@@ -20,6 +20,7 @@ export type ApiArticleSummary = {
   minutes: string;
   image: string;
   tags: string[];
+  views: number;
   locale: string | null;
   availableLocales: string[];
   counts: { comments: number; reactions: number };
@@ -118,5 +119,6 @@ export function toFrontendArticle(
     minutes: api.minutes,
     image: api.image,
     tags: api.tags,
+    views: api.views,
   };
 }

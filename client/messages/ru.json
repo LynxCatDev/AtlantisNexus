@@ -175,6 +175,7 @@
     "heart": "Сердце",
     "fire": "Огонь",
     "comments": "{count} комментариев",
+    "views": "{count, plural, =0 {Нет просмотров} one {# просмотр} few {# просмотра} many {# просмотров} other {# просмотров}}",
     "commentsHeading": "Комментарии",
     "commentPlaceholder": "Поделитесь мыслями...",
     "commentAriaLabel": "Комментарий",

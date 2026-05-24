@@ -11,6 +11,7 @@ export type Article = {
   minutes: string;
   image: string;
   tags: string[];
+  views?: number;
 };
 
 export type ArticleSection = {

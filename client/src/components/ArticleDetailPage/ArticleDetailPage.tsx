@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Bookmark as BookmarkIcon,
+  Eye as EyeIcon,
   MessageSquare as MessageSquareIcon,
   Share2 as Share2Icon,
 } from "lucide-react";
@@ -16,6 +17,7 @@ import type { ArticleDetail } from "@/types/content";
 
 import { CommentSection } from "./CommentSection";
 import { ReactionBar } from "./ReactionBar";
+import { ViewBeacon } from "./ViewBeacon";
 import "./ArticleDetailPage.scss";
 
 type ArticleDetailPageProps = {
@@ -30,6 +32,7 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
   return (
     <div className="app-frame article-detail">
       <Header activeLabel="Articles" />
+      <ViewBeacon slug={article.slug} />
       <main>
         <section className="article-detail__hero" aria-labelledby="article-title">
           <div className="article-detail__hero-glow" aria-hidden="true" />
@@ -54,6 +57,15 @@ export function ArticleDetailPage({ detail }: ArticleDetailPageProps) {
                     {article.publishedAt}
                     <span aria-hidden="true"> &middot; </span>
                     {article.minutes}
+                    {typeof article.views === "number" ? (
+                      <>
+                        <span aria-hidden="true"> &middot; </span>
+                        <span className="article-detail__views">
+                          <EyeIcon aria-hidden="true" size={14} />
+                          {t("views", { count: article.views })}
+                        </span>
+                      </>
+                    ) : null}
                   </span>
                 </div>
               </div>

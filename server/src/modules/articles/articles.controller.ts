@@ -59,6 +59,14 @@ export class ArticlesController {
     return this.articles.getBySlug(slug, parseLocale(locale));
   }
 
+  @Post(":slug/views")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Increment the view counter for an article" })
+  @ApiParam({ name: "slug" })
+  incrementView(@Param("slug") slug: string) {
+    return this.articles.incrementView(slug);
+  }
+
   @Get(":slug/edit")
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.SUPERADMIN)

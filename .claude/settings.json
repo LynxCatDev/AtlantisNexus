@@ -3,7 +3,14 @@
     "allow": [
       "Bash(mkdir \"f:\\\\Github Repository Projects\\\\AtlantisNexus\\\\client\\\\src\\\\app\\\\admin\\\\articles\\\\[slug]\\\\edit\")",
       "Bash(mkdir -p \"f:/Github Repository Projects/AtlantisNexus/client/src/app/admin/articles/[slug]/edit\")",
-      "Bash(2>&1)"
+      "Bash(2>&1)",
+      "mcp__tokensave__tokensave_context",
+      "mcp__tokensave__tokensave_search",
+      "mcp__tokensave__tokensave_node",
+      "mcp__tokensave__tokensave_callers",
+      "mcp__tokensave__tokensave_callees",
+      "mcp__tokensave__tokensave_impact",
+      "mcp__tokensave__tokensave_status"
     ],
     "additionalDirectories": [
       "f:\\Github Repository Projects\\AtlantisNexus\\client\\src\\app\\admin\\articles\\[slug]"
